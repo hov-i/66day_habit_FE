@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import NotoSansRegular from "../resources/fonts/NotoSansKR-Regular.woff2";
+import NotoSansBold from "../resources/fonts/NotoSans-Bold.woff2";
 // 전역스타일링: 모든 곳에 쓰이는 style입니다.
 const GlobalStyle = createGlobalStyle`
 
@@ -10,6 +11,11 @@ const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: "Noto Sans KR";
     src: url(${NotoSansRegular}) format("woff2");
+  }
+  
+  @font-face {
+    font-family: "Noto Sans Bold";
+    src: url(${NotoSansBold}) format("woff2");
   }
   
   html {
