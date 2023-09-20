@@ -89,7 +89,7 @@ const LoginContainer = styled.div<{ isMobile: boolean }>`
     width: 100%;
   }
   .mainTitle {
-    font-size: 45px;
+    font-size: 40px;
     margin: 5%;
     margin-left: 10%;
     margin-bottom: 0px;
@@ -97,7 +97,7 @@ const LoginContainer = styled.div<{ isMobile: boolean }>`
   }
 
   .subTitle {
-    font-size: 25px;
+    font-size: 20px;
     margin: 10%;
     margin-top: 20px;
   }
