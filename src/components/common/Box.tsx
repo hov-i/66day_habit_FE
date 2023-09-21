@@ -20,7 +20,6 @@ const BoxStyle = styled.div<{ isMobile: boolean }>`
   background-color: white;
   margin: 0 auto;
   width: ${(props) => (props.isMobile ? "100%" : "768px")};
-  overflow: hidden;
   height: 100%;
   box-shadow: 0px 5px 4px 0px rgba(0, 0, 0, 0.25);
 `;

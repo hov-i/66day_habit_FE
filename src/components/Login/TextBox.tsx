@@ -34,11 +34,11 @@ const TextBox: React.FC<TextBoxProps> = ({ name }) => {
 };
 
 const TextBoxStyle = styled.div<{ isMobile: boolean }>`
-  width: ${({ isMobile }) => (isMobile ? "80%" : "465px")};
+  width: ${({ isMobile }) => (isMobile ? "70%" : "400px")};
   border-radius: 10px;
   background-color: #e8e8e8;
   border: 0;
-  height: 70px;
+  height: 60px;
   display: flex;
   align-items: center;
   margin-bottom: 15px;

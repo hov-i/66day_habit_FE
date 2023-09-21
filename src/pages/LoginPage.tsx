@@ -44,12 +44,14 @@ const LoginContainer = styled.div<{ isMobile: boolean }>`
   margin: 0 auto;
   width: 100%;
   overflow: hidden;
+  position: relative;
 
   .signUpButton {
     text-align: right;
     margin: 20px;
+    margin-left: 0px;
     font-size: 16px;
-    padding-right: 10px;
+    padding-right: 30px;
     margin-bottom: ${({ isMobile }) => (isMobile ? "20px" : "4%")};
     width: ${({ isMobile }) => (isMobile ? "80%" : "465px")};
 
@@ -65,7 +67,7 @@ const LoginContainer = styled.div<{ isMobile: boolean }>`
     }
   }
   .loginButton {
-    width: ${({ isMobile }) => (isMobile ? "80%" : "465px")};
+    width: ${({ isMobile }) => (isMobile ? "70%" : "400px")};
     border-radius: 10px;
     background-color: #363636;
     color: white;
@@ -73,23 +75,21 @@ const LoginContainer = styled.div<{ isMobile: boolean }>`
     font-size: 16px;
     margin-top: 10px;
     border: 0;
-    height: 70px;
+    height: 60px;
   }
 
   .loginBox {
     display: flex;
     justify-content: center;
+    width: 100%;
     align-items: center;
     flex-direction: column;
-    position: absolute; /* 추가: loginBox를 absolute로 설정 */
-    bottom: 0; /* 추가: 화면 하단에 배치 */
-    left: 50%; /* 추가: 가운데 정렬을 위해 left 값을 조정합니다. */
-    transform: translateX(-50%); /* 추가: 가운데 정렬을 위한 수평 이동 */
-    padding: 20px;
-    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 20px;
   }
   .mainTitle {
-    font-size: 40px;
+    font-size: 32px;
     margin: 5%;
     margin-left: 10%;
     margin-bottom: 0px;
@@ -97,7 +97,7 @@ const LoginContainer = styled.div<{ isMobile: boolean }>`
   }
 
   .subTitle {
-    font-size: 20px;
+    font-size: 16px;
     margin: 10%;
     margin-top: 20px;
   }
@@ -109,7 +109,7 @@ const LoginContainer = styled.div<{ isMobile: boolean }>`
     margin-top: 40px;
     margin-left: -40px;
     > svg {
-      width: ${({ isMobile }) => (isMobile ? "45px" : "60px")};
+      width: 7%;
     }
   }
 `;
