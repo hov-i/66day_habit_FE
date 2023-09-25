@@ -4,9 +4,8 @@ import { ReactComponent as Email } from "../../resources/Icons/email.svg";
 import { ReactComponent as Password } from "../../resources/Icons/password.svg";
 import useViewport from "../../util/viewportHook";
 
-// 프로퍼티 타입 정의
 interface TextBoxProps {
-  name: "이메일" | "비밀번호"; // "이메일" 또는 "비밀번호"만 허용
+  name: "이메일" | "비밀번호";
 }
 
 const TextBox: React.FC<TextBoxProps> = ({ name }) => {
@@ -18,7 +17,7 @@ const TextBox: React.FC<TextBoxProps> = ({ name }) => {
       case "비밀번호":
         return <Password />;
       default:
-        return null; // 기본값으로 null을 반환합니다.
+        return null;
     }
   };
 
@@ -49,7 +48,7 @@ const TextBoxStyle = styled.div<{ isMobile: boolean }>`
     border: none;
     outline: none;
     background: transparent;
-    font-size: 16px; // 원하는 글꼴 크기 설정
+    font-size: 16px;
     padding-left: 20px;
   }
 `;
