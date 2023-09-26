@@ -65,6 +65,7 @@ const BubbleBoxStyle = styled.div<{ name: "left" | "right" }>`
     font-size: 16px;
     color: black;
     margin: 30px;
+    margin-top: 0px;
     opacity: 0;
     animation: ${slideInFromRight} 0.5s ease-in-out forwards;
     animation-delay: 0.7s;

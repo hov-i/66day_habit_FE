@@ -2,9 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { ReactComponent as Right } from "../../resources/right.svg";
 
-const NextButton = () => {
+interface NextButtonProps {
+  disable: boolean;
+}
+const NextButton: React.FC<NextButtonProps> = ({ disable }) => {
   return (
-    <NextButtonStyle>
+    <NextButtonStyle disabled={disable}>
       <Right />
     </NextButtonStyle>
   );
