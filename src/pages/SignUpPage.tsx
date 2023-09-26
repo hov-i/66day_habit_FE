@@ -29,23 +29,20 @@ const SignPage = () => {
   useEffect(() => {
     if (step === 1 && inputName && isName) {
       setActive(true);
-    }
-    if (step === 2 && inputAboutMe && isAboutMe) {
+    } else if (step === 2 && inputAboutMe && isAboutMe) {
       setActive(true);
-    }
-    if (step === 4 && inputPwd && isPwd) {
+    } else if (step === 4 && inputPwd && isPwd) {
       setActive(true);
-    }
-    if (step === 3 && inputEmail && isEmail) {
+    } else if (step === 3 && inputEmail && isEmail) {
       setActive(true);
-    }
-    if (step === 5 && inputConPwd && isConPwd) {
+    } else if (step === 5 && inputConPwd && isConPwd) {
       setActive(true);
-    }
-    if (step === 6) {
+    } else if (step === 6) {
       setTimeout(() => {
         navigate("/");
-      }, 1500);
+      }, 1700);
+    } else {
+      setActive(false);
     }
   }, [
     inputName,
@@ -64,7 +61,6 @@ const SignPage = () => {
 
   useEffect(() => {
     scrollToBottom();
-    setActive(false);
   }, [step]);
 
   // 이메일 체크
@@ -73,6 +69,7 @@ const SignPage = () => {
     const emailCurrent = e.target.value;
     setInputEmail(e.target.value);
     setIsEmail(emailRegEx.test(emailCurrent));
+    setActive(emailRegEx.test(emailCurrent));
   };
   // 비밀번호 체크
   // 정규식: 영문, 숫자, 특수문자 포함 8~20자
@@ -82,24 +79,28 @@ const SignPage = () => {
     const pwdCurrent = e.target.value;
     setInputPwd(pwdCurrent);
     setIsPwd(pwdRegex.test(pwdCurrent));
+    setActive(pwdRegex.test(pwdCurrent));
   };
   // 비밀번호 확인
   const onChangeConPwd = (e: React.ChangeEvent<HTMLInputElement>) => {
     const conPwdCurrent = e.target.value;
     setInputConPwd(conPwdCurrent);
     setIsConPwd(conPwdCurrent === inputPwd);
+    setActive(conPwdCurrent === inputPwd);
   };
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nameRegex = /^[가-힣a-zA-Z\s]{1,}$/;
     const NameCurrent = e.target.value;
     setInputName(NameCurrent);
     setIsName(nameRegex.test(NameCurrent));
+    setActive(nameRegex.test(NameCurrent));
   };
   const onChangeAboutMe = (e: React.ChangeEvent<HTMLInputElement>) => {
     const aboutRegex = /^[가-힣a-zA-Z\s]{1,}$/;
     const AboutMeCurrent = e.target.value;
     setInputAboutMe(AboutMeCurrent);
     setIsAboutMe(aboutRegex.test(AboutMeCurrent));
+    setActive(aboutRegex.test(AboutMeCurrent));
   };
 
   const handleNextClick = () => {
