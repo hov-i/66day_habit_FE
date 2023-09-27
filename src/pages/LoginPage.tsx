@@ -5,15 +5,21 @@ import Logo from "../resources/66dayIcon.png";
 import { ReactComponent as Help } from "../resources/Icons/help.svg";
 import useViewport from "../util/viewportHook";
 import TextBox from "../components/Login/TextBox";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const { isMobile } = useViewport();
+  const navigate = useNavigate();
+
+  const handleHelpClick = () => {
+    navigate("/help");
+  };
+
   return (
     <Box>
       <BackGroundBox>
         <LoginContainer isMobile={isMobile}>
-          <button className="helpButton">
+          <button className="helpButton" onClick={handleHelpClick}>
             <Help />
           </button>
           <div>
