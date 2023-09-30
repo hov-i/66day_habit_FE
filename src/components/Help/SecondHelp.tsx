@@ -34,6 +34,7 @@ const SecondHelp = () => {
 
 const HelpStyle = styled.div<{ isMobile: boolean }>`
   height: 100vh;
+  z-index: 99;
   .imgBox {
     width: 100%;
     align-items: center;

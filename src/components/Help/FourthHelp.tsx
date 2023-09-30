@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import fourthImg from "../../resources/stepping.png";
+import fourthImg from "../../resources/calendar.png";
 import useViewport from "../../util/viewportHook";
 
 const FourthHelp = () => {
