@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ReactComponent as Right } from "../../resources/right.svg";
+import { ReactComponent as Right } from "../../resources/Icons/right.svg";
 
 interface NextButtonProps {
   disable: boolean;
