@@ -117,7 +117,7 @@ const SignPage = () => {
     <Box>
       <SignUpContainer isMobile={isMobile} step={step} ref={bottom}>
         <div className="backButton">
-          <Link to="/login">
+          <Link to="/">
             <Back />
           </Link>
         </div>

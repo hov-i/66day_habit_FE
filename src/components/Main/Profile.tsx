@@ -1,6 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
+import { ReactComponent as Setting } from "../../resources/Icons/settings.svg";
+import PersonList from "./PersonList";
+
+interface ProfileProps {
+  name: "main" | "edit" | "mypage" | "search";
+}
 
 const Profile = () => {
   const { isMobile } = useViewport();
@@ -10,7 +16,16 @@ const Profile = () => {
         <BackgroundBox />
         <ProfileBox>
           <ProfileImg />
-          <div className="name">닉네임</div>
+          <div className="title">
+            <div>
+              <div className="name">닉네임</div>
+              <div className="aboutMe">자기소개 입니다.</div>
+            </div>
+            <div className="setting">
+              <Setting />
+            </div>
+          </div>
+          <PersonList />
         </ProfileBox>
       </ProfileContainer>
     </>
@@ -18,7 +33,7 @@ const Profile = () => {
 };
 
 const ProfileContainer = styled.div<{ isMobile: boolean }>`
-  position: fixed;
+  position: relative;
   width: ${({ isMobile }) => (isMobile ? "100%" : "768px")};
   height: 300px;
 `;
@@ -30,14 +45,29 @@ const BackgroundBox = styled.div`
 
 const ProfileBox = styled.div`
   width: 100%;
-  border-bottom: 1px solid #c7c7c7;
+
   background-color: white;
 
   .name {
     font-weight: bold;
     font-size: 20px;
-    margin-top: 80px;
     margin-left: 60px;
+  }
+  .aboutMe {
+    font-size: 16px;
+    margin-left: 60px;
+    margin-top: 7px;
+  }
+  .setting {
+    margin-right: 60px;
+  }
+  .title {
+    align-items: center;
+    margin-top: 85px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .list {
   }
 `;
 
@@ -49,7 +79,6 @@ const ProfileImg = styled.div`
   top: 50%;
   margin-top: -30px;
   margin-left: 30px;
-
   background-color: #d9d9d9;
 `;
 export default Profile;

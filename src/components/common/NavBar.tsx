@@ -15,7 +15,7 @@ const Navbar = () => {
 
   return (
     <NavContainer>
-      <CustomLink to={"/"}>
+      <CustomLink to={"/main"}>
         <Home />
       </CustomLink>
 
@@ -44,6 +44,7 @@ const NavContainer = styled.div`
   border-top: 1px solid rgba(54, 54, 54, 0.28);
   width: 768px;
   height: 69px;
+  background-color: white;
 `;
 
 const CustomLink = styled(NavLink)`
