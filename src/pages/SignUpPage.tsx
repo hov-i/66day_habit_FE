@@ -10,18 +10,6 @@ import useViewport from "../util/viewportHook";
 const SignPage = () => {
   const { isMobile } = useViewport();
   const [step, setStep] = useState(1);
-  const [showStep, setShowStep] = useState(1); // 표시할 단계를 관리합니다.
-
-  useEffect(() => {
-    // 1초 뒤에 다음 단계를 표시합니다.
-    const timer = setTimeout(() => {
-      setShowStep(step);
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머를 클리어합니다.
-    };
-  }, [step]);
 
   const handleNextClick = () => {
     // 다음 단계로 이동하는 로직을 작성합니다.
@@ -29,7 +17,7 @@ const SignPage = () => {
   };
   return (
     <Box>
-      <SignUpContainer isMobile={isMobile} showStep={showStep}>
+      <SignUpContainer isMobile={isMobile} step={step}>
         <div className="backButton">
           <Link to="/login">
             <Back />
@@ -46,24 +34,24 @@ const SignPage = () => {
               <br /> 당신의 이름은 무엇인가요?
             </BubbleBox>
           )}
-          {showStep >= 2 && (
+          {step >= 1 && (
             <BubbleBox name="right">
               당신의 이름은?
               <input className="input" type="text" />
             </BubbleBox>
           )}
-          {showStep >= 2 && (
+          {step >= 2 && (
             <BubbleBox name="left">
               정말 멋진 이름이네요!
               <br /> 당신을 한마디로 소개한다면?
             </BubbleBox>
           )}
-          {showStep >= 2 && (
+          {step >= 2 && (
             <BubbleBox name="right">
               당신의 자기소개는? <input className="input" type="text" />
             </BubbleBox>
           )}
-          {showStep >= 3 && (
+          {step >= 3 && (
             <BubbleBox name="left">
               정말 멋져요!
               <br />
@@ -72,7 +60,7 @@ const SignPage = () => {
               연락할 이메일 좀 알려줄 수 있을까요?
             </BubbleBox>
           )}
-          {showStep >= 4 && (
+          {step >= 3 && (
             <BubbleBox name="right">
               당신의 이메일은? <input className="input" type="email" />
             </BubbleBox>
@@ -86,12 +74,12 @@ const SignPage = () => {
               우리만의 비밀번호를 알려주세요!
             </BubbleBox>
           )}
-          {showStep >= 5 && (
+          {step >= 4 && (
             <BubbleBox name="right">
               당신의 비밀번호는? <input className="input" type="password" />
             </BubbleBox>
           )}
-          {showStep >= 6 && (
+          {step >= 5 && (
             <BubbleBox name="left">
               이제 준비가 다 되었어요!
               <br />
@@ -104,12 +92,12 @@ const SignPage = () => {
   );
 };
 
-const SignUpContainer = styled.div<{ isMobile: boolean; showStep: number }>`
+const SignUpContainer = styled.div<{ isMobile: boolean; step: number }>`
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: ${({ showStep }) => (showStep >= 3 ? "100%" : "100vh")};
+  height: ${({ step }) => (step >= 3 ? "100%" : "100vh")};
 
   .nextClick {
     position: fixed;
