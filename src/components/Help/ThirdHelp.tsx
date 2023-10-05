@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import FirstHelp from "../../resources/66dayIcon.png";
+import ThirdImg from "../../resources/calendar.png";
 import useViewport from "../../util/viewportHook";
 
 const ThirdHelp = () => {
@@ -9,32 +9,28 @@ const ThirdHelp = () => {
   return (
     <HelpStyle isMobile={isMobile}>
       <div className="mainTitle">
-        당신과 함께하는
+        3, 7, 14일차에
         <br />
-        66일 습관 플랫폼
+        오는 고비들
       </div>
       <div className="subTitle">
-        그러나 66일 동안 꾸준히
+        만약 공부를 시작한다면 <strong>3일차</strong>가 되었을 때<br />
+        ‘내가 과연 공부를 잘할 수 있을까?’
         <br />
-        같은 일을 하기는 <strong>어려울 수</strong> 있습니다.
+        하는 <strong>1차 고비가</strong> 옵니다. <br />
+        <br />이 고비를 넘기고 <strong>7일차가</strong> 되면
         <br />
+        ‘내가 제대로 공부를 하고 있는가?’ 라는
         <br />
-        우리 66일 습관 서비스는
-        <br />이 어려움을 <strong>극복</strong>하고 당신을 도와줍니다.
+        의문이 생기며 <strong>2차 고비</strong>가 옵니다.
         <br />
-        <br />이 서비스는 당신을 <strong>동기부여</strong>하고
+        <br />이 고비를 극복하면 시간이 흘러 <strong>14일차</strong>에<br />
+        ‘공부해서 성적이 올라갈까?’하는
         <br />
-        습관을 <strong>기록</strong>하며 다른 사람들과
-        <br />
-        <strong>공유</strong>할 수 있는 플랫폼을 제공합니다.
-        <br />
-        <br />
-        지금 당장 저희와 함께
-        <br />
-        <strong>멋진 습관</strong>을 만들러 가볼까요?
+        <strong>3차 고비</strong>를 만나게 됩니다.
       </div>
       <div className="imgBox">
-        <img src={FirstHelp} alt="66일 아이콘" className="img" />
+        <img src={ThirdImg} alt="달력 이미지" className="img" />
       </div>
     </HelpStyle>
   );
@@ -50,7 +46,7 @@ const HelpStyle = styled.div<{ isMobile: boolean }>`
   }
   .img {
     /* 이미지 크기 조절 */
-    max-width: 40%; /* 최대 너비를 100%로 설정하여 반응형으로 만듭니다. */
+    max-width: 45%; /* 최대 너비를 100%로 설정하여 반응형으로 만듭니다. */
     height: auto; /* 높이를 자동으로 조절하여 가로 세로 비율 유지 */
   }
   .mainTitle {
@@ -67,4 +63,5 @@ const HelpStyle = styled.div<{ isMobile: boolean }>`
     padding-bottom: 0px;
   }
 `;
+
 export default ThirdHelp;

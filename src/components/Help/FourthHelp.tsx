@@ -1,40 +1,44 @@
 import React from "react";
 import styled from "styled-components";
-import FirstHelp from "../../resources/66dayIcon.png";
+import fourthImg from "../../resources/calendar.png";
 import useViewport from "../../util/viewportHook";
 
-const ThirdHelp = () => {
+const FourthHelp = () => {
   const { isMobile } = useViewport();
 
   return (
     <HelpStyle isMobile={isMobile}>
+      <div className="imgBox">
+        <img src={fourthImg} alt="목표 이미지" className="img" />
+      </div>
+
       <div className="mainTitle">
-        당신과 함께하는
+        21일차는 뇌의 각인,
         <br />
-        66일 습관 플랫폼
+        66일차는 몸의 각인
       </div>
       <div className="subTitle">
-        그러나 66일 동안 꾸준히
+        이러한 고비들을 이겨내면,
         <br />
-        같은 일을 하기는 <strong>어려울 수</strong> 있습니다.
+        결국에는 <strong>21일차</strong>에 ‘그래. 난 할 수 있어!’
         <br />
-        <br />
-        우리 66일 습관 서비스는
-        <br />이 어려움을 <strong>극복</strong>하고 당신을 도와줍니다.
-        <br />
-        <br />이 서비스는 당신을 <strong>동기부여</strong>하고
-        <br />
-        습관을 <strong>기록</strong>하며 다른 사람들과
-        <br />
-        <strong>공유</strong>할 수 있는 플랫폼을 제공합니다.
+        라는 확신을 가지게 됩니다.
         <br />
         <br />
-        지금 당장 저희와 함께
+        이처럼 모든 사람들은 3일차, 7일차 14일차,
         <br />
-        <strong>멋진 습관</strong>을 만들러 가볼까요?
-      </div>
-      <div className="imgBox">
-        <img src={FirstHelp} alt="66일 아이콘" className="img" />
+        21일차의 과정과 유사한 경험을 하게 됩니다.
+        <br />
+        <br />
+        <strong>21일차</strong>가 되면 <strong>뇌</strong>는 공부에게 항복을
+        선언하고
+        <br />
+        공부의 열렬한 지지자가 되며,
+        <br />
+        <br />
+        <strong>66일차</strong>에는 행동이 습관으로 자리잡아
+        <br />
+        <strong>몸</strong>이 학습하게 됩니다.
       </div>
     </HelpStyle>
   );
@@ -47,9 +51,9 @@ const HelpStyle = styled.div<{ isMobile: boolean }>`
     align-items: right;
     justify-content: right;
     display: flex;
+    padding-top: 10px;
   }
   .img {
-    /* 이미지 크기 조절 */
     max-width: 40%; /* 최대 너비를 100%로 설정하여 반응형으로 만듭니다. */
     height: auto; /* 높이를 자동으로 조절하여 가로 세로 비율 유지 */
   }
@@ -58,13 +62,14 @@ const HelpStyle = styled.div<{ isMobile: boolean }>`
     font-family: "Noto Sans Bold";
     padding: 50px;
     padding-bottom: 20px;
-    padding-top: 100px;
+    padding-top: 0px;
+    margin: 0px;
   }
   .subTitle {
     font-size: 2vh;
     padding: 50px;
     padding-top: 0px;
-    padding-bottom: 0px;
   }
 `;
-export default ThirdHelp;
+
+export default FourthHelp;

@@ -1,21 +1,54 @@
 import React, { ReactNode } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 // 컴포넌트의 prop 타입 정의
 interface BubbleBoxProps {
   children: ReactNode;
   name: "left" | "right";
+  buttonRef?: React.MutableRefObject<HTMLDivElement | null>;
 }
 
-const BubbleBox: React.FC<BubbleBoxProps> = ({ children, name }) => {
+const BubbleBox: React.FC<BubbleBoxProps> = ({ children, name, buttonRef }) => {
   const bubbleClassName = name === "left" ? "bubble-left" : "bubble-right";
 
   return (
-    <BubbleBoxStyle name={name}>
+    <BubbleBoxStyle name={name} ref={buttonRef}>
       <div className={bubbleClassName}>{children}</div>
     </BubbleBoxStyle>
   );
 };
+
+const slideInFromRight = keyframes`
+  0% {
+    transform: translateX(100%);
+  }
+  70%{
+    transform: translateX(0);
+  }
+  80%{
+    transform: translateX(2%);
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+
+const slideInFromLeft = keyframes`
+  0% {
+    transform: translateX(-100%);
+  }
+  70%{
+    transform: translateX(0);
+  }
+  80%{
+    transform: translateX(-2%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+`;
+
 const BubbleBoxStyle = styled.div<{ name: "left" | "right" }>`
   width: 100%;
   padding-bottom: 0px;
@@ -32,6 +65,11 @@ const BubbleBoxStyle = styled.div<{ name: "left" | "right" }>`
     font-size: 16px;
     color: black;
     margin: 30px;
+    margin-top: 0px;
+    opacity: 0;
+    animation: ${slideInFromRight} 0.5s ease-in-out forwards;
+    animation-delay: 0.7s;
+    transition: 1.5s;
   }
 
   .bubble-left {
@@ -42,6 +80,8 @@ const BubbleBoxStyle = styled.div<{ name: "left" | "right" }>`
     font-size: 16px;
     color: white;
     align-items: right;
+    animation: ${slideInFromLeft} 0.5s ease-in-out;
+    transition: 1.5s;
   }
 
   .bubble-left:after {

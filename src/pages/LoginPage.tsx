@@ -5,15 +5,21 @@ import Logo from "../resources/66dayIcon.png";
 import { ReactComponent as Help } from "../resources/Icons/help.svg";
 import useViewport from "../util/viewportHook";
 import TextBox from "../components/Login/TextBox";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const { isMobile } = useViewport();
+  const navigate = useNavigate();
+
+  const handleHelpClick = () => {
+    navigate("/help");
+  };
+
   return (
     <Box>
       <BackGroundBox>
         <LoginContainer isMobile={isMobile}>
-          <button className="helpButton">
+          <button className="helpButton" onClick={handleHelpClick}>
             <Help />
           </button>
           <div>
@@ -30,7 +36,7 @@ const LoginPage = () => {
             <TextBox name="비밀번호" />
             <button className="loginButton">로그인</button>
             <div className="signUpButton">
-              <Link to="/singup">회원가입</Link>
+              <Link to="/signup">회원가입</Link>
             </div>
           </div>
         </LoginContainer>
@@ -56,10 +62,9 @@ const LoginContainer = styled.div<{ isMobile: boolean }>`
     width: ${({ isMobile }) => (isMobile ? "80%" : "465px")};
 
     a {
-      /* <Link>에 스타일 적용 */
-      text-decoration: none; /* 링크 텍스트 밑줄 제거 */
-      color: #8d8d8d; /* 링크 텍스트 색상 설정 */
-      transition: color 0.3s; /* 링크 색상 변화 애니메이션 설정 */
+      text-decoration: none;
+      color: #8d8d8d;
+      transition: color 0.3s;
 
       &:hover {
         color: black; /* 호버 시 링크 색상 변경 */
