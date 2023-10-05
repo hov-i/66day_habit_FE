@@ -11,10 +11,10 @@ function App() {
     <>
       <GlobalStyle />
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/help" element={<HelpPage />} />
         <Route path="/signup" element={<SignPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/main" element={<MainPage />} />
       </Routes>
     </>
   );

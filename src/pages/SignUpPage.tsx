@@ -39,7 +39,7 @@ const SignPage = () => {
       setActive(true);
     } else if (step === 6) {
       setTimeout(() => {
-        navigate("/");
+        navigate("/main");
       }, 1700);
     } else {
       setActive(false);
@@ -121,8 +121,8 @@ const SignPage = () => {
             <Back />
           </Link>
         </div>
-        <div className="nextClick" onClick={handleNextClick}>
-          <NextButton disable={!active} />
+        <div className="nextClick">
+          <NextButton disabled={!active} onClick={handleNextClick} />
         </div>
 
         <div className="container">

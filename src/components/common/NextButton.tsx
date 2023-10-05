@@ -3,11 +3,13 @@ import styled from "styled-components";
 import { ReactComponent as Right } from "../../resources/Icons/right.svg";
 
 interface NextButtonProps {
-  disable: boolean;
+  disabled: boolean; // 이 부분을 disable로 변경
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
-const NextButton: React.FC<NextButtonProps> = ({ disable }) => {
+
+const NextButton: React.FC<NextButtonProps> = ({ disabled, onClick }) => {
   return (
-    <NextButtonStyle disabled={disable}>
+    <NextButtonStyle disabled={disabled} onClick={onClick}>
       <Right />
     </NextButtonStyle>
   );
@@ -22,6 +24,7 @@ const NextButtonStyle = styled.button`
   align-items: center;
   display: flex;
   justify-content: center;
+  cursor: pointer; // 커서 속성을 추가하여 버튼을 클릭 가능하게 만듭니다.
 `;
 
 export default NextButton;

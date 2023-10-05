@@ -18,7 +18,7 @@ const HelpPage: React.FC = () => {
     if (currentSlide < TOTAL_SLIDES - 1) {
       setCurrentSlide(currentSlide + 1);
     } else {
-      navigate("/login");
+      navigate("/");
     }
   };
 
@@ -32,8 +32,8 @@ const HelpPage: React.FC = () => {
               <Slide key={index}>{slide}</Slide>
             ))}
           </SliderContainer>
-          <NextClick isMobile={isMobile} onClick={NextSlide}>
-            <NextButton disable={false} />
+          <NextClick isMobile={isMobile}>
+            <NextButton disabled={false} onClick={NextSlide} />
           </NextClick>
         </HiddenBox>
       </Box>
