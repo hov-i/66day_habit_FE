@@ -37,17 +37,19 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Noto Sans KR";// 폰트 설정
   }
 
-  
+  html {
+    -ms-overflow-style: none;
+    ::-webkit-scrollbar {
+    display: none;
+  }
+
+  }
   body {
     font-family: "Noto Sans KR";// 폰트 설정
     background: #363636;
     width: 100%;
     min-height: 100vh;
     margin: 0 auto;
-    -ms-overflow-style: none;
-    ::-webkit-scrollbar {
-    display: none;
-  }
 
   }
 

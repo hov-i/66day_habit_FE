@@ -24,14 +24,15 @@ const HabitBox = () => {
 
 const HabitBoxStyle = styled.div<{ isMobile: boolean }>`
   position: relative;
+  color: #363636;
   width: ${(props) => (props.isMobile ? "85%" : "80%")};
   height: ${(props) => (props.isMobile ? "95px" : "105px")};
 
   border-radius: 23px;
-  border: 1px solid #000;
-  background-image: url("https://i.ibb.co/G34b3m7/66day-Icon.png");
-  background-size: 78%;
-  background-position: center;
+  background-image: linear-gradient(135deg, #ec8f8c 0%, #ec8f8c 100%);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  background-size: 50%;
+  background-position: left;
   background-repeat: no-repeat;
   display: flex;
   justify-content: center;
@@ -40,7 +41,7 @@ const HabitBoxStyle = styled.div<{ isMobile: boolean }>`
   .habitName {
     text-align: center;
     font-size: 20px;
-    font-weight: bolder;
+    font-weight: bold;
   }
 
   .editButton {

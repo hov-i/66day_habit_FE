@@ -7,14 +7,15 @@ import HabitBox from "../components/Main/HabitBox";
 import Container from "../components/common/Container";
 import LifeQuotes from "../components/Main/LifeQuotes";
 import HabitAddButton from "../components/Main/HabitAddButton";
+import ContentContainer from "../components/common/CotentContainer";
 const LoginPage = () => {
   return (
     <Box>
       <MainContainer>
         <Container>
-          <Profile />
+          <Profile name="main" />
           <Navbar />
-          <ContentContainer>
+          <ContentContainer name="main">
             <LifeQuotes />
             <HabitBox />
             <HabitBox />
@@ -30,14 +31,6 @@ const LoginPage = () => {
 const MainContainer = styled.div`
   width: 100%;
   height: 100vh;
-`;
-
-const ContentContainer = styled.div`
-  margin-top: 180px;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
 `;
 
 export default LoginPage;

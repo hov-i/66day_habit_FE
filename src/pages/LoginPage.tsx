@@ -67,7 +67,7 @@ const LoginContainer = styled.div<{ isMobile: boolean }>`
       transition: color 0.3s;
 
       &:hover {
-        color: black; /* 호버 시 링크 색상 변경 */
+        color: black;
       }
     }
   }
