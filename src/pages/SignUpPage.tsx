@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import BubbleBox from "../components/SignUp/BubbleBox";
 import NextButton from "../components/common/NextButton";
 import useViewport from "../util/viewportHook";
+import AxiosAPI from "../api/AxiosAPI";
 
 const SignPage = () => {
   const { isMobile } = useViewport();
@@ -26,6 +27,8 @@ const SignPage = () => {
   const [isPwd, setIsPwd] = useState(false);
   const [isConPwd, setIsConPwd] = useState(false);
 
+  const [emailCheck, setEmailCheck] = useState(false);
+
   useEffect(() => {
     if (step === 1 && inputName && isName) {
       setActive(true);
@@ -34,13 +37,49 @@ const SignPage = () => {
     } else if (step === 4 && inputPwd && isPwd) {
       setActive(true);
     } else if (step === 3 && inputEmail && isEmail) {
-      setActive(true);
+      const postEmail = async () => {
+        try {
+          const response = await AxiosAPI.emailCheck(inputEmail);
+          if (response.status === 200) {
+            console.log("이메일 체크 완료");
+            setEmailCheck(true);
+            setActive(true);
+          }
+        } catch (error) {
+          console.log("이메일 체크 실패");
+          setEmailCheck(false);
+          setActive(false);
+        }
+      };
+      postEmail();
     } else if (step === 5 && inputConPwd && isConPwd) {
       setActive(true);
     } else if (step === 6) {
-      setTimeout(() => {
-        navigate("/main");
-      }, 1700);
+      console.log(
+        { inputEmail },
+        { inputName },
+        { inputPwd },
+        { inputAboutMe }
+      );
+      const postSignUp = async () => {
+        try {
+          const response = await AxiosAPI.signup(
+            inputEmail,
+            inputName,
+            inputPwd,
+            inputAboutMe
+          );
+          if (response.status === 200) {
+            console.log("회원가입 성공");
+            setTimeout(() => {
+              navigate("/");
+            }, 1700);
+          }
+        } catch (error) {
+          console.log("회원가입 실패");
+        }
+      };
+      postSignUp();
     } else {
       setActive(false);
     }
@@ -71,6 +110,7 @@ const SignPage = () => {
     setIsEmail(emailRegEx.test(emailCurrent));
     setActive(emailRegEx.test(emailCurrent));
   };
+
   // 비밀번호 체크
   // 정규식: 영문, 숫자, 특수문자 포함 8~20자
   const onChangePwd = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -199,7 +239,11 @@ const SignPage = () => {
               </BubbleBox>
               {inputEmail ? (
                 isEmail ? (
-                  <p className="inputCheck"> &nbsp;</p>
+                  emailCheck ? (
+                    <p className="inputCheck"> &nbsp;</p>
+                  ) : (
+                    <p className="inputCheck">이미 있는 이메일이에요</p>
+                  )
                 ) : (
                   <p className="inputCheck">이메일 주소를 확인해주세요</p>
                 )

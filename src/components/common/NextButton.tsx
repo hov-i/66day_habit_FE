@@ -24,7 +24,7 @@ const NextButtonStyle = styled.button`
   align-items: center;
   display: flex;
   justify-content: center;
-  cursor: pointer; // 커서 속성을 추가하여 버튼을 클릭 가능하게 만듭니다.
+  cursor: pointer;
 `;
 
 export default NextButton;

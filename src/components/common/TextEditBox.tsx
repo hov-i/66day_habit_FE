@@ -28,6 +28,7 @@ const EditContainer = styled.div<{ isMobile: boolean }>`
   .input {
     width: 100%;
     background-color: #e8e8e8;
+    font-size: 16px;
     border: none;
     outline: none;
     border-radius: 5px;

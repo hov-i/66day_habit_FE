@@ -44,7 +44,7 @@ const NavContainer = styled.div`
   border-top: 1px solid rgba(54, 54, 54, 0.28);
   width: 768px;
   height: 69px;
-  z-index: 9999;
+  z-index: 99;
   background-color: white;
 `;
 

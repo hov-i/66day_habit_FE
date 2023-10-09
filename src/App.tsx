@@ -6,6 +6,7 @@ import SignPage from "./pages/SignUpPage";
 import GlobalStyle from "./style/GlobalStyle";
 import LoginPage from "./pages/LoginPage";
 import ProfileEditPage from "./pages/ProfileEditPage";
+import MyPage from "./pages/MyPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/signup" element={<SignPage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/edit" element={<ProfileEditPage />} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </>
   );
