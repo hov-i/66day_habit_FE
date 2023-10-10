@@ -10,10 +10,15 @@ import { ReactComponent as Right } from "../resources/Icons/arrowRight.svg";
 import Modal from "../components/common/Modal";
 import EmailEdit from "../components/MyPage/EmailEdit";
 import PasswordEdit from "../components/MyPage/PasswordEdit";
+import Alert from "../components/common/Alert";
+import LogOutAlert from "../components/MyPage/LogOutAlert";
+import DeleteEdit from "../components/MyPage/DeleteEdit";
 const MyPage = () => {
   const { isMobile } = useViewport();
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [pwdModalOpen, setPwdModalOpen] = useState(false);
+  const [logOutAlert, setLogOutAlert] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const openEmailModal = () => {
     setEmailModalOpen(true);
@@ -31,6 +36,21 @@ const MyPage = () => {
     setPwdModalOpen(false);
   };
 
+  const openlogOutAlert = () => {
+    setLogOutAlert(true);
+  };
+
+  const closelogOutAlert = () => {
+    setLogOutAlert(false);
+  };
+
+  const openDeleteModal = () => {
+    setDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModalOpen(false);
+  };
   return (
     <>
       <Box>
@@ -50,8 +70,12 @@ const MyPage = () => {
                 비밀번호 변경
                 <Right />
               </div>
-              <div className="logout">로그아웃</div>
-              <div className="delete">회원탈퇴</div>
+              <div className="logout" onClick={openlogOutAlert}>
+                로그아웃
+              </div>
+              <div className="delete" onClick={openDeleteModal}>
+                회원탈퇴
+              </div>
             </MyPageContainer>
             <Navbar />
           </ContentContainer>
@@ -75,6 +99,21 @@ const MyPage = () => {
           name="비밀번호 수정"
         >
           <PasswordEdit />
+        </Modal>
+      )}
+      {logOutAlert && (
+        <Alert open={logOutAlert} close={closelogOutAlert} name="로그아웃">
+          <LogOutAlert />
+        </Alert>
+      )}
+      {deleteModalOpen && (
+        <Modal
+          open={deleteModalOpen}
+          close={closeDeleteModal}
+          name="회원탈퇴"
+          height="400px"
+        >
+          <DeleteEdit />
         </Modal>
       )}
     </>

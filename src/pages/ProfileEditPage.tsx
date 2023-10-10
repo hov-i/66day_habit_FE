@@ -32,6 +32,6 @@ const ProfileEditPage = () => {
 const EditContainer = styled.div`
   width: 100%;
   overflow: hidden;
-  height: 85vh;
+  height: 100vh;
 `;
 export default ProfileEditPage;
