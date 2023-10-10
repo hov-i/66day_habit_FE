@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import ProfileEditPage from "./pages/ProfileEditPage";
 import MyPage from "./pages/MyPage";
 import CommendPage from "./pages/CommendPage";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/edit" element={<ProfileEditPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/commend" element={<CommendPage />} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
     </>
   );

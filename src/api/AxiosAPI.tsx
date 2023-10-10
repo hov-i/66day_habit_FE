@@ -23,6 +23,7 @@ const AxiosAPI = {
       throw error;
     }
   },
+
   //이메일 체크
   emailCheck: async (email: string) => {
     const EmailCheck = email;
