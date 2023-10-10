@@ -7,6 +7,7 @@ import GlobalStyle from "./style/GlobalStyle";
 import LoginPage from "./pages/LoginPage";
 import ProfileEditPage from "./pages/ProfileEditPage";
 import MyPage from "./pages/MyPage";
+import CommendPage from "./pages/CommendPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/main" element={<MainPage />} />
         <Route path="/edit" element={<ProfileEditPage />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/commend" element={<CommendPage />} />
       </Routes>
     </>
   );
