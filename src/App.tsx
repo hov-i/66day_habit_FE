@@ -9,7 +9,7 @@ import ProfileEditPage from "./pages/ProfileEditPage";
 import MyPage from "./pages/MyPage";
 import CommendPage from "./pages/CommendPage";
 import SearchPage from "./pages/SearchPage";
-
+import "./style/GlobalFont.css";
 function App() {
   return (
     <>

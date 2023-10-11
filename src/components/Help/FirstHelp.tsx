@@ -49,9 +49,8 @@ const HelpStyle = styled.div<{ isMobile: boolean }>`
     display: flex;
   }
   .img {
-    /* 이미지 크기 조절 */
-    max-width: 40%; /* 최대 너비를 100%로 설정하여 반응형으로 만듭니다. */
-    height: auto; /* 높이를 자동으로 조절하여 가로 세로 비율 유지 */
+    max-width: 40%;
+    height: auto;
   }
   .mainTitle {
     font-size: 4vh;

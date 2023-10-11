@@ -4,6 +4,8 @@ import Box from "../components/common/Box";
 import Container from "../components/common/Container";
 import Navbar from "../components/common/NavBar";
 import { ReactComponent as SearchBar } from "../resources/Icons/searchBar.svg";
+import { ReactComponent as Close } from "../resources/Icons/close.svg";
+import NewHabbitContainer from "../components/Search/NewHabbitContainer";
 
 const SearchPage: React.FC = () => {
   const [tag, setTag] = useState<string>("");
@@ -26,14 +28,32 @@ const SearchPage: React.FC = () => {
     setTag(e.target.value);
   };
 
-  // 태그 지우기
-  const onRemove = (id: number) => {
-    const nextTags = tags.filter((tags) => tags.id !== id);
+  const onRemove = (id: number): void => {
+    const nextTags = tags.filter((tag) => tag.id !== id);
     setTags(nextTags);
   };
-  const tagList = tags.map((tags) => (
-    <div className="tag" key={tags.id} onDoubleClick={() => onRemove(tags.id)}>
-      {tags.tag}
+
+  const onEasyTagClick = (easyTag: string): void => {
+    const tagAlreadyExists = tags.some((tag) => tag.tag === easyTag);
+    if (!tagAlreadyExists) {
+      const nextTags = tags.concat({
+        id: nextId,
+        tag: easyTag,
+      });
+      setNextId(nextId + 1);
+      setTags(nextTags);
+    } else {
+      const nextTags = tags.filter((tag) => tag.tag !== easyTag);
+      setTags(nextTags);
+    }
+  };
+
+  const tagList = tags.map((tag) => (
+    <div className="tag" key={tag.id} onClick={() => onRemove(tag.id)}>
+      {tag.tag}
+      <div className="close">
+        <Close />
+      </div>
     </div>
   ));
 
@@ -55,7 +75,50 @@ const SearchPage: React.FC = () => {
               <SearchBar />
             </div>
           </div>
+          <EasyTagList>
+            <button
+              className={`easyTag ${
+                tags.some((tag) => tag.tag === "운동") ? "active" : ""
+              }`}
+              onClick={() => onEasyTagClick("운동")}
+            >
+              🏓 운동
+            </button>
+            <button
+              className={`easyTag ${
+                tags.some((tag) => tag.tag === "공부") ? "active" : ""
+              }`}
+              onClick={() => onEasyTagClick("공부")}
+            >
+              📖 공부
+            </button>
+            <button
+              className={`easyTag ${
+                tags.some((tag) => tag.tag === "코딩") ? "active" : ""
+              }`}
+              onClick={() => onEasyTagClick("코딩")}
+            >
+              💻 코딩
+            </button>
+            <button
+              className={`easyTag ${
+                tags.some((tag) => tag.tag === "생활") ? "active" : ""
+              }`}
+              onClick={() => onEasyTagClick("생활")}
+            >
+              💊 생활
+            </button>
+            <button
+              className={`easyTag ${
+                tags.some((tag) => tag.tag === "취미") ? "active" : ""
+              }`}
+              onClick={() => onEasyTagClick("취미")}
+            >
+              🎨 취미
+            </button>
+          </EasyTagList>
         </SearchContainer>
+        <NewHabbitContainer />
         <Navbar />
       </Container>
     </Box>
@@ -66,22 +129,31 @@ const SearchContainer = styled.div`
   .searchBar {
     position: relative;
     width: 80%;
+    align-items: flex-end;
     margin: 0 auto;
     display: flex;
   }
 
   .taglist {
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-start; /* 수평으로 좌측 정렬 */
+    padding-top: 15px;
   }
 
   .tag {
     background-color: #363636;
-    padding: 5px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 8px;
     color: white;
-    font-size: 16px;
-    margin: 10px;
+    white-space: nowrap;
+    font-size: 14px;
+    margin: 0;
+    margin-left: 10px;
+  }
+  .close {
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
   .input {
@@ -100,6 +172,28 @@ const SearchContainer = styled.div`
     top: 10px;
     left: 12px;
     margin-top: 52px;
+  }
+`;
+
+const EasyTagList = styled.div`
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+
+  .easyTag {
+    background-color: #e8e8e8;
+    border-radius: 20px;
+    padding: 8px;
+    color: #363636;
+    white-space: nowrap;
+    font-size: 14px;
+    margin-right: 10px;
+    margin-top: 10px;
+  }
+
+  .active {
+    background-color: #363636;
+    color: white;
   }
 `;
 

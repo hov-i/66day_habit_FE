@@ -25,7 +25,7 @@ const HabitBox = () => {
 const HabitBoxStyle = styled.div<{ isMobile: boolean }>`
   position: relative;
   color: #363636;
-  width: ${(props) => (props.isMobile ? "85%" : "80%")};
+  width: 100%;
   height: ${(props) => (props.isMobile ? "95px" : "105px")};
 
   border-radius: 23px;
@@ -52,7 +52,7 @@ const HabitBoxStyle = styled.div<{ isMobile: boolean }>`
 `;
 
 const TagList = styled.p<{ isMobile: boolean }>`
-  width: ${(props) => (props.isMobile ? "85%" : "80%")};
+  width: 100%;
   text-align: right;
   margin: 0;
   margin-top: 30px;
