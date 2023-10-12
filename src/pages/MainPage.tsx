@@ -16,11 +16,13 @@ const LoginPage = () => {
           <Profile name="main" />
           <Navbar />
           <ContentContainer name="main">
-            <LifeQuotes />
-            <HabitBox />
-            <HabitBox />
-            <HabitBox />
-            <HabitAddButton />
+            <HabbitContainer>
+              <LifeQuotes />
+              <HabitBox />
+              <HabitBox />
+              <HabitBox />
+              <HabitAddButton />
+            </HabbitContainer>
           </ContentContainer>
         </Container>
       </MainContainer>
@@ -31,6 +33,10 @@ const LoginPage = () => {
 const MainContainer = styled.div`
   width: 100%;
   height: 100vh;
+`;
+
+const HabbitContainer = styled.div`
+  width: 80%;
 `;
 
 export default LoginPage;

@@ -7,7 +7,6 @@ const LifeQuotes = () => {
   return <LifeQuotesBox isMobile={isMobile}>명언 글귀 입니다.</LifeQuotesBox>;
 };
 const LifeQuotesBox = styled.div<{ isMobile: boolean }>`
-  width: ${(props) => (props.isMobile ? "85%" : "80%")};
   height: ${(props) => (props.isMobile ? "75px" : "80px")};
   background-color: #e8e8e8;
   border-radius: 10px;

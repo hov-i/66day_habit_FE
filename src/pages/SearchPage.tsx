@@ -6,8 +6,11 @@ import Navbar from "../components/common/NavBar";
 import { ReactComponent as SearchBar } from "../resources/Icons/searchBar.svg";
 import { ReactComponent as Close } from "../resources/Icons/close.svg";
 import NewHabbitContainer from "../components/Search/NewHabbitContainer";
+import SuccesHabbitContainer from "../components/Search/SuccesHabbitContainer";
+import useViewport from "../util/viewportHook";
 
 const SearchPage: React.FC = () => {
+  const { isMobile } = useViewport();
   const [tag, setTag] = useState<string>("");
   const [tags, setTags] = useState<{ id: number; tag: string }[]>([]);
   const [nextId, setNextId] = useState<number>(1);
@@ -60,7 +63,7 @@ const SearchPage: React.FC = () => {
   return (
     <Box>
       <Container>
-        <SearchContainer>
+        <SearchContainer isMobile={isMobile}>
           <div className="searchBar">
             <input
               className="input"
@@ -119,13 +122,18 @@ const SearchPage: React.FC = () => {
           </EasyTagList>
         </SearchContainer>
         <NewHabbitContainer />
+        <SuccesHabbitContainer />
         <Navbar />
       </Container>
     </Box>
   );
 };
 
-const SearchContainer = styled.div`
+const SearchContainer = styled.div<{ isMobile: boolean }>`
+  z-index: 99;
+  width: ${(props) => (props.isMobile ? "100%" : "768px;")};
+  position: fixed;
+  background-color: white;
   .searchBar {
     position: relative;
     width: 80%;
@@ -136,7 +144,6 @@ const SearchContainer = styled.div`
 
   .taglist {
     display: flex;
-    padding-top: 15px;
   }
 
   .tag {
@@ -179,6 +186,7 @@ const EasyTagList = styled.div`
   width: 80%;
   margin: 0 auto;
   display: flex;
+  padding-bottom: 15px;
 
   .easyTag {
     background-color: #e8e8e8;

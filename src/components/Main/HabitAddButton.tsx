@@ -15,7 +15,7 @@ const HabitAddButton = () => {
 };
 
 const HabitButtonStyle = styled.button<{ isMobile: boolean }>`
-  width: ${(props) => (props.isMobile ? "85%" : "80%")};
+  width: 100%;
   height: ${(props) => (props.isMobile ? "95px" : "105px")};
   background-color: #363636;
   margin-top: 40px;

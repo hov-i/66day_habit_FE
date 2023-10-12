@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import HabitBox from "../Main/HabitBox";
 
-const NewHabbitContainer = () => {
+const SuccesHabbitContainer = () => {
   return (
     <Container>
-      <div className="title">✨ 새로 생긴 습관들</div>
+      <div className="title">🎉 66일 명예의 전당</div>
       <div className="habitContainer">
         <HabitBox />
         <HabitBox />
@@ -17,12 +17,10 @@ const NewHabbitContainer = () => {
   );
 };
 const Container = styled.div`
-  padding-top: 160px;
-  padding-bottom: 50px;
+  margin-top: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid #c7c7c7;
   flex-direction: column;
 
   .title {
@@ -38,4 +36,4 @@ const Container = styled.div`
   }
 `;
 
-export default NewHabbitContainer;
+export default SuccesHabbitContainer;

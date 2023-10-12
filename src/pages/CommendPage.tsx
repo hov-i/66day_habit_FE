@@ -35,11 +35,12 @@ const CommendPage = () => {
 };
 
 const CommendContainer = styled.div`
-  width: 100%;
   .title {
+    width: 80%;
     font-size: 32px;
     font-family: "Noto Sans Bold";
-    padding: 70px;
+    margin: 0 auto;
+    padding-top: 70px;
     padding-bottom: 0px;
     display: flex;
     align-items: center;
@@ -50,11 +51,8 @@ const CommendContainer = styled.div`
   }
 
   .habitBox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 100%;
+    margin: 0 auto;
+    width: 80%;
   }
 `;
 
