@@ -20,11 +20,11 @@ const CommendPage = () => {
               <Like />
             </div>
             <div className="habitBox">
-              <HabitBox />
-              <HabitBox />
-              <HabitBox />
-              <HabitBox />
-              <HabitBox />
+              <HabitBox name="commend" />
+              <HabitBox name="commend" />
+              <HabitBox name="commend" />
+              <HabitBox name="commend" />
+              <HabitBox name="commend" />
             </div>
           </CommendContainer>
           <Navbar />
@@ -37,10 +37,10 @@ const CommendPage = () => {
 const CommendContainer = styled.div`
   .title {
     width: 80%;
-    font-size: 32px;
+    font-size: 40px;
     font-family: "Noto Sans Bold";
     margin: 0 auto;
-    padding-top: 70px;
+    padding-top: 30px;
     padding-bottom: 0px;
     display: flex;
     align-items: center;

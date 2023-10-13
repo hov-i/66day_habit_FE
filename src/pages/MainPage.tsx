@@ -18,9 +18,9 @@ const LoginPage = () => {
           <ContentContainer name="main">
             <HabbitContainer>
               <LifeQuotes />
-              <HabitBox />
-              <HabitBox />
-              <HabitBox />
+              <HabitBox name="main" />
+              <HabitBox name="main" />
+              <HabitBox name="main" />
               <HabitAddButton />
             </HabbitContainer>
           </ContentContainer>

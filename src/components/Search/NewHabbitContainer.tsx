@@ -7,11 +7,11 @@ const NewHabbitContainer = () => {
     <Container>
       <div className="title">✨ 새로 생긴 습관들</div>
       <div className="habitContainer">
-        <HabitBox />
-        <HabitBox />
-        <HabitBox />
-        <HabitBox />
-        <HabitBox />
+        <HabitBox name="search" />
+        <HabitBox name="search" />
+        <HabitBox name="search" />
+        <HabitBox name="search" />
+        <HabitBox name="search" />
       </div>
     </Container>
   );

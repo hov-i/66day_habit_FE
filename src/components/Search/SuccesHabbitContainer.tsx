@@ -7,11 +7,11 @@ const SuccesHabbitContainer = () => {
     <Container>
       <div className="title">🎉 66일 명예의 전당</div>
       <div className="habitContainer">
-        <HabitBox />
-        <HabitBox />
-        <HabitBox />
-        <HabitBox />
-        <HabitBox />
+        <HabitBox name="search" />
+        <HabitBox name="search" />
+        <HabitBox name="search" />
+        <HabitBox name="search" />
+        <HabitBox name="search" />
       </div>
     </Container>
   );
