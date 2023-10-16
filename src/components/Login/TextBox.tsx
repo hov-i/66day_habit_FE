@@ -6,9 +6,10 @@ import useViewport from "../../util/viewportHook";
 
 interface TextBoxProps {
   name: "이메일" | "비밀번호";
+  setInputValue: (value: string) => void;
 }
 
-const TextBox: React.FC<TextBoxProps> = ({ name }) => {
+const TextBox: React.FC<TextBoxProps> = ({ name, setInputValue }) => {
   const { isMobile } = useViewport();
   const getItemSvg = (svgName: string) => {
     switch (svgName) {
@@ -24,10 +25,20 @@ const TextBox: React.FC<TextBoxProps> = ({ name }) => {
   const inputType = name === "이메일" ? "text" : "password";
   const placeholderText = name === "이메일" ? "이메일" : "비밀번호";
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value: string = e.target.value;
+    setInputValue(value);
+  };
+
   return (
     <TextBoxStyle isMobile={isMobile}>
       {getItemSvg(name)}
-      <input className="input" type={inputType} placeholder={placeholderText} />
+      <input
+        className="input"
+        type={inputType}
+        placeholder={placeholderText}
+        onChange={handleInputChange}
+      />
     </TextBoxStyle>
   );
 };

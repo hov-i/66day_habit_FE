@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Box from "../components/common/Box";
 import Logo from "../resources/66dayIcon.png";
@@ -6,42 +6,99 @@ import { ReactComponent as Help } from "../resources/Icons/help.svg";
 import useViewport from "../util/viewportHook";
 import TextBox from "../components/Login/TextBox";
 import { Link, useNavigate } from "react-router-dom";
+import AxiosAPI from "../api/AxiosAPI";
+import Alert from "../components/common/Alert";
+import LoginErrorAlert from "../components/Login/LoginErrorAlert";
 
 const LoginPage = () => {
   const { isMobile } = useViewport();
   const navigate = useNavigate();
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputPwd, setInputPwd] = useState("");
+  const [loginErrorAlert, setLoginErrorAlert] = useState(false);
+
+  const handleEmailInputChange = (value: string) => {
+    setInputEmail(value);
+    console.log(inputEmail, inputPwd);
+  };
+
+  const handlePasswordInputChange = (value: string) => {
+    setInputPwd(value);
+    console.log(inputEmail, inputPwd);
+  };
+
+  const openLoginErrorAlert = () => {
+    setLoginErrorAlert(true);
+  };
+
+  const closeLoginErrorAlert = () => {
+    setLoginErrorAlert(false);
+  };
 
   const handleHelpClick = () => {
     navigate("/help");
   };
 
-  return (
-    <Box>
-      <BackGroundBox>
-        <LoginContainer isMobile={isMobile}>
-          <button className="helpButton" onClick={handleHelpClick}>
-            <Help />
-          </button>
-          <div>
-            <div className="mainTitle">
-              기적을 보여주는
-              <br /> 매일의 힘 <br />
-              66일의 기적
-            </div>
-            <div className="subTitle">지금 시작해보세요!</div>
-          </div>
+  const handleLoginClick = () => {
+    const postLogin = async () => {
+      try {
+        console.log(inputEmail, inputPwd);
+        const response = await AxiosAPI.login(inputEmail, inputPwd);
+        if (response.status === 200) {
+          console.log("로그인 성공");
+          navigate("/main");
+        }
+      } catch (error) {
+        openLoginErrorAlert();
+      }
+    };
+    postLogin();
+  };
 
-          <div className="loginBox">
-            <TextBox name="이메일" />
-            <TextBox name="비밀번호" />
-            <button className="loginButton">로그인</button>
-            <div className="signUpButton">
-              <Link to="/signup">회원가입</Link>
+  return (
+    <>
+      <Box>
+        <BackGroundBox>
+          <LoginContainer isMobile={isMobile}>
+            <button className="helpButton" onClick={handleHelpClick}>
+              <Help />
+            </button>
+            <div>
+              <div className="mainTitle">
+                기적을 보여주는
+                <br /> 매일의 힘 <br />
+                66일의 기적
+              </div>
+              <div className="subTitle">지금 시작해보세요!</div>
             </div>
-          </div>
-        </LoginContainer>
-      </BackGroundBox>
-    </Box>
+
+            <div className="loginBox">
+              <TextBox name="이메일" setInputValue={handleEmailInputChange} />
+              <TextBox
+                name="비밀번호"
+                setInputValue={handlePasswordInputChange}
+              />
+              <button className="loginButton" onClick={handleLoginClick}>
+                로그인
+              </button>
+
+              <div className="signUpButton">
+                <Link to="/signup">회원가입</Link>
+              </div>
+            </div>
+          </LoginContainer>
+        </BackGroundBox>
+      </Box>
+      {loginErrorAlert && (
+        <Alert
+          open={loginErrorAlert}
+          close={closeLoginErrorAlert}
+          name="로그인에러"
+        >
+          <LoginErrorAlert />
+        </Alert>
+      )}
+    </>
   );
 };
 
@@ -81,6 +138,9 @@ const LoginContainer = styled.div<{ isMobile: boolean }>`
     margin-top: 10px;
     border: 0;
     height: 60px;
+    &.disalbe {
+      background-color: #707070;
+    }
   }
 
   .loginBox {

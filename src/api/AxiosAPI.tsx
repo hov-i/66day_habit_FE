@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const DOMAIN = "http://localhost:8080";
+const DOMAIN = "https://localhost:8080";
 const VERSION = "v1";
 
 const AuthAPI = axios.create({
@@ -18,7 +18,7 @@ const AxiosAPI = {
 
     try {
       const response = await AuthAPI.post(
-        `${DOMAIN}/${VERSION}/auth/signIn/direct`,
+        `${VERSION}/auth/signIn/direct`,
         loginUser
       );
 
@@ -31,9 +31,9 @@ const AxiosAPI = {
         localStorage.setItem("accessToken", accessToken);
       }
 
-      return response; // 또는 다른 반환값, 에러 처리 등
+      return response;
     } catch (error) {
-      throw error; // 에러 처리는 상황에 따라 변경 가능
+      throw error;
     }
   },
 
