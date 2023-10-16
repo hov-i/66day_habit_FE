@@ -28,20 +28,37 @@ axiosInstance.interceptors.request.use(
 
 //AccessToken 갱신
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  async (response) => {
+    // 여기에서 response를 처리할 수 있으며, 필요한 경우 작업을 수행할 수 있습니다.
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
 
     if (error.response.status === 401 && !originalRequest._retry) {
       try {
-        await axios.post(`${DOMAIN}/auth/refreshtoken`, null, {
-          withCredentials: true,
-        });
-        console.log("쿠키 업데이트 성공");
+        const refreshResponse = await axios.post(
+          `${DOMAIN}/${VERSION}/auth/refreshtoken`,
+          null,
+          {
+            withCredentials: true,
+          }
+        );
+
+        const newAccessToken = refreshResponse.data.data.accessToken;
+        if (newAccessToken) {
+          // 토큰 갱신에 성공하면, 새로운 accessToken을 localStorage에 저장
+          localStorage.setItem("accessToken", newAccessToken);
+          console.log("토큰 업데이트 성공");
+        }
+
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        window.location.href = "/main";
         console.log("refreshtoken 토큰 실패:", refreshError);
+
+        setTimeout(() => {
+          window.location.href = "/main";
+        }, 30000); // 30초 동안 대기
       }
     }
 

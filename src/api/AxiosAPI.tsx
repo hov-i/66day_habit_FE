@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosInstance from "./axiosInstance";
 
 const DOMAIN = "https://localhost:8080";
 const VERSION = "v1";
@@ -22,15 +23,13 @@ const AxiosAPI = {
         loginUser
       );
 
-      // 토큰을 응답에서 추출
-      const accessToken = response.data.accessToken;
-      console.log(accessToken);
-
-      // 추출한 토큰을 localStorage에 저장
+      const accessToken = response.data.data.accessToken;
       if (accessToken) {
         localStorage.setItem("accessToken", accessToken);
       }
 
+      const storedValue = localStorage.getItem("accessToken");
+      console.log(storedValue); // 저장된 액세스 토큰 출력
       return response;
     } catch (error) {
       throw error;
@@ -64,6 +63,15 @@ const AxiosAPI = {
       return await axios.get(
         `${DOMAIN}/${VERSION}/member/email?email=${EmailCheck}`
       );
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  //내 정보 보기
+  mainUserInfo: async () => {
+    try {
+      return await axiosInstance.get("/member");
     } catch (error) {
       throw error;
     }

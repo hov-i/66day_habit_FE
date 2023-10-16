@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
 import { ReactComponent as Setting } from "../../resources/Icons/settings.svg";
@@ -6,6 +6,7 @@ import { ReactComponent as Back } from "../../resources/Icons/profileBack.svg";
 import { ReactComponent as PhotoAdd } from "../../resources/Icons/photoAdd.svg";
 import PersonList from "./PersonList";
 import { useNavigate } from "react-router-dom";
+import AxiosAPI from "../../api/AxiosAPI";
 
 interface ProfileProps {
   name: "main" | "edit" | "mypage" | "search";
@@ -14,6 +15,21 @@ interface ProfileProps {
 const Profile = ({ name }: ProfileProps) => {
   const { isMobile } = useViewport();
   const navigate = useNavigate();
+  const [InfoData, setInfoData] = useState([]);
+
+  useEffect(() => {
+    if (name === "main") {
+      const getMyInfo = async () => {
+        try {
+          const response = await AxiosAPI.mainUserInfo();
+          if (response.status === 200) setInfoData(response.data);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+      getMyInfo();
+    }
+  }, []);
 
   return (
     <>
