@@ -1,19 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 import EditButton from "../MyPage/EditButton";
+
 interface ErrorProps {
   onClose: () => void;
 }
-const LoginErrorAlert = ({ onClose }: ErrorProps) => {
+const EmailErrorAlert = ({ onClose }: ErrorProps) => {
   const handleClose = () => {
     onClose();
   };
+
   return (
     <>
       <AlertContainer>
-        <div className="name">아이디 비밀번호를 확인해주세요.</div>
+        <div className="name">이메일을 확인해주세요.</div>
         <div className="button">
-          <EditButton name="확인" onClick={handleClose}></EditButton>
+          <EditButton name="확인" onClick={handleClose} />
         </div>
       </AlertContainer>
     </>
@@ -54,4 +56,4 @@ const AlertContainer = styled.div`
     cursor: pointer;
   }
 `;
-export default LoginErrorAlert;
+export default EmailErrorAlert;

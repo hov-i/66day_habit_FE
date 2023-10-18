@@ -93,7 +93,7 @@ const LoginPage = () => {
           close={closeLoginErrorAlert}
           name="로그인에러"
         >
-          <LoginErrorAlert />
+          <LoginErrorAlert onClose={closeLoginErrorAlert} />
         </Alert>
       )}
     </>

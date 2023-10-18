@@ -2,10 +2,22 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import TextEditBox from "../common/TextEditBox";
 import EditButton from "./EditButton";
+import AxiosAPI from "../../api/AxiosAPI";
+import Alert from "../common/Alert";
+import PwdErrorAlert from "./PwdErrorAlert";
 
 const PasswordEdit = () => {
   const [inputNowPwd, setInputNowPwd] = useState("");
   const [inputNewPwd, setInputNewPwd] = useState("");
+  const [errorAlert, setErrorAlert] = useState(false);
+  const [errorName, setErrorName] = useState("");
+  const openErrorAlert = () => {
+    setErrorAlert(true);
+  };
+
+  const closeErrorAlert = () => {
+    setErrorAlert(false);
+  };
 
   const handleNowPwdInputChange = (value: string) => {
     setInputNowPwd(value);
@@ -14,20 +26,49 @@ const PasswordEdit = () => {
   const handleNewPwdInputChange = (value: string) => {
     setInputNewPwd(value);
   };
+
+  const handlePwdChangeClick = () => {
+    const putPwdChange = async () => {
+      try {
+        const response = await AxiosAPI.userPwdChange(inputNowPwd, inputNewPwd);
+        if (response.status === 200) {
+          console.log("비밀번호 수정 성공");
+          window.location.reload();
+        }
+      } catch (error: any) {
+        if (error.response && error.response.status === 400) {
+          setErrorName("빈칸 입력");
+        } else if (error.response && error.response.status === 403) {
+          setErrorName("비밀번호 불일치");
+        }
+        console.log(error);
+        openErrorAlert();
+      }
+    };
+    putPwdChange();
+  };
+
   return (
-    <EmailContainer>
-      <TextEditBox
-        name="현재 비밀번호"
-        placeholder="현재 비밀번호를 입력해주세요"
-        setInputValue={handleNowPwdInputChange}
-      />
-      <TextEditBox
-        name="변경 비밀번호"
-        placeholder="변경 비밀번호를 입력해주세요"
-        setInputValue={handleNewPwdInputChange}
-      />
-      <EditButton name="비밀번호 수정" />
-    </EmailContainer>
+    <>
+      <EmailContainer>
+        <TextEditBox
+          name="현재 비밀번호"
+          placeholder="현재 비밀번호를 입력해주세요"
+          setInputValue={handleNowPwdInputChange}
+        />
+        <TextEditBox
+          name="변경 비밀번호"
+          placeholder="변경 비밀번호를 입력해주세요"
+          setInputValue={handleNewPwdInputChange}
+        />
+        <EditButton name="비밀번호 수정" onClick={handlePwdChangeClick} />
+      </EmailContainer>
+      {errorAlert && (
+        <Alert open={errorAlert} close={closeErrorAlert} name="비밀번호 에러">
+          <PwdErrorAlert onClose={closeErrorAlert} errorCode={errorName} />
+        </Alert>
+      )}
+    </>
   );
 };
 

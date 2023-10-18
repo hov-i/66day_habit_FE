@@ -3,9 +3,19 @@ import styled from "styled-components";
 import TextEditBox from "../common/TextEditBox";
 import EditButton from "./EditButton";
 import AxiosAPI from "../../api/AxiosAPI";
+import Alert from "../common/Alert";
+import EmailErrorAlert from "./EmailErrorAlert";
 
 const EmailEdit = () => {
   const [inputChangeEmail, setInputChangeEmail] = useState("");
+  const [errorAlert, setErrorAlert] = useState(false);
+  const openErrorAlert = () => {
+    setErrorAlert(true);
+  };
+
+  const closeErrorAlert = () => {
+    setErrorAlert(false);
+  };
 
   const handleEmailInputChange = (value: string) => {
     setInputChangeEmail(value);
@@ -21,20 +31,28 @@ const EmailEdit = () => {
         }
       } catch (error) {
         console.log(error);
+        openErrorAlert();
       }
     };
     putEmailChange();
   };
 
   return (
-    <EmailContainer>
-      <TextEditBox
-        name="변경 이메일"
-        placeholder="변경할 이메일을 입력해주세요"
-        setInputValue={handleEmailInputChange}
-      />
-      <EditButton name="이메일 수정" onClick={handleEmailChangeClick} />
-    </EmailContainer>
+    <>
+      <EmailContainer>
+        <TextEditBox
+          name="변경 이메일"
+          placeholder="변경할 이메일을 입력해주세요"
+          setInputValue={handleEmailInputChange}
+        />
+        <EditButton name="이메일 수정" onClick={handleEmailChangeClick} />
+      </EmailContainer>
+      {errorAlert && (
+        <Alert open={errorAlert} close={closeErrorAlert} name="이메일 에러">
+          <EmailErrorAlert onClose={closeErrorAlert} />
+        </Alert>
+      )}
+    </>
   );
 };
 

@@ -51,6 +51,7 @@ const MyPage = () => {
   const closeDeleteModal = () => {
     setDeleteModalOpen(false);
   };
+
   return (
     <>
       <Box>

@@ -68,8 +68,17 @@ const AxiosAPI = {
     }
   },
 
-  //내 정보 보기
+  //메인 내 정보 보기
   mainUserInfo: async () => {
+    try {
+      return await axiosInstance.get("/member");
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  //내 정보 보기
+  userInfo: async () => {
     try {
       return await axiosInstance.get("/member/detail");
     } catch (error) {
@@ -98,13 +107,44 @@ const AxiosAPI = {
   },
 
   //이메일 수정
-  userEmailChange: async (email: string) => {
-    const newEmail = email;
+  userEmailChange: async (newEmail: string) => {
+    const Email = {
+      newEmail,
+    };
     try {
       return await axiosInstance.put(
         `${DOMAIN}/${VERSION}/member/email`,
-        newEmail
+        Email
       );
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  //비밀번호 수정
+  userPwdChange: async (currentPassword: string, newPassword: string) => {
+    const Pwd = {
+      currentPassword,
+      newPassword,
+    };
+    try {
+      return await axiosInstance.put(
+        `${DOMAIN}/${VERSION}/member/password`,
+        Pwd
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  //회원 탈퇴
+  userDelete: async (checkPassword: string) => {
+    try {
+      return await axiosInstance.delete(`${DOMAIN}/${VERSION}/member`, {
+        data: {
+          checkPassword,
+        },
+      });
     } catch (error) {
       throw error;
     }

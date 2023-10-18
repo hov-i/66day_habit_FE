@@ -1,19 +1,26 @@
 import React from "react";
 import styled from "styled-components";
 import EditButton from "../MyPage/EditButton";
+
 interface ErrorProps {
   onClose: () => void;
+  errorCode: string;
 }
-const LoginErrorAlert = ({ onClose }: ErrorProps) => {
+const PwdErrorAlert = ({ onClose, errorCode }: ErrorProps) => {
   const handleClose = () => {
     onClose();
   };
+
   return (
     <>
       <AlertContainer>
-        <div className="name">아이디 비밀번호를 확인해주세요.</div>
+        <div className="name">
+          {errorCode === "빈칸 입력"
+            ? "비밀번호를 확인해주세요."
+            : "현재 비밀번호가 일치하지 않습니다."}
+        </div>
         <div className="button">
-          <EditButton name="확인" onClick={handleClose}></EditButton>
+          <EditButton name="확인" onClick={handleClose} />
         </div>
       </AlertContainer>
     </>
@@ -54,4 +61,4 @@ const AlertContainer = styled.div`
     cursor: pointer;
   }
 `;
-export default LoginErrorAlert;
+export default PwdErrorAlert;
