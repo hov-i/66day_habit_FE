@@ -49,7 +49,9 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
         console.log(userNameValue, introductionValue);
         const response = await AxiosAPI.userInfoChange(
           userNameValue,
-          introductionValue
+          introductionValue,
+          profileFile,
+          backGroundFile
         );
         if (response.status === 200) {
           console.log("회원정보 수정 성공");

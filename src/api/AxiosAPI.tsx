@@ -78,10 +78,17 @@ const AxiosAPI = {
   },
 
   //내 정보 수정
-  userInfoChange: async (username: string, introduction: string) => {
+  userInfoChange: async (
+    username: string,
+    introduction: string,
+    profileImage: File | null,
+    backgroundImage: File | null
+  ) => {
     const userInfo = {
       username,
       introduction,
+      profileImage,
+      backgroundImage,
     };
     try {
       return await axiosInstance.patch(`${DOMAIN}/${VERSION}/member`, userInfo);
