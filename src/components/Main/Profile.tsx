@@ -24,6 +24,22 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   const { isMobile } = useViewport();
   const navigate = useNavigate();
   const [InfoData, setInfoData] = useState<InfoData | null>(null);
+  const [profileFile, setProfileFile] = useState<File | null>(null);
+  const [backGroundFile, setBackGroundFile] = useState<File | null>(null);
+
+  const handleProfileFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setProfileFile(e.target.files[0]);
+    }
+  };
+
+  const handleBackGroundFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (e.target.files && e.target.files[0]) {
+      setBackGroundFile(e.target.files[0]);
+    }
+  };
 
   const handleChangeClick = () => {
     const patchUserInfoChange = async () => {
@@ -75,17 +91,39 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
             </div>
           )}
           {name === "edit" && (
-            <div className="backgroundButton">
-              <PhotoAdd />
-            </div>
+            <>
+              <label htmlFor="file">
+                <div className="backgroundButton">
+                  <PhotoAdd />
+                </div>
+              </label>
+              <input
+                type="file"
+                name="file"
+                className="file"
+                id="file"
+                onChange={handleProfileFileChange}
+              />
+            </>
           )}
         </BackgroundBox>
         <ProfileBox>
           <ProfileImg />
           {name === "edit" && (
-            <div className="profileButton">
-              <PhotoAdd />
-            </div>
+            <>
+              <label htmlFor="file">
+                <div className="profileButton">
+                  <PhotoAdd />
+                </div>
+              </label>
+              <input
+                type="file"
+                name="file"
+                className="file"
+                id="file"
+                onChange={handleBackGroundFileChange}
+              />
+            </>
           )}
           <div className="title">
             {(name === "main" || name === "mypage") && InfoData && (
@@ -122,6 +160,10 @@ const ProfileContainer = styled.div<{ isMobile: boolean }>`
   position: relative;
   width: ${({ isMobile }) => (isMobile ? "100%" : "768px")};
   height: 300px;
+
+  .file {
+    display: none;
+  }
 `;
 
 const BackgroundBox = styled.div`
