@@ -34,17 +34,14 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+    const TokenAPI = axios.create({
+      baseURL: DOMAIN, // 기본 url 주소 설정
+      withCredentials: true, // 쿠키를 받고 전송하기 위한 설정
+    });
 
     if (error.response.status === 401 && !originalRequest._retry) {
       try {
-        const refreshResponse = await axios.post(
-          `${DOMAIN}/${VERSION}/auth/refreshtoken`,
-          null,
-          {
-            withCredentials: true,
-          }
-        );
-
+        const refreshResponse = await TokenAPI.post(`${VERSION}/auth/refresh`);
         const newAccessToken = refreshResponse.data.data.accessToken;
         if (newAccessToken) {
           // 토큰 갱신에 성공하면, 새로운 accessToken을 localStorage에 저장
@@ -57,7 +54,7 @@ axiosInstance.interceptors.response.use(
         console.log("refreshtoken 토큰 실패:", refreshError);
 
         setTimeout(() => {
-          window.location.href = "/main";
+          window.location.href = "/";
         }, 30000); // 30초 동안 대기
       }
     }

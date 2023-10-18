@@ -5,15 +5,30 @@ import useViewport from "../../util/viewportHook";
 interface TextEditBoxProps {
   name: string;
   placeholder: string;
+  setInputValue: (value: string) => void;
 }
 
-const TextEditBox: React.FC<TextEditBoxProps> = ({ name, placeholder }) => {
+const TextEditBox: React.FC<TextEditBoxProps> = ({
+  name,
+  placeholder,
+  setInputValue,
+}) => {
   const { isMobile } = useViewport();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value: string = e.target.value;
+    setInputValue(value);
+  };
+
   return (
     <EditContainer isMobile={isMobile}>
       <div className="name">{name}</div>
-
-      <input type="text" className="input" placeholder={placeholder} />
+      <input
+        type="text"
+        className="input"
+        placeholder={placeholder}
+        onChange={handleInputChange}
+      />
     </EditContainer>
   );
 };

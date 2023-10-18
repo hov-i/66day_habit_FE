@@ -19,12 +19,10 @@ const LoginPage = () => {
 
   const handleEmailInputChange = (value: string) => {
     setInputEmail(value);
-    console.log(inputEmail, inputPwd);
   };
 
   const handlePasswordInputChange = (value: string) => {
     setInputPwd(value);
-    console.log(inputEmail, inputPwd);
   };
 
   const openLoginErrorAlert = () => {

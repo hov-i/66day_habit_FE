@@ -8,21 +8,50 @@ import PersonList from "./PersonList";
 import { useNavigate } from "react-router-dom";
 import AxiosAPI from "../../api/AxiosAPI";
 
-interface ProfileProps {
-  name: "main" | "edit" | "mypage" | "search";
+interface InfoData {
+  username: string;
+  introduction: string;
+  profileImage: string | null;
 }
 
-const Profile = ({ name }: ProfileProps) => {
+interface ProfileProps {
+  name: "main" | "edit" | "mypage" | "search";
+  userName?: string;
+  Introduction?: string;
+}
+
+const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   const { isMobile } = useViewport();
   const navigate = useNavigate();
-  const [InfoData, setInfoData] = useState([]);
+  const [InfoData, setInfoData] = useState<InfoData | null>(null);
+
+  const handleChangeClick = () => {
+    const patchUserInfoChange = async () => {
+      try {
+        const userNameValue = userName || "";
+        const introductionValue = Introduction || "";
+        console.log(userNameValue, introductionValue);
+        const response = await AxiosAPI.userInfoChange(
+          userNameValue,
+          introductionValue
+        );
+        if (response.status === 200) {
+          console.log("회원정보 수정 성공");
+          navigate(-1);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    patchUserInfoChange();
+  };
 
   useEffect(() => {
-    if (name === "main") {
+    if (name === "main" || name === "edit" || name === "mypage") {
       const getMyInfo = async () => {
         try {
           const response = await AxiosAPI.mainUserInfo();
-          if (response.status === 200) setInfoData(response.data);
+          if (response.status === 200) setInfoData(response.data.data);
         } catch (e) {
           console.log(e);
         }
@@ -35,9 +64,14 @@ const Profile = ({ name }: ProfileProps) => {
     <>
       <ProfileContainer isMobile={isMobile}>
         <BackgroundBox>
-          {(name === "edit" || name === "search") && (
+          {name === "search" && (
             <div className="backButton">
               <Back onClick={() => navigate(-1)} />
+            </div>
+          )}
+          {name === "edit" && (
+            <div className="backButton">
+              <Back onClick={handleChangeClick} />
             </div>
           )}
           {name === "edit" && (
@@ -54,10 +88,23 @@ const Profile = ({ name }: ProfileProps) => {
             </div>
           )}
           <div className="title">
-            <div>
-              <div className="name">닉네임</div>
-              <div className="aboutMe">자기소개 입니다.</div>
-            </div>
+            {(name === "main" || name === "mypage") && InfoData && (
+              <>
+                <div>
+                  <div className="name">{InfoData.username}</div>
+                  <div className="aboutMe">{InfoData.introduction}</div>
+                </div>
+              </>
+            )}
+            {name === "edit" && InfoData && (
+              <>
+                <div>
+                  <div className="name">{userName}</div>
+                  <div className="aboutMe">{Introduction}</div>
+                </div>
+              </>
+            )}
+
             {(name === "main" || name === "mypage") && (
               <div className="setting" onClick={() => navigate("/edit")}>
                 <Setting />

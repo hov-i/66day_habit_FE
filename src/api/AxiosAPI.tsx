@@ -41,13 +41,13 @@ const AxiosAPI = {
     email: string,
     username: string,
     password: string,
-    introduce: string
+    introduction: string
   ) => {
     const SignupUser = {
       email,
       username,
       password,
-      introduce,
+      introduction,
     };
     try {
       return await axios.post(`${DOMAIN}/${VERSION}/member/direct`, SignupUser);
@@ -71,7 +71,33 @@ const AxiosAPI = {
   //내 정보 보기
   mainUserInfo: async () => {
     try {
-      return await axiosInstance.get("/member");
+      return await axiosInstance.get("/member/detail");
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  //내 정보 수정
+  userInfoChange: async (username: string, introduction: string) => {
+    const userInfo = {
+      username,
+      introduction,
+    };
+    try {
+      return await axiosInstance.patch(`${DOMAIN}/${VERSION}/member`, userInfo);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  //이메일 수정
+  userEmailChange: async (email: string) => {
+    const newEmail = email;
+    try {
+      return await axiosInstance.put(
+        `${DOMAIN}/${VERSION}/member/email`,
+        newEmail
+      );
     } catch (error) {
       throw error;
     }

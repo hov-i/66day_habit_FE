@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import TextEditBox from "../common/TextEditBox";
 import EditButton from "./EditButton";
 
 const DeleteEdit = () => {
+  const [inputPwd, setInputPwd] = useState("");
+
+  const handlePwdInputChange = (value: string) => {
+    setInputPwd(value);
+  };
   return (
     <EmailContainer>
       <TextEditBox
         name="비밀번호를 입력해주세요"
         placeholder="가입된 비밀번호를 입력해주세요"
+        setInputValue={handlePwdInputChange}
       />
       <EditButton name="회원 탈퇴" />
     </EmailContainer>

@@ -3,10 +3,11 @@ import styled from "styled-components";
 
 interface ButtonProps {
   name: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const EditButton: React.FC<ButtonProps> = ({ name }) => {
-  return <ButtonStyle>{name}</ButtonStyle>;
+const EditButton: React.FC<ButtonProps> = ({ name, onClick }) => {
+  return <ButtonStyle onClick={onClick}>{name}</ButtonStyle>;
 };
 const ButtonStyle = styled.button`
   padding: 8px;
