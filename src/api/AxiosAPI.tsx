@@ -61,7 +61,7 @@ const AxiosAPI = {
     const EmailCheck = email;
     try {
       return await axios.get(
-        `${DOMAIN}/${VERSION}/member/email?email=${EmailCheck}`
+        `${DOMAIN}/${VERSION}/member/email/check?email=${EmailCheck}`
       );
     } catch (error) {
       throw error;
@@ -86,21 +86,37 @@ const AxiosAPI = {
     }
   },
 
-  //내 정보 수정
+  //내 정보 수정하기
   userInfoChange: async (
     username: string,
     introduction: string,
-    profileImage: File | null,
-    backgroundImage: File | null
+    profileFile: File | null,
+    backGroundFile: File | null
   ) => {
-    const userInfo = {
-      username,
-      introduction,
-      profileImage,
-      backgroundImage,
-    };
     try {
-      return await axiosInstance.patch(`${DOMAIN}/${VERSION}/member`, userInfo);
+      const formData = new FormData();
+      const memberInfo = {
+        username: username,
+        introduction: introduction,
+      };
+
+      formData.append(
+        "memberInfo",
+        new Blob([JSON.stringify(memberInfo)], {
+          type: "application/json",
+        })
+      );
+
+      if (profileFile && backGroundFile) {
+        formData.append("backgroundImage", backGroundFile);
+        formData.append("profileImage", profileFile);
+      } else if (profileFile) {
+        formData.append("profileImage", profileFile);
+      } else if (backGroundFile) {
+        formData.append("backgroundImage", backGroundFile);
+      }
+
+      return await axiosInstance.patch(`${DOMAIN}/${VERSION}/member`, formData);
     } catch (error) {
       throw error;
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
 import { ReactComponent as Setting } from "../../resources/Icons/settings.svg";
@@ -8,12 +8,15 @@ import PersonList from "./PersonList";
 import { useNavigate } from "react-router-dom";
 import AxiosAPI from "../../api/AxiosAPI";
 
+// 사용자 정보 데이터 타입
 interface InfoData {
   username: string;
   introduction: string;
   profileImage: string | null;
+  backgroundImage: string | null;
 }
 
+// Props 데이터 타입
 interface ProfileProps {
   name: "main" | "edit" | "mypage" | "search";
   userName?: string;
@@ -23,13 +26,18 @@ interface ProfileProps {
 const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   const { isMobile } = useViewport();
   const navigate = useNavigate();
+
   const [InfoData, setInfoData] = useState<InfoData | null>(null);
   const [profileFile, setProfileFile] = useState<File | null>(null);
   const [backGroundFile, setBackGroundFile] = useState<File | null>(null);
+  const [profileUrl, setProfileUrl] = useState<string>("");
+  const [backGroundeUrl, setBackGroundUrl] = useState<string>("");
 
   const handleProfileFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setProfileFile(e.target.files[0]);
+      const image = window.URL.createObjectURL(e.target.files[0]);
+      setProfileUrl(image);
     }
   };
 
@@ -38,6 +46,8 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   ) => {
     if (e.target.files && e.target.files[0]) {
       setBackGroundFile(e.target.files[0]);
+      const image = window.URL.createObjectURL(e.target.files[0]);
+      setBackGroundUrl(image);
     }
   };
 
@@ -46,14 +56,16 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
       try {
         const userNameValue = userName || "";
         const introductionValue = Introduction || "";
-        console.log(userNameValue, introductionValue);
+        const profileFileValue = profileFile;
+        const backGroundFileValue = backGroundFile;
+
         const response = await AxiosAPI.userInfoChange(
           userNameValue,
           introductionValue,
-          profileFile,
-          backGroundFile
+          profileFileValue,
+          backGroundFileValue
         );
-        if (response.status === 200) {
+        if (response && response.status === 200) {
           console.log("회원정보 수정 성공");
           navigate(-1);
         }
@@ -68,7 +80,7 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
     if (name === "main" || name === "edit" || name === "mypage") {
       const getMyInfo = async () => {
         try {
-          const response = await AxiosAPI.mainUserInfo();
+          const response = await AxiosAPI.userInfo();
           if (response.status === 200) setInfoData(response.data.data);
         } catch (e) {
           console.log(e);
@@ -81,7 +93,9 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   return (
     <>
       <ProfileContainer isMobile={isMobile}>
-        <BackgroundBox>
+        <BackgroundBox
+          backgroundUrl={backGroundeUrl || InfoData?.backgroundImage || ""}
+        >
           {name === "search" && (
             <div className="backButton">
               <Back onClick={() => navigate(-1)} />
@@ -94,37 +108,41 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
           )}
           {name === "edit" && (
             <>
-              <label htmlFor="file">
-                <div className="backgroundButton">
-                  <PhotoAdd />
-                </div>
-              </label>
-              <input
-                type="file"
-                name="file"
-                className="file"
-                id="file"
-                onChange={handleProfileFileChange}
-              />
+              <div className="backgroundButton">
+                <form encType="multipart/form-data">
+                  <label htmlFor="backgorundFile">
+                    <PhotoAdd />
+                  </label>
+                  <input
+                    type="file"
+                    className="file"
+                    id="backgorundFile"
+                    accept="image/*"
+                    onChange={handleBackGroundFileChange}
+                  />
+                </form>
+              </div>
             </>
           )}
         </BackgroundBox>
         <ProfileBox>
-          <ProfileImg />
+          <ProfileImg profileUrl={profileUrl || InfoData?.profileImage || ""} />
           {name === "edit" && (
             <>
-              <label htmlFor="file">
-                <div className="profileButton">
-                  <PhotoAdd />
-                </div>
-              </label>
-              <input
-                type="file"
-                name="file"
-                className="file"
-                id="file"
-                onChange={handleBackGroundFileChange}
-              />
+              <div className="profileButton">
+                <form encType="multipart/form-data">
+                  <label htmlFor="profleFile">
+                    <PhotoAdd />
+                  </label>
+                  <input
+                    type="file"
+                    className="file"
+                    id="profleFile"
+                    accept="image/*"
+                    onChange={handleProfileFileChange}
+                  />
+                </form>
+              </div>
             </>
           )}
           <div className="title">
@@ -168,10 +186,12 @@ const ProfileContainer = styled.div<{ isMobile: boolean }>`
   }
 `;
 
-const BackgroundBox = styled.div`
+const BackgroundBox = styled.div<{ backgroundUrl: string }>`
   width: 100%;
   height: 170px;
-  background-color: #363636;
+  background-image: url(${(props) => props.backgroundUrl});
+  background-size: cover;
+  background-position: center;
 
   .backButton {
     padding: 30px;
@@ -219,7 +239,7 @@ const ProfileBox = styled.div`
   }
 `;
 
-const ProfileImg = styled.div`
+const ProfileImg = styled.div<{ profileUrl: string }>`
   width: 120px;
   height: 120px;
   border-radius: 50%;
@@ -227,7 +247,9 @@ const ProfileImg = styled.div`
   top: 50%;
   margin-top: -30px;
   margin-left: 30px;
-  background-color: #d9d9d9;
+  background-image: url(${(props) => props.profileUrl});
+  background-size: cover;
+  background-position: center;
 `;
 
 export default Profile;

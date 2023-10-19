@@ -10,7 +10,6 @@ import AxiosAPI from "../api/AxiosAPI";
 interface InfoData {
   username: string;
   introduction: string;
-  profileImage: string | null;
 }
 const ProfileEditPage = () => {
   const [InfoData, setInfoData] = useState<InfoData | null>(null);
