@@ -1,25 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
 import { ReactComponent as More } from "../../resources/Icons/more.svg";
+import Modal from "../common/Modal";
+import HabitMore from "./HabitMore";
+import { useRecoilValue } from "recoil";
+import { habitInfoState } from "../../util/habitInfoState";
+import useHabitData from "../../util/habitInfoHook";
+import useHabitColor from "../../util/habitcolorHook";
 
 interface HabitBoxProps {
   name: "main" | "commend" | "friend" | "search";
+  habitId?: number;
 }
 
-const HabitBox: React.FC<HabitBoxProps> = ({ name }) => {
+const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
+  const [moreModalOpen, setMoreModalOpen] = useState<boolean>(false);
+  const habitInfoData = useRecoilValue(habitInfoState);
+  const { habitData } = useHabitData(habitInfoData, habitId);
+  const { bgColorCode } = useHabitColor(habitData);
   const { isMobile } = useViewport();
+
+  const openMoreModal = () => {
+    setMoreModalOpen(true);
+  };
+
+  const closeMoreModal = () => {
+    setMoreModalOpen(false);
+  };
+
   return (
     <>
       <TagList isMobile={isMobile}>
-        <span className="tag">#태그</span> <span className="tag">#태그</span>{" "}
-        <span className="tag">#태그</span> <span className="tag">#태그</span>{" "}
-        <span className="tag">#태그</span>
+        {habitData
+          ? habitData.habitTags?.map((tag, index) => (
+              <span key={index} className="tag">
+                #{tag}
+              </span>
+            ))
+          : null}
       </TagList>
-      <HabitBoxStyle isMobile={isMobile}>
+      <HabitBoxStyle
+        isMobile={isMobile}
+        bgColor={
+          bgColorCode
+            ? bgColorCode
+            : "linear-gradient(to right, #868f96 0%, #596164 100%)"
+        }
+        fontColor={habitData ? habitData.fontColor : "BLACK"}
+      >
         {name === "main" && (
           <div className="editButton">
-            <More />
+            <More onClick={openMoreModal} />
           </div>
         )}
         {(name === "commend" || name === "search") && (
@@ -28,20 +60,37 @@ const HabitBox: React.FC<HabitBoxProps> = ({ name }) => {
             <p className="userName">이름</p>
           </>
         )}
-        <div className="habitName">습관이름</div>
+        <div className="habitName">
+          {habitData ? habitData.habitName : "null"}
+        </div>
       </HabitBoxStyle>
+      {moreModalOpen && (
+        <Modal
+          open={moreModalOpen}
+          close={closeMoreModal}
+          height="400px"
+          name="이메일 수정"
+        >
+          <HabitMore />
+        </Modal>
+      )}
     </>
   );
 };
 
-const HabitBoxStyle = styled.div<{ isMobile: boolean }>`
+const HabitBoxStyle = styled.div<{
+  isMobile: boolean;
+  bgColor: string;
+  fontColor: string;
+}>`
   cursor: pointer;
   position: relative;
-  color: #363636;
+  color: ${(props) => (props.fontColor === "BLACK" ? "#363636" : "white")};
   width: 100%;
   height: ${(props) => (props.isMobile ? "95px" : "105px")};
   border-radius: 23px;
-  background-image: linear-gradient(135deg, #ec8f8c 0%, #ec8f8c 100%);
+  background-color: #e8e8e8;
+  background-image: ${(props) => (props.bgColor ? props.bgColor : "none")};
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   background-size: 50%;
   background-position: left;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Box from "../components/common/Box";
 import Navbar from "../components/common/NavBar";
@@ -8,7 +8,26 @@ import Container from "../components/common/Container";
 import LifeQuotes from "../components/Main/LifeQuotes";
 import HabitAddButton from "../components/Main/HabitAddButton";
 import ContentContainer from "../components/common/CotentContainer";
+import AxiosAPI from "../api/AxiosAPI";
+import { habitInfoState } from "../util/habitInfoState";
+import { useRecoilState } from "recoil";
+
 const LoginPage = () => {
+  const [habitInfoData, setHabitInfoData] = useRecoilState(habitInfoState);
+
+  useEffect(() => {
+    const getMyInfo = async () => {
+      try {
+        const response = await AxiosAPI.mainUserInfo();
+        if (response.status === 200)
+          setHabitInfoData(response.data.data.habitList);
+        console.log(response.data.data.habitList);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getMyInfo();
+  }, [setHabitInfoData]);
   return (
     <Box>
       <MainContainer>
@@ -16,13 +35,13 @@ const LoginPage = () => {
           <Profile name="main" />
           <Navbar />
           <ContentContainer name="main">
-            <HabbitContainer>
+            <HabitContainer>
               <LifeQuotes />
-              <HabitBox name="main" />
-              <HabitBox name="main" />
-              <HabitBox name="main" />
+              {habitInfoData?.map((data, index) => (
+                <HabitBox key={index} name="main" habitId={data.id} />
+              ))}
               <HabitAddButton />
-            </HabbitContainer>
+            </HabitContainer>
           </ContentContainer>
         </Container>
       </MainContainer>
@@ -35,7 +54,7 @@ const MainContainer = styled.div`
   height: 100vh;
 `;
 
-const HabbitContainer = styled.div`
+const HabitContainer = styled.div`
   width: 80%;
 `;
 

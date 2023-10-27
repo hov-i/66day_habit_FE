@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import HabitBox from "../Main/HabitBox";
 
-const SuccesHabbitContainer = () => {
+const SuccesHabitContainer = () => {
   return (
     <Container>
       <div className="title">🎉 66일 명예의 전당</div>
@@ -36,4 +36,4 @@ const Container = styled.div`
   }
 `;
 
-export default SuccesHabbitContainer;
+export default SuccesHabitContainer;

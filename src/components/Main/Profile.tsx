@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
 import { ReactComponent as Setting } from "../../resources/Icons/settings.svg";
@@ -88,7 +88,7 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
       };
       getMyInfo();
     }
-  }, []);
+  }, [name]);
 
   return (
     <>

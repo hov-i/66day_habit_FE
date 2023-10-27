@@ -2,12 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
 import { ReactComponent as Add } from "../../resources/Icons/add.svg";
+import { useNavigate } from "react-router-dom";
 
 const HabitAddButton = () => {
   const { isMobile } = useViewport();
+  const navigate = useNavigate();
   return (
     <>
-      <HabitButtonStyle isMobile={isMobile}>
+      <HabitButtonStyle
+        isMobile={isMobile}
+        onClick={() => navigate("/habit/add")}
+      >
         <Add />
       </HabitButtonStyle>
     </>

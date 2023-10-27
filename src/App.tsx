@@ -10,20 +10,25 @@ import MyPage from "./pages/MyPage";
 import CommendPage from "./pages/CommendPage";
 import SearchPage from "./pages/SearchPage";
 import "./style/GlobalFont.css";
+import HabitAddPage from "./pages/HabitAddPage";
+import { RecoilRoot } from "recoil";
 function App() {
   return (
     <>
-      <GlobalStyle />
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/help" element={<HelpPage />} />
-        <Route path="/signup" element={<SignPage />} />
-        <Route path="/main" element={<MainPage />} />
-        <Route path="/edit" element={<ProfileEditPage />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/commend" element={<CommendPage />} />
-        <Route path="/search" element={<SearchPage />} />
-      </Routes>
+      <RecoilRoot>
+        <GlobalStyle />
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/help" element={<HelpPage />} />
+          <Route path="/signup" element={<SignPage />} />
+          <Route path="/main" element={<MainPage />} />
+          <Route path="/edit" element={<ProfileEditPage />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/commend" element={<CommendPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/habit/add" element={<HabitAddPage />} />
+        </Routes>
+      </RecoilRoot>
     </>
   );
 }

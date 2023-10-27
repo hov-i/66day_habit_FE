@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import HabitBox from "../Main/HabitBox";
 
-const NewHabbitContainer = () => {
+const NewHabitContainer = () => {
   return (
     <Container>
       <div className="title">✨ 새로 생긴 습관들</div>
@@ -38,4 +38,4 @@ const Container = styled.div`
   }
 `;
 
-export default NewHabbitContainer;
+export default NewHabitContainer;

@@ -5,9 +5,10 @@ import Container from "../components/common/Container";
 import Navbar from "../components/common/NavBar";
 import { ReactComponent as SearchBar } from "../resources/Icons/searchBar.svg";
 import { ReactComponent as Close } from "../resources/Icons/close.svg";
-import NewHabbitContainer from "../components/Search/NewHabbitContainer";
-import SuccesHabbitContainer from "../components/Search/SuccesHabbitContainer";
+
 import useViewport from "../util/viewportHook";
+import NewHabitContainer from "../components/Search/NewHabitContainer";
+import SuccesHabitContainer from "../components/Search/SuccesHabitContainer";
 
 const SearchPage: React.FC = () => {
   const { isMobile } = useViewport();
@@ -121,8 +122,8 @@ const SearchPage: React.FC = () => {
             </button>
           </EasyTagList>
         </SearchContainer>
-        <NewHabbitContainer />
-        <SuccesHabbitContainer />
+        <NewHabitContainer />
+        <SuccesHabitContainer />
         <Navbar />
       </Container>
     </Box>

@@ -36,7 +36,7 @@ const AxiosAPI = {
     }
   },
 
-  //회원 가입
+  // 회원 가입
   signup: async (
     email: string,
     username: string,
@@ -56,7 +56,7 @@ const AxiosAPI = {
     }
   },
 
-  //이메일 체크
+  // 이메일 체크
   emailCheck: async (email: string) => {
     const EmailCheck = email;
     try {
@@ -68,7 +68,7 @@ const AxiosAPI = {
     }
   },
 
-  //메인 내 정보 보기
+  // 메인 내 정보 보기
   mainUserInfo: async () => {
     try {
       return await axiosInstance.get("/member");
@@ -77,7 +77,7 @@ const AxiosAPI = {
     }
   },
 
-  //내 정보 보기
+  // 내 정보 보기
   userInfo: async () => {
     try {
       return await axiosInstance.get("/member/detail");
@@ -86,7 +86,7 @@ const AxiosAPI = {
     }
   },
 
-  //내 정보 수정하기
+  // 내 정보 수정하기
   userInfoChange: async (
     username: string,
     introduction: string,
@@ -122,7 +122,7 @@ const AxiosAPI = {
     }
   },
 
-  //이메일 수정
+  // 이메일 수정
   userEmailChange: async (newEmail: string) => {
     const Email = {
       newEmail,
@@ -137,7 +137,7 @@ const AxiosAPI = {
     }
   },
 
-  //비밀번호 수정
+  // 비밀번호 수정
   userPwdChange: async (currentPassword: string, newPassword: string) => {
     const Pwd = {
       currentPassword,
@@ -153,7 +153,7 @@ const AxiosAPI = {
     }
   },
 
-  //회원 탈퇴
+  // 회원 탈퇴
   userDelete: async (checkPassword: string) => {
     try {
       return await axiosInstance.delete(`${DOMAIN}/${VERSION}/member`, {
@@ -161,6 +161,67 @@ const AxiosAPI = {
           checkPassword,
         },
       });
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 습관 추가
+  habitCreate: async (
+    backgroundColor: string,
+    fontColor: string,
+    habitName: string,
+    habitVisibility: string,
+    habitTag: string[]
+  ) => {
+    const HabitInfo = {
+      backgroundColor,
+      fontColor,
+      habitName,
+      habitVisibility,
+      habitTag,
+    };
+    console.log(HabitInfo);
+    try {
+      return await axiosInstance.post(`${DOMAIN}/${VERSION}/habit`, HabitInfo);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 습관 삭제
+  habitDelete: async (habitId: number) => {
+    try {
+      return await axiosInstance.delete(
+        `${DOMAIN}/${VERSION}/habit/${habitId}`
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 습관 수정
+  habitChange: async (
+    habitId: number,
+    backgroundColor: string,
+    fontColor: string,
+    habitName: string,
+    habitVisibility: string,
+    habitTag: string[]
+  ) => {
+    const HabitInfo = {
+      backgroundColor,
+      fontColor,
+      habitName,
+      habitVisibility,
+      habitTag,
+    };
+    console.log(HabitInfo);
+    try {
+      return await axiosInstance.patch(
+        `${DOMAIN}/${VERSION}/habit/${habitId}`,
+        HabitInfo
+      );
     } catch (error) {
       throw error;
     }

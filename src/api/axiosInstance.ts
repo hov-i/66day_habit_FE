@@ -52,10 +52,7 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.log("refreshtoken 토큰 실패:", refreshError);
-
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 30000); // 30초 동안 대기
+        window.location.href = "/";
       }
     }
 
