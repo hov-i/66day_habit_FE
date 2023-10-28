@@ -10,10 +10,15 @@ const TagEditBox: React.FC<TagEditBoxProps> = ({
   name,
   placeholder,
   setTagValue,
+  title,
+  value,
 }) => {
   const { isMobile } = useViewport();
+  const tagsValue = name === "edit" ? value : null;
   const [tag, setTag] = useState<string>("");
-  const [tags, setTags] = useState<{ id: number; tag: string }[]>([]);
+  const [tags, setTags] = useState<{ id: number; tag: string }[]>(
+    tagsValue ? tagsValue : []
+  );
   const [nextId, setNextId] = useState<number>(1);
   const [tagLimitErrorAlert, setTagLimitErrorAlert] = useState(false);
   const [tagInputErrorAlert, setTagInputErrorAlert] = useState(false);
@@ -73,7 +78,7 @@ const TagEditBox: React.FC<TagEditBoxProps> = ({
   return (
     <>
       <EditContainer isMobile={isMobile}>
-        <div className="name">{name}</div>
+        <div className="name">{title}</div>
         <div className="inputBox">
           <input
             type="text"

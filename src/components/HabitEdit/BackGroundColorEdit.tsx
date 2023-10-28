@@ -8,9 +8,20 @@ import { BackGroundColorEditProps } from "../../util/types";
 
 const BackGroundColorEdit: React.FC<BackGroundColorEditProps> = ({
   setSeletValue,
+  name,
+  value,
 }) => {
   const { isMobile } = useViewport();
-  const [ColorId, setColorId] = useState<number>(0);
+
+  const bgColorValue = value || "";
+  const selectedColor = backgroundColor.find(
+    (item) => item.name === bgColorValue
+  );
+  const selectedColorId = selectedColor ? selectedColor.colorId : 0;
+
+  const [ColorId, setColorId] = useState<number>(
+    name === "edit" ? selectedColorId : 0
+  );
 
   const handleIconClick = (colorId: number) => {
     const category = backgroundColor.find((item) => item.colorId === colorId);

@@ -9,7 +9,7 @@ import LifeQuotes from "../components/Main/LifeQuotes";
 import HabitAddButton from "../components/Main/HabitAddButton";
 import ContentContainer from "../components/common/CotentContainer";
 import AxiosAPI from "../api/AxiosAPI";
-import { habitInfoState } from "../util/habitInfoState";
+import { habitInfoState } from "../util/habitState";
 import { useRecoilState } from "recoil";
 
 const LoginPage = () => {

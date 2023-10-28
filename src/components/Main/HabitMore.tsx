@@ -8,18 +8,16 @@ import Good from "../../resources/50.png";
 import Soso from "../../resources/20.png";
 import AxiosAPI from "../../api/AxiosAPI";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { habitInfoState } from "../../util/habitInfoState";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { habitIdState, habitInfoState } from "../../util/habitState";
 import useHabitData from "../../util/habitInfoHook";
-
-interface HabitMoreProps {
-  habitId?: number;
-}
+import { HabitMoreProps } from "../../util/types";
 
 const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
   const navigate = useNavigate();
   const habitInfoData = useRecoilValue(habitInfoState);
   const { habitData } = useHabitData(habitInfoData, habitId);
+  const setHabitIdData = useSetRecoilState(habitIdState);
 
   const handleDeleteClick = () => {
     const deleteHabit = async () => {
@@ -39,7 +37,8 @@ const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
   };
 
   const handleChangeClick = () => {
-    navigate("/habit/add");
+    setHabitIdData(habitId ? habitId : 0);
+    navigate("/habit/edit");
   };
   return (
     <>

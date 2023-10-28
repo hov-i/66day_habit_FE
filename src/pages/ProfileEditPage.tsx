@@ -48,12 +48,12 @@ const ProfileEditPage = () => {
               {InfoData && (
                 <>
                   <TextEditBox
-                    name="별명"
+                    title="별명"
                     placeholder="별명을 입력해주세요"
                     setInputValue={handleUserNameInputChange}
                   />
                   <TextEditBox
-                    name="자기소개"
+                    title="자기소개"
                     placeholder="자기소개를 입력해주세요!"
                     setInputValue={handleIntroductionInputChange}
                   />

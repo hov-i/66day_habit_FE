@@ -3,9 +3,17 @@ import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
 import { FontColorEditProps } from "../../util/types";
 
-const FontColorEdit: React.FC<FontColorEditProps> = ({ setSeletValue }) => {
+const FontColorEdit: React.FC<FontColorEditProps> = ({
+  setSeletValue,
+  name,
+  value,
+}) => {
   const { isMobile } = useViewport();
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+
+  const selectedFontColor = name === "edit" ? value : null;
+  const [selectedColor, setSelectedColor] = useState<string | null>(
+    selectedFontColor ? selectedFontColor : null
+  );
 
   const handleIconClick = (colorName: string) => {
     setSeletValue(colorName);

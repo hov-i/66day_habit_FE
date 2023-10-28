@@ -52,12 +52,12 @@ const PasswordEdit = () => {
     <>
       <EmailContainer>
         <TextEditBox
-          name="현재 비밀번호"
+          title="현재 비밀번호"
           placeholder="현재 비밀번호를 입력해주세요"
           setInputValue={handleNowPwdInputChange}
         />
         <TextEditBox
-          name="변경 비밀번호"
+          title="변경 비밀번호"
           placeholder="변경 비밀번호를 입력해주세요"
           setInputValue={handleNewPwdInputChange}
         />

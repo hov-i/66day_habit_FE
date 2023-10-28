@@ -7,21 +7,7 @@ import { ReactComponent as PhotoAdd } from "../../resources/Icons/photoAdd.svg";
 import PersonList from "./PersonList";
 import { useNavigate } from "react-router-dom";
 import AxiosAPI from "../../api/AxiosAPI";
-
-// 사용자 정보 데이터 타입
-interface InfoData {
-  username: string;
-  introduction: string;
-  profileImage: string | null;
-  backgroundImage: string | null;
-}
-
-// Props 데이터 타입
-interface ProfileProps {
-  name: "main" | "edit" | "mypage" | "search";
-  userName?: string;
-  Introduction?: string;
-}
+import { InfoData, ProfileProps } from "../../util/types";
 
 const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   const { isMobile } = useViewport();

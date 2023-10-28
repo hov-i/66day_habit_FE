@@ -6,9 +6,14 @@ import { DisclosureSelectProps } from "../../util/types";
 
 const DisclosureSelect: React.FC<DisclosureSelectProps> = ({
   setSeletValue,
+  name,
+  value,
 }) => {
   const { isMobile } = useViewport();
-  const [selected, setSelected] = useState<string | null>(null);
+  const disclosureValue = name === "edit" ? value : null;
+  const [selected, setSelected] = useState<string | null>(
+    disclosureValue ? disclosureValue : null
+  );
 
   const handleOnChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;

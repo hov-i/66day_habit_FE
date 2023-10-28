@@ -42,7 +42,7 @@ const EmailEdit = () => {
     <>
       <EmailContainer>
         <TextEditBox
-          name="변경 이메일"
+          title="변경 이메일"
           placeholder="변경할 이메일을 입력해주세요"
           setInputValue={handleEmailInputChange}
         />

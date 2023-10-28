@@ -7,6 +7,8 @@ const TextEditBox: React.FC<TextEditBoxProps> = ({
   name,
   placeholder,
   setInputValue,
+  value,
+  title,
 }) => {
   const { isMobile } = useViewport();
 
@@ -17,12 +19,13 @@ const TextEditBox: React.FC<TextEditBoxProps> = ({
 
   return (
     <EditContainer isMobile={isMobile}>
-      <div className="name">{name}</div>
+      <div className="name">{title}</div>
       <input
         type="text"
         className="input"
         placeholder={placeholder}
         onChange={handleInputChange}
+        defaultValue={name === "edit" ? value : ""}
       />
     </EditContainer>
   );

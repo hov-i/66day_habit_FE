@@ -38,9 +38,11 @@ export interface ScrollBoxProps {
 }
 
 export interface TextEditBoxProps {
-  name: string;
+  name?: string;
+  title: string;
   placeholder: string;
   setInputValue: (value: string) => void;
+  value?: string;
 }
 
 export interface BackGroundColorBoxProps {
@@ -50,18 +52,26 @@ export interface BackGroundColorBoxProps {
 
 export interface BackGroundColorEditProps {
   setSeletValue: (value: string) => void;
+  name?: string;
+  value?: string;
 }
 
 export interface DisclosureSelectProps {
   setSeletValue: (value: string) => void;
+  name?: string;
+  value?: string;
 }
 
 export interface FontColorEditProps {
   setSeletValue: (value: string) => void;
+  name?: string;
+  value?: string;
 }
 
 export interface TagEditBoxProps {
-  name: string;
+  name?: string;
+  title: string;
+  value?: { id: number; tag: string }[];
   placeholder: string;
   setTagValue: (value: string[]) => void;
 }
@@ -87,10 +97,12 @@ export interface BubbleBoxProps {
   buttonRef?: React.MutableRefObject<HTMLDivElement | null>;
 }
 
-export interface InfoData {
+export type InfoData = {
   username: string;
   introduction: string;
-}
+  profileImage?: string | null;
+  backgroundImage?: string | null;
+};
 
 export type HabitInfo = {
   habitName: string;
@@ -103,5 +115,20 @@ export type HabitInfo = {
 
 export interface HabitBoxProps {
   name: "main" | "commend" | "friend" | "search";
+  habitId?: number;
+}
+
+export interface HabitMoreProps {
+  habitId?: number;
+}
+
+export interface ProfileProps {
+  name: "main" | "edit" | "mypage" | "search";
+  userName?: string;
+  Introduction?: string;
+}
+
+export interface HabitAddProps {
+  name: "add" | "edit";
   habitId?: number;
 }

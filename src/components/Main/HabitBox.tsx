@@ -5,7 +5,7 @@ import { ReactComponent as More } from "../../resources/Icons/more.svg";
 import Modal from "../common/Modal";
 import HabitMore from "./HabitMore";
 import { useRecoilValue } from "recoil";
-import { habitInfoState } from "../../util/habitInfoState";
+import { habitInfoState } from "../../util/habitState";
 import useHabitData from "../../util/habitInfoHook";
 import useHabitColor from "../../util/habitcolorHook";
 import { HabitBoxProps } from "../../util/types";

@@ -44,7 +44,7 @@ const DeleteEdit = () => {
     <>
       <EmailContainer>
         <TextEditBox
-          name="비밀번호를 입력해주세요"
+          title="비밀번호를 입력해주세요"
           placeholder="가입된 비밀번호를 입력해주세요"
           setInputValue={handlePwdInputChange}
         />

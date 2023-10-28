@@ -26,7 +26,8 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/commend" element={<CommendPage />} />
           <Route path="/search" element={<SearchPage />} />
-          <Route path="/habit/add" element={<HabitAddPage />} />
+          <Route path="/habit/add" element={<HabitAddPage name="add" />} />
+          <Route path="/habit/edit" element={<HabitAddPage name="edit" />} />
         </Routes>
       </RecoilRoot>
     </>
