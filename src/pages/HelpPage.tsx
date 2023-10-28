@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import ThirdHelp from "../components/Help/ThirdHelp";
 import FourthHelp from "../components/Help/FourthHelp";
 
-const HelpPage: React.FC = () => {
+const HelpPage = () => {
   const { isMobile } = useViewport();
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState<number>(0);

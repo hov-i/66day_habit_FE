@@ -15,10 +15,10 @@ import LogOutAlert from "../components/MyPage/LogOutAlert";
 import DeleteEdit from "../components/MyPage/DeleteEdit";
 const MyPage = () => {
   const { isMobile } = useViewport();
-  const [emailModalOpen, setEmailModalOpen] = useState(false);
-  const [pwdModalOpen, setPwdModalOpen] = useState(false);
-  const [logOutAlert, setLogOutAlert] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
+  const [pwdModalOpen, setPwdModalOpen] = useState<boolean>(false);
+  const [logOutAlert, setLogOutAlert] = useState<boolean>(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
 
   const openEmailModal = () => {
     setEmailModalOpen(true);

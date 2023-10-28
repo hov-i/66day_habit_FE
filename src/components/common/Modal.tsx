@@ -1,18 +1,16 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
+import { ModalProps } from "../../util/types";
 
-interface ModalProps {
-  open: boolean;
-  close: (name: string) => void;
-  name: string;
-  children?: ReactNode;
-  height: string;
-}
-
-const Modal: React.FC<ModalProps> = (props) => {
+const Modal: React.FC<ModalProps> = ({
+  open,
+  close,
+  name,
+  height,
+  children,
+}) => {
   const { isMobile } = useViewport();
-  const { open, close, name, height } = props;
 
   const closeModal = () => {
     close(name);
@@ -35,7 +33,7 @@ const Modal: React.FC<ModalProps> = (props) => {
             <div className="topButton">
               <button className="close" onClick={closeModal}></button>
             </div>
-            {props.children}
+            {children}
           </section>
         ) : null}
       </div>

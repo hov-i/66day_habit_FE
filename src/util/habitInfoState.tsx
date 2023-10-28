@@ -1,13 +1,5 @@
 import { atom } from "recoil";
-
-type HabitInfo = {
-  habitName: string;
-  backgroundColor: string;
-  fontColor: string;
-  habitTags: string[];
-  id: number;
-  habitVisibility: string;
-};
+import { HabitInfo } from "./types";
 
 export const habitInfoState = atom<HabitInfo[]>({
   key: "habitInfoDataState",

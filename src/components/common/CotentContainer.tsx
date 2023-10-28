@@ -1,10 +1,6 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import styled from "styled-components";
-
-interface ContentProps {
-  children: ReactNode;
-  name: string;
-}
+import { ContentProps } from "../../util/types";
 
 const ContentContainer: React.FC<ContentProps> = ({ children, name }) => {
   return <ContentContainerStyle name={name}>{children}</ContentContainerStyle>;

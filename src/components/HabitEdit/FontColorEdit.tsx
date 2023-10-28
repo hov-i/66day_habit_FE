@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
-
-interface FontColorEditProps {
-  setSeletValue: (value: string) => void;
-}
+import { FontColorEditProps } from "../../util/types";
 
 const FontColorEdit: React.FC<FontColorEditProps> = ({ setSeletValue }) => {
   const { isMobile } = useViewport();

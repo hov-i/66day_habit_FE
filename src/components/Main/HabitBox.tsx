@@ -8,11 +8,7 @@ import { useRecoilValue } from "recoil";
 import { habitInfoState } from "../../util/habitInfoState";
 import useHabitData from "../../util/habitInfoHook";
 import useHabitColor from "../../util/habitcolorHook";
-
-interface HabitBoxProps {
-  name: "main" | "commend" | "friend" | "search";
-  habitId?: number;
-}
+import { HabitBoxProps } from "../../util/types";
 
 const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
   const [moreModalOpen, setMoreModalOpen] = useState<boolean>(false);
@@ -71,7 +67,7 @@ const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
           height="400px"
           name="이메일 수정"
         >
-          <HabitMore />
+          <HabitMore habitId={habitId} />
         </Modal>
       )}
     </>

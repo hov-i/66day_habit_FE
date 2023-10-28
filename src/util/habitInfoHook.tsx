@@ -1,13 +1,5 @@
 import { useMemo } from "react";
-
-type HabitInfo = {
-  habitName: string;
-  backgroundColor: string;
-  fontColor: string;
-  habitTags: string[];
-  id: number;
-  habitVisibility: string;
-};
+import { HabitInfo } from "./types";
 
 function useHabitData(habitInfoData: HabitInfo[], habitId?: number) {
   const habitData = useMemo(() => {

@@ -4,12 +4,7 @@ import { ReactComponent as Close } from "../../resources/Icons/close.svg";
 import useViewport from "../../util/viewportHook";
 import Alert from "../common/Alert";
 import TagErrorAlert from "./TagErrorAlert";
-
-interface TagEditBoxProps {
-  name: string;
-  placeholder: string;
-  setTagValue: (value: string[]) => void;
-}
+import { TagEditBoxProps } from "../../util/types";
 
 const TagEditBox: React.FC<TagEditBoxProps> = ({
   name,

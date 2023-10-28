@@ -1,11 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import EditButton from "../MyPage/EditButton";
+import { ErrorProps } from "../../util/types";
 
-interface ErrorProps {
-  onClose: () => void;
-  errorCode: string;
-}
 const TagErrorAlert = ({ onClose, errorCode }: ErrorProps) => {
   const handleClose = () => {
     onClose();

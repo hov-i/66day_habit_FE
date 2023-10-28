@@ -1,12 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
-
-interface TextEditBoxProps {
-  name: string;
-  placeholder: string;
-  setInputValue: (value: string) => void;
-}
+import { TextEditBoxProps } from "../../util/types";
 
 const TextEditBox: React.FC<TextEditBoxProps> = ({
   name,

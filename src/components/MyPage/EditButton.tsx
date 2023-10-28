@@ -1,10 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
-interface ButtonProps {
-  name: string;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-}
+import { ButtonProps } from "../../util/types";
 
 const EditButton: React.FC<ButtonProps> = ({ name, onClick }) => {
   return <ButtonStyle onClick={onClick}>{name}</ButtonStyle>;

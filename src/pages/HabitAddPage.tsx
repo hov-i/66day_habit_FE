@@ -23,6 +23,7 @@ const HabitAddPage = () => {
   const [tags, setTags] = useState<string[]>([]);
   const [addErrorAlert, setAddArrorAlert] = useState<boolean>(false);
   const [disclosure, setDisclosure] = useState<string>("PUBLIC");
+
   const handleHabitNameInputChange = (value: string) => {
     setName(value);
   };

@@ -5,6 +5,7 @@ import Box from "../components/common/Box";
 import { ReactComponent as Like } from "../resources/Icons/like.svg";
 import HabitBox from "../components/Main/HabitBox";
 import Navbar from "../components/common/NavBar";
+
 const CommendPage = () => {
   return (
     <>

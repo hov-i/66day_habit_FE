@@ -10,7 +10,7 @@ import useViewport from "../util/viewportHook";
 import NewHabitContainer from "../components/Search/NewHabitContainer";
 import SuccesHabitContainer from "../components/Search/SuccesHabitContainer";
 
-const SearchPage: React.FC = () => {
+const SearchPage = () => {
   const { isMobile } = useViewport();
   const [tag, setTag] = useState<string>("");
   const [tags, setTags] = useState<{ id: number; tag: string }[]>([]);

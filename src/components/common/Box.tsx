@@ -1,10 +1,7 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
-
-interface BoxProps {
-  children: ReactNode;
-}
+import { BoxProps } from "../../util/types";
 
 const Box: React.FC<BoxProps> = ({ children }) => {
   const { isMobile } = useViewport();

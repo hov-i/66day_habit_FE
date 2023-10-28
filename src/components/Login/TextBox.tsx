@@ -3,11 +3,7 @@ import styled from "styled-components";
 import { ReactComponent as Email } from "../../resources/Icons/email.svg";
 import { ReactComponent as Password } from "../../resources/Icons/password.svg";
 import useViewport from "../../util/viewportHook";
-
-interface TextBoxProps {
-  name: "이메일" | "비밀번호";
-  setInputValue: (value: string) => void;
-}
+import { TextBoxProps } from "../../util/types";
 
 const TextBox: React.FC<TextBoxProps> = ({ name, setInputValue }) => {
   const { isMobile } = useViewport();

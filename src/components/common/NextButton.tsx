@@ -1,11 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { ReactComponent as Right } from "../../resources/Icons/right.svg";
-
-interface NextButtonProps {
-  disabled: boolean; // 이 부분을 disable로 변경
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-}
+import { NextButtonProps } from "../../util/types";
 
 const NextButton: React.FC<NextButtonProps> = ({ disabled, onClick }) => {
   return (

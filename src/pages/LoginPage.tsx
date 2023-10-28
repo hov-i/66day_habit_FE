@@ -13,9 +13,9 @@ import LoginErrorAlert from "../components/Login/LoginErrorAlert";
 const LoginPage = () => {
   const { isMobile } = useViewport();
   const navigate = useNavigate();
-  const [inputEmail, setInputEmail] = useState("");
-  const [inputPwd, setInputPwd] = useState("");
-  const [loginErrorAlert, setLoginErrorAlert] = useState(false);
+  const [inputEmail, setInputEmail] = useState<string>("");
+  const [inputPwd, setInputPwd] = useState<string>("");
+  const [loginErrorAlert, setLoginErrorAlert] = useState<boolean>(false);
 
   const handleEmailInputChange = (value: string) => {
     setInputEmail(value);

@@ -1,12 +1,6 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import styled, { keyframes } from "styled-components";
-
-// 컴포넌트의 prop 타입 정의
-interface BubbleBoxProps {
-  children: ReactNode;
-  name: "left" | "right";
-  buttonRef?: React.MutableRefObject<HTMLDivElement | null>;
-}
+import { BubbleBoxProps } from "../../util/types";
 
 const BubbleBox: React.FC<BubbleBoxProps> = ({ children, name, buttonRef }) => {
   const bubbleClassName = name === "left" ? "bubble-left" : "bubble-right";

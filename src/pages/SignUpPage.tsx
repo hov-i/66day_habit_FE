@@ -11,23 +11,23 @@ import AxiosAPI from "../api/AxiosAPI";
 const SignPage = () => {
   const { isMobile } = useViewport();
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
-  const [active, setActive] = useState(false);
+  const [step, setStep] = useState<number>(1);
+  const [active, setActive] = useState<boolean>(false);
 
-  const [inputEmail, setInputEmail] = useState("");
-  const [inputName, setInputName] = useState("");
-  const [inputPwd, setInputPwd] = useState("");
-  const [inputConPwd, setInputConPwd] = useState("");
-  const [inputAboutMe, setInputAboutMe] = useState("");
+  const [inputEmail, setInputEmail] = useState<string>("");
+  const [inputName, setInputName] = useState<string>("");
+  const [inputPwd, setInputPwd] = useState<string>("");
+  const [inputConPwd, setInputConPwd] = useState<string>("");
+  const [inputAboutMe, setInputAboutMe] = useState<string>("");
 
   // 유효성 검사
-  const [isName, setIsName] = useState(false);
-  const [isAboutMe, setIsAboutMe] = useState(false);
-  const [isEmail, setIsEmail] = useState(false);
-  const [isPwd, setIsPwd] = useState(false);
-  const [isConPwd, setIsConPwd] = useState(false);
+  const [isName, setIsName] = useState<boolean>(false);
+  const [isAboutMe, setIsAboutMe] = useState<boolean>(false);
+  const [isEmail, setIsEmail] = useState<boolean>(false);
+  const [isPwd, setIsPwd] = useState<boolean>(false);
+  const [isConPwd, setIsConPwd] = useState<boolean>(false);
 
-  const [emailCheck, setEmailCheck] = useState(false);
+  const [emailCheck, setEmailCheck] = useState<boolean>(false);
 
   useEffect(() => {
     if (step === 1 && inputName && isName) {

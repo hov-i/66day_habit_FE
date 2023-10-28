@@ -1,10 +1,10 @@
 import { useLayoutEffect, useState } from "react";
 
 function useViewport() {
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [width, setWidth] = useState<number>(0);
+  const [height, setHeight] = useState<number>(0);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const handleResize = () => {
     setWidth(window.innerWidth);

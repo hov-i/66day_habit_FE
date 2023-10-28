@@ -7,8 +7,8 @@ import Alert from "../common/Alert";
 import PwdErrorAlert from "./PwdErrorAlert";
 
 const DeleteEdit = () => {
-  const [inputPwd, setInputPwd] = useState("");
-  const [errorAlert, setErrorAlert] = useState(false);
+  const [inputPwd, setInputPwd] = useState<string>("");
+  const [errorAlert, setErrorAlert] = useState<boolean>(false);
 
   const handlePwdInputChange = (value: string) => {
     setInputPwd(value);

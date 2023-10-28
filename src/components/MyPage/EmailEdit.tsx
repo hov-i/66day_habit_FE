@@ -7,8 +7,9 @@ import Alert from "../common/Alert";
 import EmailErrorAlert from "./EmailErrorAlert";
 
 const EmailEdit = () => {
-  const [inputChangeEmail, setInputChangeEmail] = useState("");
-  const [errorAlert, setErrorAlert] = useState(false);
+  const [inputChangeEmail, setInputChangeEmail] = useState<string>("");
+  const [errorAlert, setErrorAlert] = useState<boolean>(false);
+
   const openErrorAlert = () => {
     setErrorAlert(true);
   };

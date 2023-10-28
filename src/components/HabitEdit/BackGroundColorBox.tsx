@@ -2,11 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
 import backgroundColor from "../../style/backgroundColor";
-
-interface BackGroundColorBoxProps {
-  id: number;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
-}
+import { BackGroundColorBoxProps } from "../../util/types";
 
 const BackGroundColorBox: React.FC<BackGroundColorBoxProps> = ({
   id,

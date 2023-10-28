@@ -1,17 +1,10 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
+import { AlertProps } from "../../util/types";
 
-interface AlertProps {
-  open: boolean;
-  close: (name: string) => void;
-  name: string;
-  children?: ReactNode;
-}
-
-const Alert: React.FC<AlertProps> = (props) => {
+const Alert: React.FC<AlertProps> = ({ open, close, name, children }) => {
   const { isMobile } = useViewport();
-  const { open, close, name } = props;
 
   const closeAlert = () => {
     close(name);
@@ -29,7 +22,7 @@ const Alert: React.FC<AlertProps> = (props) => {
         className={open ? "openAlert alert" : "alert"}
         onClick={handleOverlayClick}
       >
-        {open ? <section>{props.children}</section> : null}
+        {open ? <section>{children}</section> : null}
       </div>
     </ModalStyle>
   );

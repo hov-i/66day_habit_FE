@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
 import { ReactComponent as Drop } from "../../resources/Icons/drop.svg";
-interface DisclosureSelectProps {
-  setSeletValue: (value: string) => void;
-}
+import { DisclosureSelectProps } from "../../util/types";
 
 const DisclosureSelect: React.FC<DisclosureSelectProps> = ({
   setSeletValue,

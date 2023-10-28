@@ -4,16 +4,14 @@ import useViewport from "../../util/viewportHook";
 import BackGroundColorBox from "./BackGroundColorBox";
 import backgroundColor from "../../style/backgroundColor";
 import ScrollBox from "../common/ScrollBox";
-
-interface BackGroundColorEditProps {
-  setSeletValue: (value: string) => void;
-}
+import { BackGroundColorEditProps } from "../../util/types";
 
 const BackGroundColorEdit: React.FC<BackGroundColorEditProps> = ({
   setSeletValue,
 }) => {
   const { isMobile } = useViewport();
   const [ColorId, setColorId] = useState<number>(0);
+
   const handleIconClick = (colorId: number) => {
     const category = backgroundColor.find((item) => item.colorId === colorId);
     if (category) {

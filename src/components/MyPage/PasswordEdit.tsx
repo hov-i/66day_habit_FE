@@ -7,10 +7,10 @@ import Alert from "../common/Alert";
 import PwdErrorAlert from "./PwdErrorAlert";
 
 const PasswordEdit = () => {
-  const [inputNowPwd, setInputNowPwd] = useState("");
-  const [inputNewPwd, setInputNewPwd] = useState("");
-  const [errorAlert, setErrorAlert] = useState(false);
-  const [errorName, setErrorName] = useState("");
+  const [inputNowPwd, setInputNowPwd] = useState<string>("");
+  const [inputNewPwd, setInputNewPwd] = useState<string>("");
+  const [errorAlert, setErrorAlert] = useState<boolean>(false);
+  const [errorName, setErrorName] = useState<string>("");
   const openErrorAlert = () => {
     setErrorAlert(true);
   };

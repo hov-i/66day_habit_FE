@@ -1,4 +1,3 @@
-// useHabitData.ts
 import { useMemo } from "react";
 import backgroundColor from "../style/backgroundColor";
 

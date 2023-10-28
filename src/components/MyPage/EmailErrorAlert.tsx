@@ -1,10 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import EditButton from "../MyPage/EditButton";
+import { ErrorProps } from "../../util/types";
 
-interface ErrorProps {
-  onClose: () => void;
-}
 const EmailErrorAlert = ({ onClose }: ErrorProps) => {
   const handleClose = () => {
     onClose();

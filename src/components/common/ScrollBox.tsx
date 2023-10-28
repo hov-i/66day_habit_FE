@@ -1,15 +1,13 @@
-import React, { useRef, useState, MouseEvent, ReactNode } from "react";
+import React, { useRef, useState, MouseEvent } from "react";
 import styled from "styled-components";
-
-interface ScrollBoxProps {
-  children: ReactNode;
-}
+import { ScrollBoxProps } from "../../util/types";
 
 const ScrollBox: React.FC<ScrollBoxProps> = ({ children }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState(false);
   const [clickPoint, setClickPoint] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+
   const handleMouseDownEvent = (e: MouseEvent<HTMLDivElement>) => {
     setDragging(true);
     if (containerRef.current) {

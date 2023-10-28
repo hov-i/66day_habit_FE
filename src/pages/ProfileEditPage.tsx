@@ -7,14 +7,12 @@ import ContentContainer from "../components/common/CotentContainer";
 import TextEditBox from "../components/common/TextEditBox";
 import Navbar from "../components/common/NavBar";
 import AxiosAPI from "../api/AxiosAPI";
-interface InfoData {
-  username: string;
-  introduction: string;
-}
+import { InfoData } from "../util/types";
+
 const ProfileEditPage = () => {
   const [InfoData, setInfoData] = useState<InfoData | null>(null);
-  const [inputUserName, setInputUserName] = useState("");
-  const [inputIntroduction, setInputIntroduction] = useState("");
+  const [inputUserName, setInputUserName] = useState<string>("");
+  const [inputIntroduction, setInputIntroduction] = useState<string>("");
 
   const handleUserNameInputChange = (value: string) => {
     setInputUserName(value);

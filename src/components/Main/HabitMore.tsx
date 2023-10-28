@@ -8,13 +8,23 @@ import Good from "../../resources/50.png";
 import Soso from "../../resources/20.png";
 import AxiosAPI from "../../api/AxiosAPI";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { habitInfoState } from "../../util/habitInfoState";
+import useHabitData from "../../util/habitInfoHook";
 
-const HabitMore = () => {
+interface HabitMoreProps {
+  habitId?: number;
+}
+
+const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
   const navigate = useNavigate();
+  const habitInfoData = useRecoilValue(habitInfoState);
+  const { habitData } = useHabitData(habitInfoData, habitId);
+
   const handleDeleteClick = () => {
     const deleteHabit = async () => {
       try {
-        const response = await AxiosAPI.habitDelete(1);
+        const response = await AxiosAPI.habitDelete(habitId ? habitId : 0);
         if (response.status === 200) {
           console.log("습관 삭제 성공");
         }
@@ -35,20 +45,17 @@ const HabitMore = () => {
     <>
       <MoreBox>
         <div className="title">
-          하루한번씩 커밋 꼭하기
+          {habitData ? habitData.habitName : "null"}
           <Check />
         </div>
-        <div className="graphBox">
-          <div className="graphBar" />
-        </div>
-        80%
+
         <div className="progress">
           <div className="sticker">
             <img src={Perfect} alt="100%" className="img" />
             <div>100%</div>
           </div>
-          <div className="sticker">
-            <img src={Good} alt="50%" className="img" />
+          <div className="mainSticker">
+            <img src={Good} alt="50%" className="mainImg" />
             <div>50%</div>
           </div>
           <div className="sticker">
@@ -56,6 +63,11 @@ const HabitMore = () => {
             <div>20%</div>
           </div>
         </div>
+        <div className="graphBox">
+          <div className="graphBar" />
+        </div>
+        <div className="persent">습관 만들기까지 80% 진행됐어요!</div>
+
         <div className="button">
           <AlertContainer onClick={handleChangeClick}>
             <Edit />
@@ -86,25 +98,33 @@ const MoreBox = styled.div`
     justify-content: center;
     display: flex;
     > svg {
-      width: 40px;
+      margin-left: 10px;
+      margin-top: 3px;
     }
   }
   .graphBox {
-    width: 70%;
+    width: 75%;
     background-color: #e8e8e8;
     height: 10px;
     border-radius: 5px;
-    margin-top: 10px;
+    margin-top: 30px;
   }
   .graphBar {
-    width: 70%;
+    width: 75%;
     background-color: #363636;
     height: 10px;
     border-radius: 5px;
   }
+  .persent {
+    width: 75%;
+    text-align: right;
+  }
   .progress {
     display: flex;
+    width: 90%;
     margin-top: 20px;
+    align-items: center;
+    justify-content: center;
   }
   .sticker {
     display: flex;
@@ -112,16 +132,28 @@ const MoreBox = styled.div`
     justify-content: center;
     flex-direction: column;
   }
+  .mainSticker {
+    font-weight: bolder;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 20px;
+  }
   .img {
-    max-width: 45%;
+    max-width: 50%;
+    height: auto;
+  }
+  .mainImg {
+    max-width: 65%;
     height: auto;
   }
 
   .button {
     display: flex;
-    width: 60%;
+    width: 75%;
     align-items: center;
-    justify-content: space-between;
+    justify-content: right;
   }
 `;
 
@@ -133,11 +165,9 @@ const AlertContainer = styled.div`
   color: #363636;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-top: 50px;
+  justify-content: right;
+  margin-top: 30px;
   background-color: white;
-  border-radius: 8px;
-  border: 1px solid #363636;
   cursor: pointer;
 
   .delete {
