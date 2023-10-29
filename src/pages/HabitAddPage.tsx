@@ -14,7 +14,7 @@ import DisclosureSelect from "../components/HabitEdit/DisclosureSelect";
 import { useNavigate } from "react-router-dom";
 import AxiosAPI from "../api/AxiosAPI";
 import Alert from "../components/common/Alert";
-import AddErrorAlert from "./AddErrorAlert";
+import AddErrorAlert from "../components/HabitEdit/AddErrorAlert";
 import { HabitAddProps } from "../util/types";
 import { useRecoilValue } from "recoil";
 import { habitIdState, habitInfoState } from "../util/habitState";

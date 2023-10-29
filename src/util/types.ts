@@ -132,3 +132,7 @@ export interface HabitAddProps {
   name: "add" | "edit";
   habitId?: number;
 }
+
+export interface HabitCalendarBoxProps {
+  day: string;
+}

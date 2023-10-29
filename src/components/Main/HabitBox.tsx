@@ -4,11 +4,12 @@ import useViewport from "../../util/viewportHook";
 import { ReactComponent as More } from "../../resources/Icons/more.svg";
 import Modal from "../common/Modal";
 import HabitMore from "./HabitMore";
-import { useRecoilValue } from "recoil";
-import { habitInfoState } from "../../util/habitState";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { habitIdState, habitInfoState } from "../../util/habitState";
 import useHabitData from "../../util/habitInfoHook";
 import useHabitColor from "../../util/habitcolorHook";
 import { HabitBoxProps } from "../../util/types";
+import { useNavigate } from "react-router-dom";
 
 const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
   const [moreModalOpen, setMoreModalOpen] = useState<boolean>(false);
@@ -16,6 +17,8 @@ const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
   const { habitData } = useHabitData(habitInfoData, habitId);
   const { bgColorCode } = useHabitColor(habitData);
   const { isMobile } = useViewport();
+  const setHabitIdData = useSetRecoilState(habitIdState);
+  const navigate = useNavigate();
 
   const openMoreModal = () => {
     setMoreModalOpen(true);
@@ -23,6 +26,11 @@ const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
 
   const closeMoreModal = () => {
     setMoreModalOpen(false);
+  };
+
+  const handleBoxClick = () => {
+    setHabitIdData(habitId ? habitId : 0);
+    navigate("/habit/detail");
   };
 
   return (
@@ -37,6 +45,7 @@ const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
           : null}
       </TagList>
       <HabitBoxStyle
+        onClick={handleBoxClick}
         isMobile={isMobile}
         bgColor={
           bgColorCode
@@ -47,7 +56,12 @@ const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
       >
         {name === "main" && (
           <div className="editButton">
-            <More onClick={openMoreModal} />
+            <More
+              onClick={(e) => {
+                e.stopPropagation();
+                openMoreModal();
+              }}
+            />
           </div>
         )}
         {(name === "commend" || name === "search") && (
