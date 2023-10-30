@@ -134,5 +134,5 @@ export interface HabitAddProps {
 }
 
 export interface HabitCalendarBoxProps {
-  day: string;
+  day: number;
 }

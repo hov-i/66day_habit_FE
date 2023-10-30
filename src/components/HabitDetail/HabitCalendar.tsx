@@ -3,59 +3,22 @@ import styled from "styled-components";
 import CalendarBox from "./CalendarBox";
 
 const HabitCalendar = () => {
-  return (
-    <>
-      <Habit6DayContainer>
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-      </Habit6DayContainer>
-      <Habit6DayContainer>
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-      </Habit6DayContainer>
-      <Habit6DayContainer>
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-      </Habit6DayContainer>
-      <Habit6DayContainer>
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-      </Habit6DayContainer>
-      <Habit6DayContainer>
-        <CalendarBox day="1" />
-        <CalendarBox day="3" />
-        <CalendarBox day="7" />
-        <CalendarBox day="14" />
-        <CalendarBox day="21" />
-        <CalendarBox day="1" />
-      </Habit6DayContainer>
-      <Habit6DayContainer>
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-        <CalendarBox day="1" />
-      </Habit6DayContainer>
-    </>
-  );
+  const habitContainers = [];
+
+  for (let i = 0; i < 11; i++) {
+    const calendarBoxes = [];
+    for (let j = 1; j <= 6; j++) {
+      const day = i * 6 + j;
+      calendarBoxes.push(<CalendarBox key={day} day={day} />);
+    }
+    habitContainers.push(
+      <Habit6DayContainer key={i}>{calendarBoxes}</Habit6DayContainer>
+    );
+  }
+
+  return <>{habitContainers}</>;
 };
+
 export default HabitCalendar;
 
 const Habit6DayContainer = styled.div`
