@@ -4,10 +4,34 @@ import { HabitCalendarBoxProps } from "../../util/types";
 import useViewport from "../../util/viewportHook";
 import Modal from "../common/Modal";
 import HabitRecordContainer from "./HabitRecordContainer";
+import Perfect from "../../resources/100.png";
+import Good from "../../resources/50.png";
+import Soso from "../../resources/20.png";
+import { useRecoilValue } from "recoil";
+import useHabitData from "../../util/habitInfoHook";
+import { habitIdState, habitInfoState } from "../../util/habitState";
 
 const CalendarBox: React.FC<HabitCalendarBoxProps> = ({ day }) => {
   const { isMobile } = useViewport();
+  const habitInfoData = useRecoilValue(habitInfoState);
+  const habitIdData = useRecoilValue(habitIdState);
+  const { habitData } = useHabitData(habitInfoData, habitIdData);
   const [recordModalOpen, setRecordModalOpen] = useState<boolean>(false);
+
+  const achievementRate = habitData?.habitRecord.find(
+    (record) => record.dayNumber === day
+  )?.achievementRate;
+
+  let sticker = null;
+
+  if (achievementRate === 100) {
+    sticker = Perfect;
+  } else if (achievementRate === 50) {
+    sticker = Good;
+  } else if (achievementRate === 20) {
+    sticker = Soso;
+  }
+
   const openRecordModal = () => {
     setRecordModalOpen(true);
   };
@@ -20,7 +44,11 @@ const CalendarBox: React.FC<HabitCalendarBoxProps> = ({ day }) => {
     <>
       <CalendarStyle day={day} isMobile={isMobile}>
         <div className="dayBox">{day}</div>
-        <div className="stickerBox" onClick={openRecordModal} />
+        <div className="stickerBox" onClick={openRecordModal}>
+          {sticker !== null && (
+            <img src={sticker} alt="value" className="img" />
+          )}
+        </div>
       </CalendarStyle>
       {recordModalOpen && (
         <Modal
@@ -67,6 +95,13 @@ const CalendarStyle = styled.div<{ day: number; isMobile: boolean }>`
     width: 100%;
     border: 1px solid #363636;
     margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .img {
+    max-height: 70%;
+    width: auto;
   }
 `;
 

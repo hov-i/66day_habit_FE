@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import CalendarBox from "./CalendarBox";
+import AxiosAPI from "../../api/AxiosAPI";
+import { useSetRecoilState } from "recoil";
+import { habitInfoState } from "../../util/habitState";
 
 const HabitCalendar = () => {
+  const setHabitInfoData = useSetRecoilState(habitInfoState);
+  useEffect(() => {
+    const getMyInfo = async () => {
+      try {
+        const response = await AxiosAPI.mainUserInfo();
+        if (response.status === 200) {
+          setHabitInfoData(response.data.data.habitList);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getMyInfo();
+  }, [setHabitInfoData]);
   const habitContainers = [];
 
   for (let i = 0; i < 11; i++) {

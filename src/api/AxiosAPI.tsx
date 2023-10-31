@@ -226,6 +226,58 @@ const AxiosAPI = {
       throw error;
     }
   },
+
+  // 습관 기록 추가
+  habitRecordCreate: async (
+    dayNumber: number,
+    achievementRate: number,
+    habitId: number
+  ) => {
+    const RecordInfo = {
+      dayNumber,
+      achievementRate,
+    };
+    console.log(RecordInfo);
+    try {
+      return await axiosInstance.post(
+        `${DOMAIN}/${VERSION}/habit/record/${habitId}`,
+        RecordInfo
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 습관 기록 삭제
+  habitRecordDelete: async (habitId: number, dayNumber: number) => {
+    try {
+      return await axiosInstance.delete(
+        `${DOMAIN}/${VERSION}/habit/record/${habitId}?dayNumber=${dayNumber}`
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  //습관 기록 수정
+  habitRecordChange: async (
+    dayNumber: number,
+    achievementRate: number,
+    habitId: number
+  ) => {
+    const RecordInfo = {
+      achievementRate,
+    };
+    console.log(RecordInfo);
+    try {
+      return await axiosInstance.put(
+        `${DOMAIN}/${VERSION}/habit/record/${habitId}?dayNumber=${dayNumber}`,
+        RecordInfo
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default AxiosAPI;

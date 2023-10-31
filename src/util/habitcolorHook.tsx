@@ -6,7 +6,7 @@ type HabitInfo = {
   backgroundColor: string;
   fontColor: string;
   habitTags: string[];
-  id: number;
+  habitId: number;
   habitVisibility: string;
 };
 

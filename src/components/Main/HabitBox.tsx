@@ -53,6 +53,7 @@ const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
             : "linear-gradient(to right, #868f96 0%, #596164 100%)"
         }
         fontColor={habitData ? habitData.fontColor : "BLACK"}
+        bgPercent={habitData ? habitData.habitDetail.progress : 0}
       >
         {name === "main" && (
           <div className="editButton">
@@ -92,6 +93,7 @@ const HabitBoxStyle = styled.div<{
   isMobile: boolean;
   bgColor: string;
   fontColor: string;
+  bgPercent: number;
 }>`
   cursor: pointer;
   position: relative;
@@ -102,7 +104,8 @@ const HabitBoxStyle = styled.div<{
   background-color: #e8e8e8;
   background-image: ${(props) => (props.bgColor ? props.bgColor : "none")};
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  background-size: 50%;
+  background-size: ${(props) =>
+    props.bgPercent ? `${props.bgPercent}%` : "0%"};
   background-position: left;
   background-repeat: no-repeat;
   display: flex;

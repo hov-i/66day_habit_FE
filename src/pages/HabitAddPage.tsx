@@ -191,6 +191,9 @@ const RemoteButtonContainer = styled.div`
   padding: 30px;
   align-items: center;
   justify-content: space-between;
+  > svg {
+    fill: black;
+  }
 `;
 const HabitEditContainer = styled.div`
   display: flex;

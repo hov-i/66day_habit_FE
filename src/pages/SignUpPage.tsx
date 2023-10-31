@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Box from "../components/common/Box";
 import styled from "styled-components";
 import { ReactComponent as Back } from "../resources/Icons/back.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BubbleBox from "../components/SignUp/BubbleBox";
 import NextButton from "../components/common/NextButton";
 import useViewport from "../util/viewportHook";
@@ -157,9 +157,7 @@ const SignPage = () => {
     <Box>
       <SignUpContainer isMobile={isMobile} step={step} ref={bottom}>
         <div className="backButton">
-          <Link to="/">
-            <Back />
-          </Link>
+          <Back onClick={() => navigate("/")} />
         </div>
         <div className="nextClick">
           <NextButton disabled={!active} onClick={handleNextClick} />
@@ -369,6 +367,10 @@ const SignUpContainer = styled.div<{ isMobile: boolean; step: number }>`
     padding: 30px;
     position: fixed;
     z-index: 999;
+    > svg {
+      fill: black;
+      cursor: pointer;
+    }
   }
 
   .input {

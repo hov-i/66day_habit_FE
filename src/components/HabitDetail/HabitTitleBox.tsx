@@ -18,8 +18,16 @@ const HabitTitleBox = () => {
   const navigate = useNavigate();
   return (
     <>
-      <TitleContainer isMobile={isMobile}>
-        <BackgroundBox backgroundUrl={bgColorCode ? bgColorCode : ""}>
+      <TitleContainer
+        isMobile={isMobile}
+        progress={
+          habitData?.habitDetail.progress ? habitData?.habitDetail.progress : 0
+        }
+      >
+        <BackgroundBox
+          backgroundUrl={bgColorCode ? bgColorCode : ""}
+          fontColor={habitData?.fontColor ? habitData?.fontColor : "BLACK"}
+        >
           <div className="backButton">
             <Back onClick={() => navigate(-1)} />
           </div>
@@ -40,7 +48,7 @@ const HabitTitleBox = () => {
   );
 };
 
-const TitleContainer = styled.div<{ isMobile: boolean }>`
+const TitleContainer = styled.div<{ isMobile: boolean; progress: number }>`
   width: ${({ isMobile }) => (isMobile ? "100%" : "768px")};
 
   .progress {
@@ -58,7 +66,7 @@ const TitleContainer = styled.div<{ isMobile: boolean }>`
     margin-top: 10px;
   }
   .persentBar {
-    width: 60%;
+    width: ${(props) => (props.progress ? `${props.progress}%` : "0%")};
     background-color: #363636;
     height: 35px;
     border-radius: 6px;
@@ -78,7 +86,10 @@ const TitleContainer = styled.div<{ isMobile: boolean }>`
   }
 `;
 
-const BackgroundBox = styled.div<{ backgroundUrl: string }>`
+const BackgroundBox = styled.div<{
+  backgroundUrl: string;
+  fontColor: string;
+}>`
   width: 100%;
   height: 170px;
   background-image: ${(props) => props.backgroundUrl};
@@ -87,10 +98,14 @@ const BackgroundBox = styled.div<{ backgroundUrl: string }>`
 
   .backButton {
     padding: 30px;
+    > svg {
+      fill: ${(props) => (props.fontColor === "BLACK" ? "#363636" : "white")};
+    }
   }
 
   .habitName {
     width: 85%;
+    color: ${(props) => (props.fontColor === "BLACK" ? "#363636" : "white")};
     margin: 0 auto;
     margin-top: 20px;
     font-size: 32px;

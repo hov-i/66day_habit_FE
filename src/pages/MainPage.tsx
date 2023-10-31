@@ -38,7 +38,7 @@ const LoginPage = () => {
             <HabitContainer>
               <LifeQuotes />
               {habitInfoData?.map((data, index) => (
-                <HabitBox key={index} name="main" habitId={data.id} />
+                <HabitBox key={index} name="main" habitId={data.habitId} />
               ))}
               <HabitAddButton />
             </HabitContainer>

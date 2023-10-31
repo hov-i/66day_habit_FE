@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as Delete } from "../../resources/Icons/delete.svg";
 import { ReactComponent as Edit } from "../../resources/Icons/edit.svg";
 import { ReactComponent as Check } from "../../resources/Icons/check.svg";
+import { ReactComponent as NoneCheck } from "../../resources/Icons/noneCheck.svg";
 import Perfect from "../../resources/100.png";
 import Good from "../../resources/50.png";
 import Soso from "../../resources/20.png";
@@ -11,25 +12,35 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { habitIdState, habitInfoState } from "../../util/habitState";
 import useHabitData from "../../util/habitInfoHook";
-import { HabitMoreProps } from "../../util/types";
+import { HabitMoreProps, StickerData } from "../../util/types";
 
 const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
   const navigate = useNavigate();
+  const [isSame, setIsSame] = useState<boolean>(false);
   const habitInfoData = useRecoilValue(habitInfoState);
   const { habitData } = useHabitData(habitInfoData, habitId);
   const setHabitIdData = useSetRecoilState(habitIdState);
+  const persentValue = habitData?.habitDetail.progress || 0;
+  const achievementRates = habitData?.habitDetail.achievementRates || {};
+  const entries = Object.entries(achievementRates);
+  entries.sort((a, b) => b[1] - a[1]);
+  const mainSticker = getSticker(achievementRates, entries[0][0]);
+  const secondSticker = getSticker(achievementRates, entries[1][0]);
+  const lastSticker = getSticker(achievementRates, entries[2][0]);
 
   const handleDeleteClick = () => {
+    console.log("삭제 클릭");
     const deleteHabit = async () => {
       try {
-        const response = await AxiosAPI.habitDelete(habitId ? habitId : 0);
+        const response = await AxiosAPI.habitDelete(habitId || 0);
         if (response.status === 200) {
           console.log("습관 삭제 성공");
+          window.location.replace("/main");
         }
       } catch (error: any) {
-        console.log(error);
+        console.error(error);
         if (error.response && error.response.status === 403) {
-          console.log(error);
+          console.error(error);
         }
       }
     };
@@ -37,43 +48,66 @@ const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
   };
 
   const handleChangeClick = () => {
-    setHabitIdData(habitId ? habitId : 0);
+    setHabitIdData(habitId || 0);
     navigate("/habit/edit");
   };
+
+  useEffect(() => {
+    if (
+      mainSticker.stickerText !== secondSticker.stickerText ||
+      secondSticker.stickerText !== lastSticker.stickerText ||
+      mainSticker.stickerText !== lastSticker.stickerText
+    ) {
+      setIsSame(false);
+    } else {
+      setIsSame(true);
+    }
+  }, [
+    mainSticker.stickerText,
+    secondSticker.stickerText,
+    lastSticker.stickerText,
+  ]);
+
   return (
     <>
-      <MoreBox>
+      <MoreBox progress={persentValue} isSame={isSame}>
         <div className="title">
-          {habitData ? habitData.habitName : "null"}
-          <Check />
+          {habitData ? (
+            <>
+              {habitData.habitName}
+              {habitData.habitDetail.todayChecked ? <Check /> : <NoneCheck />}
+            </>
+          ) : (
+            "null"
+          )}
         </div>
-
         <div className="progress">
           <div className="sticker">
-            <img src={Perfect} alt="100%" className="img" />
-            <div>100%</div>
+            {secondSticker.stickerImage}
+            <div>{secondSticker.stickerText}%</div>
           </div>
           <div className="mainSticker">
-            <img src={Good} alt="50%" className="mainImg" />
-            <div>50%</div>
+            {mainSticker.stickerImage}
+            <div>{mainSticker.stickerText}%</div>
           </div>
           <div className="sticker">
-            <img src={Soso} alt="20%" className="img" />
-            <div>20%</div>
+            {lastSticker.stickerImage}
+            <div>{lastSticker.stickerText}%</div>
           </div>
         </div>
         <div className="graphBox">
           <div className="graphBar" />
         </div>
-        <div className="persent">습관 만들기까지 80% 진행됐어요!</div>
-
+        <div className="persent">
+          습관 만들기까지 {persentValue}% 진행됐어요!
+        </div>
         <div className="button">
           <AlertContainer onClick={handleChangeClick}>
             <Edit />
             <div className="change">수정</div>
           </AlertContainer>
-          <AlertContainer>
-            <Delete onClick={handleDeleteClick} />
+          <AlertContainer onClick={handleDeleteClick}>
+            <Delete />
             <div className="delete">삭제</div>
           </AlertContainer>
         </div>
@@ -82,7 +116,30 @@ const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
   );
 };
 
-const MoreBox = styled.div`
+function getSticker(
+  achievementRates: Record<string, number>,
+  type: string
+): StickerData {
+  let stickerImage = null;
+  let stickerText = null;
+
+  if (achievementRates.hasOwnProperty(type)) {
+    if (type === "thirty") {
+      stickerImage = <img src={Soso} alt="20%" className="img" />;
+      stickerText = achievementRates.thirty;
+    } else if (type === "fifty") {
+      stickerImage = <img src={Good} alt="50%" className="img" />;
+      stickerText = achievementRates.fifty;
+    } else if (type === "hundred") {
+      stickerImage = <img src={Perfect} alt="100%" className="img" />;
+      stickerText = achievementRates.hundred;
+    }
+  }
+
+  return { stickerImage, stickerText };
+}
+
+const MoreBox = styled.div<{ progress: number; isSame: boolean }>`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -96,6 +153,7 @@ const MoreBox = styled.div`
     align-items: center;
     justify-content: center;
     display: flex;
+    margin-left: 10px;
     > svg {
       margin-left: 10px;
       margin-top: 3px;
@@ -109,7 +167,7 @@ const MoreBox = styled.div`
     margin-top: 30px;
   }
   .graphBar {
-    width: 75%;
+    width: ${(props) => (props.progress ? `${props.progress}%` : "0%")};
     background-color: #363636;
     height: 10px;
     border-radius: 5px;
@@ -132,19 +190,19 @@ const MoreBox = styled.div`
     flex-direction: column;
   }
   .mainSticker {
-    font-weight: bolder;
+    font-weight: ${(props) => (props.isSame ? "nomal" : "bolder")};
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     font-size: 20px;
+    .img {
+      max-width: ${(props) => (props.isSame ? "40%" : "55%")};
+      height: auto;
+    }
   }
   .img {
-    max-width: 50%;
-    height: auto;
-  }
-  .mainImg {
-    max-width: 65%;
+    max-width: 40%;
     height: auto;
   }
 
@@ -177,4 +235,5 @@ const AlertContainer = styled.div`
     margin-left: 8px;
   }
 `;
+
 export default HabitMore;

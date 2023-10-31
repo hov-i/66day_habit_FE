@@ -104,13 +104,29 @@ export type InfoData = {
   backgroundImage?: string | null;
 };
 
+export type HabitRecordInfo = {
+  dayNumber: number;
+  achievementRate: number;
+};
+
 export type HabitInfo = {
   habitName: string;
   backgroundColor: string;
   fontColor: string;
   habitTags: string[];
-  id: number;
+
+  habitId: number;
   habitVisibility: string;
+  habitDetail: {
+    progress: number;
+    achievementRates: {
+      thirty?: number;
+      fifty?: number;
+      hundred?: number;
+    };
+    todayChecked: boolean;
+  };
+  habitRecord: HabitRecordInfo[];
 };
 
 export interface HabitBoxProps {
@@ -135,4 +151,9 @@ export interface HabitAddProps {
 
 export interface HabitCalendarBoxProps {
   day: number;
+}
+
+export interface StickerData {
+  stickerImage: JSX.Element | null;
+  stickerText: number | null;
 }
