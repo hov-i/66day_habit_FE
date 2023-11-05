@@ -9,40 +9,84 @@ import LifeQuotes from "../components/Main/LifeQuotes";
 import HabitAddButton from "../components/Main/HabitAddButton";
 import ContentContainer from "../components/common/CotentContainer";
 import AxiosAPI from "../api/AxiosAPI";
-import { habitInfoState } from "../util/habitState";
-import { useRecoilState } from "recoil";
+import {
+  memberIdState,
+  memberHabitInfoState,
+  userHabitInfoState,
+} from "../util/habitState";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
-const LoginPage = () => {
-  const [habitInfoData, setHabitInfoData] = useRecoilState(habitInfoState);
+const MainPage = () => {
+  const [userHabitInfoData, setUserHabitInfoData] =
+    useRecoilState(userHabitInfoState);
+  const [memberHabitInfoData, setMemberHabitInfoData] =
+    useRecoilState(memberHabitInfoState);
+  const setSelectId = useSetRecoilState(memberIdState);
 
+  const selectId = useRecoilValue(memberIdState);
   useEffect(() => {
     const getMyInfo = async () => {
       try {
         const response = await AxiosAPI.mainUserInfo();
         if (response.status === 200)
-          setHabitInfoData(response.data.data.habitList);
+          setUserHabitInfoData(response.data.data.habitList);
         console.log(response.data.data.habitList);
       } catch (e) {
         console.log(e);
       }
     };
     getMyInfo();
-  }, [setHabitInfoData]);
+    if (selectId !== 0) {
+      const getFriendUserInfo = async () => {
+        try {
+          const response = await AxiosAPI.friendUserInfo(selectId);
+          if (response.status === 200)
+            setMemberHabitInfoData(response.data.data.friendHabitList);
+          console.log(response.data.data.friendHabitList);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+      getFriendUserInfo();
+    }
+  }, [setUserHabitInfoData, selectId, setMemberHabitInfoData, setSelectId]);
   return (
     <Box>
       <MainContainer>
         <Container>
-          <Profile name="main" />
+          {selectId === 0 && <Profile name="main" />}
+          {selectId !== 0 && <Profile name="friend" />}
+
           <Navbar />
-          <ContentContainer name="main">
-            <HabitContainer>
-              <LifeQuotes />
-              {habitInfoData?.map((data, index) => (
-                <HabitBox key={index} name="main" habitId={data.habitId} />
-              ))}
-              <HabitAddButton />
-            </HabitContainer>
-          </ContentContainer>
+          {selectId === 0 && (
+            <>
+              <ContentContainer name="main">
+                <HabitContainer>
+                  <LifeQuotes name="main" />
+                  {userHabitInfoData?.map((data, index) => (
+                    <HabitBox key={index} name="main" habitId={data.habitId} />
+                  ))}
+                  <HabitAddButton />
+                </HabitContainer>
+              </ContentContainer>
+            </>
+          )}
+          {selectId !== 0 && (
+            <>
+              <ContentContainer name="main">
+                <HabitContainer>
+                  <LifeQuotes name="friend" />
+                  {memberHabitInfoData?.map((data, index) => (
+                    <HabitBox
+                      key={index}
+                      name="friend"
+                      habitId={data.habitId}
+                    />
+                  ))}
+                </HabitContainer>
+              </ContentContainer>
+            </>
+          )}
         </Container>
       </MainContainer>
     </Box>
@@ -58,4 +102,4 @@ const HabitContainer = styled.div`
   width: 80%;
 `;
 
-export default LoginPage;
+export default MainPage;

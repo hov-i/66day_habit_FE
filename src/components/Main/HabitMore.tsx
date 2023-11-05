@@ -10,14 +10,14 @@ import Soso from "../../resources/20.png";
 import AxiosAPI from "../../api/AxiosAPI";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { habitIdState, habitInfoState } from "../../util/habitState";
+import { habitIdState, userHabitInfoState } from "../../util/habitState";
 import useHabitData from "../../util/habitInfoHook";
 import { HabitMoreProps, StickerData } from "../../util/types";
 
 const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
   const navigate = useNavigate();
   const [isSame, setIsSame] = useState<boolean>(false);
-  const habitInfoData = useRecoilValue(habitInfoState);
+  const habitInfoData = useRecoilValue(userHabitInfoState);
   const { habitData } = useHabitData(habitInfoData, habitId);
   const setHabitIdData = useSetRecoilState(habitIdState);
   const persentValue = habitData?.habitDetail.progress || 0;

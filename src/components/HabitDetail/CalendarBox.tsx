@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { HabitCalendarBoxProps } from "../../util/types";
+import { HabitCalendarBoxProps, HabitInfo } from "../../util/types";
 import useViewport from "../../util/viewportHook";
 import Modal from "../common/Modal";
 import HabitRecordContainer from "./HabitRecordContainer";
@@ -9,13 +9,27 @@ import Good from "../../resources/50.png";
 import Soso from "../../resources/20.png";
 import { useRecoilValue } from "recoil";
 import useHabitData from "../../util/habitInfoHook";
-import { habitIdState, habitInfoState } from "../../util/habitState";
+import {
+  habitIdState,
+  memberHabitInfoState,
+  memberIdState,
+  userHabitInfoState,
+} from "../../util/habitState";
 
 const CalendarBox: React.FC<HabitCalendarBoxProps> = ({ day }) => {
   const { isMobile } = useViewport();
-  const habitInfoData = useRecoilValue(habitInfoState);
+  const userHabitInfoData = useRecoilValue(userHabitInfoState);
   const habitIdData = useRecoilValue(habitIdState);
-  const { habitData } = useHabitData(habitInfoData, habitIdData);
+  const selectId = useRecoilValue(memberIdState);
+  const memberHabitInfoData = useRecoilValue(memberHabitInfoState);
+
+  let HabitInfoValue: HabitInfo[] = [];
+  if (selectId === 0) {
+    HabitInfoValue = userHabitInfoData;
+  } else if (selectId !== 0) {
+    HabitInfoValue = memberHabitInfoData;
+  }
+  const { habitData } = useHabitData(HabitInfoValue, habitIdData);
   const [recordModalOpen, setRecordModalOpen] = useState<boolean>(false);
 
   const achievementRate = habitData?.habitRecord.find(
@@ -33,7 +47,9 @@ const CalendarBox: React.FC<HabitCalendarBoxProps> = ({ day }) => {
   }
 
   const openRecordModal = () => {
-    setRecordModalOpen(true);
+    if (selectId === 0) {
+      setRecordModalOpen(true);
+    }
   };
 
   const closeRecordModal = () => {

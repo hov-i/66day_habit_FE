@@ -5,14 +5,14 @@ import Perfect from "../../resources/100.png";
 import Good from "../../resources/50.png";
 import Soso from "../../resources/20.png";
 import { useRecoilValue } from "recoil";
-import { habitIdState, habitInfoState } from "../../util/habitState";
+import { habitIdState, userHabitInfoState } from "../../util/habitState";
 import useHabitData from "../../util/habitInfoHook";
 import AxiosAPI from "../../api/AxiosAPI";
 import Alert from "../common/Alert";
 import RecordErrorAlert from "./RecordErrorAlert";
 
 const HabitRecordContainer: React.FC<HabitCalendarBoxProps> = ({ day }) => {
-  const habitInfoData = useRecoilValue(habitInfoState);
+  const habitInfoData = useRecoilValue(userHabitInfoState);
   const habitIdData = useRecoilValue(habitIdState);
   const [recordErrorAlert, setRecordErrorAlert] = useState<boolean>(false);
   const { habitData } = useHabitData(habitInfoData, habitIdData);

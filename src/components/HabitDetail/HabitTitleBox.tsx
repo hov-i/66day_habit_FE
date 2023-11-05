@@ -4,15 +4,30 @@ import { ReactComponent as Back } from "../../resources/Icons/back.svg";
 import { useNavigate } from "react-router-dom";
 import useViewport from "../../util/viewportHook";
 import { useRecoilValue } from "recoil";
-import { habitIdState, habitInfoState } from "../../util/habitState";
+import {
+  habitIdState,
+  memberHabitInfoState,
+  memberIdState,
+  userHabitInfoState,
+} from "../../util/habitState";
 import useHabitData from "../../util/habitInfoHook";
 import useHabitColor from "../../util/habitcolorHook";
+import { HabitInfo } from "../../util/types";
 
 const HabitTitleBox = () => {
   const { isMobile } = useViewport();
-  const habitInfoData = useRecoilValue(habitInfoState);
+  const userHabitInfoData = useRecoilValue(userHabitInfoState);
   const habitIdData = useRecoilValue(habitIdState);
-  const { habitData } = useHabitData(habitInfoData, habitIdData);
+  const selectId = useRecoilValue(memberIdState);
+  const memberHabitInfoData = useRecoilValue(memberHabitInfoState);
+
+  let HabitInfoValue: HabitInfo[] = [];
+  if (selectId === 0) {
+    HabitInfoValue = userHabitInfoData;
+  } else if (selectId !== 0) {
+    HabitInfoValue = memberHabitInfoData;
+  }
+  const { habitData } = useHabitData(HabitInfoValue, habitIdData);
   const { bgColorCode } = useHabitColor(habitData);
 
   const navigate = useNavigate();

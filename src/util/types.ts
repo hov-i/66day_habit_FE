@@ -102,6 +102,7 @@ export type InfoData = {
   introduction: string;
   profileImage?: string | null;
   backgroundImage?: string | null;
+  isFriend?: number;
 };
 
 export type HabitRecordInfo = {
@@ -129,6 +130,12 @@ export type HabitInfo = {
   habitRecord: HabitRecordInfo[];
 };
 
+export interface FriendInfo {
+  memberId: number;
+  username: string;
+  profileImage: string;
+}
+
 export interface HabitBoxProps {
   name: "main" | "commend" | "friend" | "search";
   habitId?: number;
@@ -139,9 +146,10 @@ export interface HabitMoreProps {
 }
 
 export interface ProfileProps {
-  name: "main" | "edit" | "mypage" | "search";
+  name?: "main" | "edit" | "mypage" | "search" | "friend";
   userName?: string;
   Introduction?: string;
+  profileImage?: string;
 }
 
 export interface HabitAddProps {

@@ -8,17 +8,22 @@ import PersonList from "./PersonList";
 import { useNavigate } from "react-router-dom";
 import AxiosAPI from "../../api/AxiosAPI";
 import { InfoData, ProfileProps } from "../../util/types";
+import { memberIdState } from "../../util/habitState";
+import { useRecoilValue } from "recoil";
+import EditButton from "../MyPage/EditButton";
 
 const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   const { isMobile } = useViewport();
   const navigate = useNavigate();
 
   const [InfoData, setInfoData] = useState<InfoData | null>(null);
+  const [memberInfoData, setMemberInfoData] = useState<InfoData | null>(null);
   const [profileFile, setProfileFile] = useState<File | null>(null);
   const [backGroundFile, setBackGroundFile] = useState<File | null>(null);
   const [profileUrl, setProfileUrl] = useState<string>("");
   const [backGroundeUrl, setBackGroundUrl] = useState<string>("");
-
+  const [isFriend, setIsFriend] = useState<boolean>(true);
+  const selectId = useRecoilValue(memberIdState);
   const handleProfileFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setProfileFile(e.target.files[0]);
@@ -62,26 +67,70 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
     patchUserInfoChange();
   };
 
+  const handleFollowClick = () => {
+    const postFollow = async () => {
+      try {
+        const response = await AxiosAPI.follow(selectId);
+        if (response.status === 200) {
+          console.log("팔로우 성공");
+          setIsFriend(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    postFollow();
+  };
+
+  const handleUnFollowClick = () => {
+    const deleteUnFollow = async () => {
+      try {
+        const response = await AxiosAPI.unFollow(selectId);
+        if (response.status === 200) {
+          console.log("언팔로우 성공");
+          setIsFriend(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    deleteUnFollow();
+  };
   useEffect(() => {
-    if (name === "main" || name === "edit" || name === "mypage") {
-      const getMyInfo = async () => {
+    const getMyInfo = async () => {
+      try {
+        const response = await AxiosAPI.userInfo();
+        if (response.status === 200) setInfoData(response.data.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getMyInfo();
+    if (name === "friend") {
+      const getFriendUserInfo = async () => {
         try {
-          const response = await AxiosAPI.userInfo();
-          if (response.status === 200) setInfoData(response.data.data);
+          const response = await AxiosAPI.friendUserInfo(selectId);
+          if (response.status === 200) setMemberInfoData(response.data.data);
+          console.log(response.data.data.friendHabitList);
         } catch (e) {
           console.log(e);
         }
       };
-      getMyInfo();
+      getFriendUserInfo();
     }
-  }, [name]);
+  }, [name, selectId, setMemberInfoData]);
+
+  let backgroundUrl = "";
+  if (name === "edit" || name === "main") {
+    backgroundUrl = backGroundeUrl || InfoData?.backgroundImage || "";
+  } else if (name === "friend") {
+    backgroundUrl = memberInfoData?.backgroundImage || "";
+  }
 
   return (
     <>
       <ProfileContainer isMobile={isMobile}>
-        <BackgroundBox
-          backgroundUrl={backGroundeUrl || InfoData?.backgroundImage || ""}
-        >
+        <BackgroundBox backgroundUrl={backgroundUrl}>
           {name === "search" && (
             <div className="backButton">
               <Back onClick={() => navigate(-1)} />
@@ -112,7 +161,15 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
           )}
         </BackgroundBox>
         <ProfileBox>
-          <ProfileImg profileUrl={profileUrl || InfoData?.profileImage || ""} />
+          {(name === "edit" || name === "main") && (
+            <ProfileImg
+              profileUrl={profileUrl || InfoData?.profileImage || ""}
+            />
+          )}
+          {name === "friend" && (
+            <ProfileImg profileUrl={memberInfoData?.profileImage || ""} />
+          )}
+
           {name === "edit" && (
             <>
               <div className="profileButton">
@@ -140,6 +197,14 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
                 </div>
               </>
             )}
+            {name === "friend" && memberInfoData && (
+              <>
+                <div>
+                  <div className="name">{memberInfoData.username}</div>
+                  <div className="aboutMe">{memberInfoData.introduction}</div>
+                </div>
+              </>
+            )}
             {name === "edit" && InfoData && (
               <>
                 <div>
@@ -154,8 +219,27 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
                 <Setting />
               </div>
             )}
+            {name === "friend" && !isFriend && (
+              <div className="setting">
+                <EditButton name="팔로우" onClick={handleFollowClick} />
+              </div>
+            )}
+            {name === "friend" &&
+              memberInfoData?.isFriend === 1 &&
+              isFriend && (
+                <div className="setting">
+                  <ButtonStyle onClick={handleUnFollowClick}>
+                    팔로잉
+                  </ButtonStyle>
+                </div>
+              )}
           </div>
-          {name === "main" && <PersonList />}
+          {(name === "main" || name === "friend") && (
+            <PersonList
+              userName={InfoData?.username}
+              profileImage={profileUrl || InfoData?.profileImage || ""}
+            />
+          )}
         </ProfileBox>
       </ProfileContainer>
     </>
@@ -237,5 +321,14 @@ const ProfileImg = styled.div<{ profileUrl: string }>`
   background-size: cover;
   background-position: center;
 `;
-
+const ButtonStyle = styled.button`
+  padding: 8px;
+  font-size: 16px;
+  color: #363636;
+  margin-top: 50px;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #363636;
+  cursor: pointer;
+`;
 export default Profile;

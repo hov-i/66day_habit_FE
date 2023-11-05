@@ -5,16 +5,28 @@ import { ReactComponent as More } from "../../resources/Icons/more.svg";
 import Modal from "../common/Modal";
 import HabitMore from "./HabitMore";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { habitIdState, habitInfoState } from "../../util/habitState";
+import {
+  habitIdState,
+  memberHabitInfoState,
+  userHabitInfoState,
+} from "../../util/habitState";
 import useHabitData from "../../util/habitInfoHook";
 import useHabitColor from "../../util/habitcolorHook";
-import { HabitBoxProps } from "../../util/types";
+import { HabitBoxProps, HabitInfo } from "../../util/types";
 import { useNavigate } from "react-router-dom";
 
 const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
   const [moreModalOpen, setMoreModalOpen] = useState<boolean>(false);
-  const habitInfoData = useRecoilValue(habitInfoState);
-  const { habitData } = useHabitData(habitInfoData, habitId);
+  const userHabitInfoData = useRecoilValue(userHabitInfoState);
+  const memberHabitInfoData = useRecoilValue(memberHabitInfoState);
+
+  let HabitInfoValue: HabitInfo[] = [];
+  if (name === "main") {
+    HabitInfoValue = userHabitInfoData;
+  } else if (name === "friend") {
+    HabitInfoValue = memberHabitInfoData;
+  }
+  const { habitData } = useHabitData(HabitInfoValue, habitId);
   const { bgColorCode } = useHabitColor(habitData);
   const { isMobile } = useViewport();
   const setHabitIdData = useSetRecoilState(habitIdState);

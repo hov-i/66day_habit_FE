@@ -17,13 +17,13 @@ import Alert from "../components/common/Alert";
 import AddErrorAlert from "../components/HabitEdit/AddErrorAlert";
 import { HabitAddProps } from "../util/types";
 import { useRecoilValue } from "recoil";
-import { habitIdState, habitInfoState } from "../util/habitState";
+import { habitIdState, userHabitInfoState } from "../util/habitState";
 import useHabitData from "../util/habitInfoHook";
 
 const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
   const navigate = useNavigate();
   const habitIdData = useRecoilValue(habitIdState);
-  const habitInfoData = useRecoilValue(habitInfoState);
+  const habitInfoData = useRecoilValue(userHabitInfoState);
   const { habitData } = useHabitData(habitInfoData, habitIdData);
 
   const habitNameValue = habitData?.habitName || "";

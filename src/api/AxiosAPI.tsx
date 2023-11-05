@@ -116,7 +116,7 @@ const AxiosAPI = {
         formData.append("backgroundImage", backGroundFile);
       }
 
-      return await axiosInstance.patch(`${DOMAIN}/${VERSION}/member`, formData);
+      return await axiosInstance.patch("/member", formData);
     } catch (error) {
       throw error;
     }
@@ -128,10 +128,7 @@ const AxiosAPI = {
       newEmail,
     };
     try {
-      return await axiosInstance.put(
-        `${DOMAIN}/${VERSION}/member/email`,
-        Email
-      );
+      return await axiosInstance.put("/member/email", Email);
     } catch (error) {
       throw error;
     }
@@ -144,10 +141,7 @@ const AxiosAPI = {
       newPassword,
     };
     try {
-      return await axiosInstance.put(
-        `${DOMAIN}/${VERSION}/member/password`,
-        Pwd
-      );
+      return await axiosInstance.put("/member/password", Pwd);
     } catch (error) {
       throw error;
     }
@@ -156,7 +150,7 @@ const AxiosAPI = {
   // 회원 탈퇴
   userDelete: async (checkPassword: string) => {
     try {
-      return await axiosInstance.delete(`${DOMAIN}/${VERSION}/member`, {
+      return await axiosInstance.delete("/member", {
         data: {
           checkPassword,
         },
@@ -183,7 +177,7 @@ const AxiosAPI = {
     };
     console.log(HabitInfo);
     try {
-      return await axiosInstance.post(`${DOMAIN}/${VERSION}/habit`, HabitInfo);
+      return await axiosInstance.post("/habit", HabitInfo);
     } catch (error) {
       throw error;
     }
@@ -192,9 +186,7 @@ const AxiosAPI = {
   // 습관 삭제
   habitDelete: async (habitId: number) => {
     try {
-      return await axiosInstance.delete(
-        `${DOMAIN}/${VERSION}/habit/${habitId}`
-      );
+      return await axiosInstance.delete(`/habit/${habitId}`);
     } catch (error) {
       throw error;
     }
@@ -218,10 +210,7 @@ const AxiosAPI = {
     };
     console.log(HabitInfo);
     try {
-      return await axiosInstance.patch(
-        `${DOMAIN}/${VERSION}/habit/${habitId}`,
-        HabitInfo
-      );
+      return await axiosInstance.patch(`/habit/${habitId}`, HabitInfo);
     } catch (error) {
       throw error;
     }
@@ -239,10 +228,7 @@ const AxiosAPI = {
     };
     console.log(RecordInfo);
     try {
-      return await axiosInstance.post(
-        `${DOMAIN}/${VERSION}/habit/record/${habitId}`,
-        RecordInfo
-      );
+      return await axiosInstance.post(`/habit/record/${habitId}`, RecordInfo);
     } catch (error) {
       throw error;
     }
@@ -252,7 +238,7 @@ const AxiosAPI = {
   habitRecordDelete: async (habitId: number, dayNumber: number) => {
     try {
       return await axiosInstance.delete(
-        `${DOMAIN}/${VERSION}/habit/record/${habitId}?dayNumber=${dayNumber}`
+        `/habit/record/${habitId}?dayNumber=${dayNumber}`
       );
     } catch (error) {
       throw error;
@@ -271,9 +257,45 @@ const AxiosAPI = {
     console.log(RecordInfo);
     try {
       return await axiosInstance.put(
-        `${DOMAIN}/${VERSION}/habit/record/${habitId}?dayNumber=${dayNumber}`,
+        `/habit/record/${habitId}?dayNumber=${dayNumber}`,
         RecordInfo
       );
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 내 친구 조회
+  friendInfo: async () => {
+    try {
+      return await axiosInstance.get("/friend/my/following");
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 친구 회원 정보 조회
+  friendUserInfo: async (memberId: number) => {
+    try {
+      return await axiosInstance.get(`/friend?friendId=${memberId}`);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  //팔로우 하기
+  follow: async (memberId: number) => {
+    try {
+      return await axiosInstance.post(`/friend?followId=${memberId}`);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 언팔로우 하기
+  unFollow: async (memberId: number) => {
+    try {
+      return await axiosInstance.delete(`/friend/${memberId}`);
     } catch (error) {
       throw error;
     }
