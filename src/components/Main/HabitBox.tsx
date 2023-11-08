@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
 import { ReactComponent as More } from "../../resources/Icons/more.svg";
@@ -16,6 +16,7 @@ import Happiness from "../../resources/happiness.png";
 import {
   habitIdState,
   memberHabitInfoState,
+  newHabitInfoState,
   userHabitInfoState,
 } from "../../util/habitState";
 import useHabitData from "../../util/habitInfoHook";
@@ -23,126 +24,159 @@ import useHabitColor from "../../util/habitcolorHook";
 import { HabitBoxProps, HabitInfo } from "../../util/types";
 import { useNavigate } from "react-router-dom";
 import commendData from "../../style/commendData";
+import AxiosAPI from "../../api/AxiosAPI";
 
-const HabitBox: React.FC<HabitBoxProps> = ({
-  name,
-  habitId,
-  title,
-  habitName,
-}) => {
-  const [moreModalOpen, setMoreModalOpen] = useState<boolean>(false);
-  const userHabitInfoData = useRecoilValue(userHabitInfoState);
-  const memberHabitInfoData = useRecoilValue(memberHabitInfoState);
+const HabitBox = React.forwardRef<HTMLDivElement, HabitBoxProps>(
+  ({ name, habitId, title, habitName }, ref) => {
+    const [userProfileUrl, setUserProfileUrl] = useState<string>("");
+    const [userName, setUserName] = useState<string>("");
+    const [moreModalOpen, setMoreModalOpen] = useState<boolean>(false);
+    const userHabitInfoData = useRecoilValue(userHabitInfoState);
+    const memberHabitInfoData = useRecoilValue(memberHabitInfoState);
+    const newHabitInfoData = useRecoilValue(newHabitInfoState);
 
-  let HabitInfoValue: HabitInfo[] = [];
-  let CommendColorCode: string | undefined = "";
-  let CommendImgUrl: string | undefined = "";
-  if (name === "main") {
-    HabitInfoValue = userHabitInfoData;
-  } else if (name === "friend") {
-    HabitInfoValue = memberHabitInfoData;
-  } else if (name === "commend") {
-    CommendColorCode = commendData.find((item) => item.name === title)?.color;
-    switch (title) {
-      case "Identify your triggers":
-        CommendImgUrl = IdentityYourTriggers;
-        break;
-      case "Practice mindfulness":
-        CommendImgUrl = PracticeMindfullness;
-        break;
-      case "Use reminders":
-        CommendImgUrl = UseReminders;
-        break;
-      case "Self-care":
-        CommendImgUrl = SelfCare;
-        break;
-      case "Productivity":
-        CommendImgUrl = Productivity;
-        break;
-      case "Happiness":
-        CommendImgUrl = Happiness;
-        break;
-      case "At work":
-        CommendImgUrl = AtWork;
-        break;
+    let HabitInfoValue: HabitInfo[] = [];
+    let CommendColorCode: string | undefined = "";
+    let CommendImgUrl: string | undefined = "";
+    if (name === "main") {
+      HabitInfoValue = userHabitInfoData;
+    } else if (name === "friend") {
+      HabitInfoValue = memberHabitInfoData;
+    } else if (name === "new") {
+      HabitInfoValue = newHabitInfoData;
+    } else if (name === "commend") {
+      CommendColorCode = commendData.find((item) => item.name === title)?.color;
+      switch (title) {
+        case "Identify your triggers":
+          CommendImgUrl = IdentityYourTriggers;
+          break;
+        case "Practice mindfulness":
+          CommendImgUrl = PracticeMindfullness;
+          break;
+        case "Use reminders":
+          CommendImgUrl = UseReminders;
+          break;
+        case "Self-care":
+          CommendImgUrl = SelfCare;
+          break;
+        case "Productivity":
+          CommendImgUrl = Productivity;
+          break;
+        case "Happiness":
+          CommendImgUrl = Happiness;
+          break;
+        case "At work":
+          CommendImgUrl = AtWork;
+          break;
+      }
     }
-  }
-  const { habitData } = useHabitData(HabitInfoValue, habitId);
-  const { bgColorCode } = useHabitColor(habitData);
-  const { isMobile } = useViewport();
-  const setHabitIdData = useSetRecoilState(habitIdState);
-  const navigate = useNavigate();
+    const { habitData } = useHabitData(HabitInfoValue, habitId);
+    const { bgColorCode } = useHabitColor(habitData);
+    const { isMobile } = useViewport();
+    const setHabitIdData = useSetRecoilState(habitIdState);
+    const navigate = useNavigate();
 
-  const openMoreModal = () => {
-    setMoreModalOpen(true);
-  };
+    const openMoreModal = () => {
+      setMoreModalOpen(true);
+    };
 
-  const closeMoreModal = () => {
-    setMoreModalOpen(false);
-  };
+    const closeMoreModal = () => {
+      setMoreModalOpen(false);
+    };
 
-  const handleBoxClick = () => {
-    if (name !== "commend") {
-      setHabitIdData(habitId ? habitId : 0);
-      navigate("/habit/detail");
-    }
-  };
+    const handleBoxClick = () => {
+      if (name !== "commend") {
+        setHabitIdData(habitId ? habitId : 0);
+        navigate("/habit/detail");
+      }
+    };
 
-  return (
-    <>
-      <TagList name={name}>
-        {habitData
-          ? habitData.habitTags?.map((tag, index) => (
-              <span key={index} className="tag">
-                #{tag}
-              </span>
-            ))
-          : null}
-      </TagList>
-      <HabitBoxStyle
-        onClick={handleBoxClick}
-        isMobile={isMobile}
-        profileUrl={CommendImgUrl !== "" ? CommendImgUrl : ""}
-        bgColor={
-          bgColorCode ? bgColorCode : CommendColorCode ? CommendColorCode : ""
-        }
-        fontColor={habitData ? habitData.fontColor : "BLACK"}
-        bgPercent={habitData ? habitData.habitDetail.progress : 100}
-      >
-        {name === "main" && (
-          <div className="editButton">
-            <More
-              onClick={(e) => {
-                e.stopPropagation();
-                openMoreModal();
-              }}
-            />
-          </div>
-        )}
-        {(name === "commend" || name === "search") && (
-          <>
-            <div className="profileBox" />
-            <p className="userName">{title ? title : ""}</p>
-          </>
-        )}
+    useEffect(() => {
+      if (name === "new") {
+        const getFriendUserInfo = async () => {
+          try {
+            const response = await AxiosAPI.friendUserInfo(
+              habitData?.memberId ? habitData.memberId : 0
+            );
+            if (response.status === 200) {
+              console.log(response.data.data);
+              setUserProfileUrl(response.data.data.profileImage);
+              setUserName(response.data.data.username);
+            }
+          } catch (e) {
+            console.log(e);
+          }
+        };
+        getFriendUserInfo();
+      }
+    });
 
-        <div className="habitName">
-          {habitData ? habitData.habitName : habitName ? habitName : ""}
-        </div>
-      </HabitBoxStyle>
-      {moreModalOpen && (
-        <Modal
-          open={moreModalOpen}
-          close={closeMoreModal}
-          height="400px"
-          name="이메일 수정"
+    return (
+      <>
+        <TagList name={name}>
+          {habitData
+            ? habitData.habitTags?.map((tag, index) => (
+                <span key={index} className="tag">
+                  #{tag}
+                </span>
+              ))
+            : null}
+        </TagList>
+        <HabitBoxStyle
+          ref={ref}
+          onClick={handleBoxClick}
+          isMobile={isMobile}
+          profileUrl={
+            CommendImgUrl !== ""
+              ? CommendImgUrl
+              : userProfileUrl !== ""
+              ? userProfileUrl
+              : ""
+          }
+          bgColor={
+            bgColorCode ? bgColorCode : CommendColorCode ? CommendColorCode : ""
+          }
+          fontColor={habitData ? habitData.fontColor : "BLACK"}
+          bgPercent={habitData ? habitData.habitDetail.progress : 100}
         >
-          <HabitMore habitId={habitId} />
-        </Modal>
-      )}
-    </>
-  );
-};
+          {name === "main" && (
+            <div className="editButton">
+              <More
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openMoreModal();
+                }}
+              />
+            </div>
+          )}
+          {(name === "commend" || name === "search" || name === "new") && (
+            <>
+              <div className="profileBox" />
+              <p className="userName">
+                {name === "commend" && (title !== "" ? title : "")}{" "}
+                {name === "new" && (userName !== "" ? userName : "")}
+              </p>
+            </>
+          )}
+
+          <div className="habitName">
+            {habitData ? habitData.habitName : habitName ? habitName : ""}
+          </div>
+        </HabitBoxStyle>
+        {moreModalOpen && (
+          <Modal
+            open={moreModalOpen}
+            close={closeMoreModal}
+            height="400px"
+            name="이메일 수정"
+          >
+            <HabitMore habitId={habitId} />
+          </Modal>
+        )}
+      </>
+    );
+  }
+);
 
 const HabitBoxStyle = styled.div<{
   isMobile: boolean;
@@ -200,7 +234,7 @@ const HabitBoxStyle = styled.div<{
 `;
 
 const TagList = styled.p<{ name: string }>`
-  width: 100%;
+  width: 95%;
   text-align: right;
   margin: 0;
   margin: ${(props) =>

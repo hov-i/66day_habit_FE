@@ -111,6 +111,7 @@ export type HabitRecordInfo = {
 };
 
 export type HabitInfo = {
+  memberId?: number;
   habitName: string;
   backgroundColor: string;
   fontColor: string;
@@ -137,7 +138,7 @@ export interface FriendInfo {
 }
 
 export interface HabitBoxProps {
-  name: "main" | "commend" | "friend" | "search";
+  name: "main" | "commend" | "friend" | "new" | "search" | "done";
   habitId?: number;
   title?: string;
   habitName?: string;

@@ -327,6 +327,24 @@ const AxiosAPI = {
       throw error;
     }
   },
+
+  // 신규 습관 5개 조회
+  newHabit: async (page: number) => {
+    try {
+      return await axiosInstance.get(`/habit/new?page=${page}&limit=5`);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 완료 습관 5개 조회
+  doneHabit: async (page: number) => {
+    try {
+      return await axiosInstance.get(`/habit/done?page=${page}&limit=5`);
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default AxiosAPI;

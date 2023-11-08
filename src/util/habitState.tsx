@@ -15,6 +15,21 @@ export const memberHabitInfoState = atom<HabitInfo[]>({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const newHabitInfoState = atom<HabitInfo[]>({
+  key: "newHabitInfoDataState",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+export const doneHabitInfoState = atom<HabitInfo[]>({
+  key: "doneHabitInfoDataState",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+export const searchHabitInfoState = atom<HabitInfo[]>({
+  key: "searchHabitInfoDataState",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
 export const commendHabitInfoState = atom<CommendHabitInfo[]>({
   key: "commendHabitInfoDataState",
   default: [],
