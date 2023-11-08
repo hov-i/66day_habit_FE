@@ -13,18 +13,26 @@ import {
   memberIdState,
   memberHabitInfoState,
   userHabitInfoState,
+  friendInfoState,
 } from "../util/habitState";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const MainPage = () => {
   const [userHabitInfoData, setUserHabitInfoData] =
     useRecoilState(userHabitInfoState);
   const [memberHabitInfoData, setMemberHabitInfoData] =
     useRecoilState(memberHabitInfoState);
-  const setSelectId = useSetRecoilState(memberIdState);
+  const friendInfoData = useRecoilValue(friendInfoState);
+  const [selectId, setSelectId] = useRecoilState(memberIdState);
 
-  const selectId = useRecoilValue(memberIdState);
   useEffect(() => {
+    const matchingFriendInfo = friendInfoData.find(
+      (info) => info.memberId === selectId
+    );
+
+    if (!matchingFriendInfo) {
+      setSelectId(0);
+    }
     const getMyInfo = async () => {
       try {
         const response = await AxiosAPI.mainUserInfo();
@@ -49,7 +57,13 @@ const MainPage = () => {
       };
       getFriendUserInfo();
     }
-  }, [setUserHabitInfoData, selectId, setMemberHabitInfoData, setSelectId]);
+  }, [
+    setUserHabitInfoData,
+    selectId,
+    setMemberHabitInfoData,
+    setSelectId,
+    friendInfoData,
+  ]);
   return (
     <Box>
       <MainContainer>

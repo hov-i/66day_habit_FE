@@ -11,6 +11,7 @@ import { InfoData, ProfileProps } from "../../util/types";
 import { memberIdState } from "../../util/habitState";
 import { useRecoilValue } from "recoil";
 import EditButton from "../MyPage/EditButton";
+import WhiteEditButton from "../MyPage/WhiteEditButton";
 
 const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   const { isMobile } = useViewport();
@@ -121,7 +122,7 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   }, [name, selectId, setMemberInfoData]);
 
   let backgroundUrl = "";
-  if (name === "edit" || name === "main") {
+  if (name === "edit" || name === "main" || name === "mypage") {
     backgroundUrl = backGroundeUrl || InfoData?.backgroundImage || "";
   } else if (name === "friend") {
     backgroundUrl = memberInfoData?.backgroundImage || "";
@@ -161,7 +162,7 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
           )}
         </BackgroundBox>
         <ProfileBox>
-          {(name === "edit" || name === "main") && (
+          {(name === "edit" || name === "main" || name === "mypage") && (
             <ProfileImg
               profileUrl={profileUrl || InfoData?.profileImage || ""}
             />
@@ -228,9 +229,10 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
               memberInfoData?.isFriend === 1 &&
               isFriend && (
                 <div className="setting">
-                  <ButtonStyle onClick={handleUnFollowClick}>
-                    팔로잉
-                  </ButtonStyle>
+                  <WhiteEditButton
+                    name="팔로잉"
+                    onClick={handleUnFollowClick}
+                  />
                 </div>
               )}
           </div>
@@ -320,15 +322,5 @@ const ProfileImg = styled.div<{ profileUrl: string }>`
   background-image: url(${(props) => props.profileUrl});
   background-size: cover;
   background-position: center;
-`;
-const ButtonStyle = styled.button`
-  padding: 8px;
-  font-size: 16px;
-  color: #363636;
-  margin-top: 50px;
-  background-color: white;
-  border-radius: 8px;
-  border: 1px solid #363636;
-  cursor: pointer;
 `;
 export default Profile;

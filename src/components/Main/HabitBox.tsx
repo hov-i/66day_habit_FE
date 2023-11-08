@@ -5,6 +5,14 @@ import { ReactComponent as More } from "../../resources/Icons/more.svg";
 import Modal from "../common/Modal";
 import HabitMore from "./HabitMore";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import AtWork from "../../resources/at_work.png";
+import IdentityYourTriggers from "../../resources/identity_your_triggers.png";
+import PracticeMindfullness from "../../resources/practice_mindfullness.png";
+import Productivity from "../../resources/productivity.png";
+import SelfCare from "../../resources/self_care.png";
+import UseReminders from "../../resources/use_remainders.png";
+import Happiness from "../../resources/happiness.png";
+
 import {
   habitIdState,
   memberHabitInfoState,
@@ -14,17 +22,50 @@ import useHabitData from "../../util/habitInfoHook";
 import useHabitColor from "../../util/habitcolorHook";
 import { HabitBoxProps, HabitInfo } from "../../util/types";
 import { useNavigate } from "react-router-dom";
+import commendData from "../../style/commendData";
 
-const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
+const HabitBox: React.FC<HabitBoxProps> = ({
+  name,
+  habitId,
+  title,
+  habitName,
+}) => {
   const [moreModalOpen, setMoreModalOpen] = useState<boolean>(false);
   const userHabitInfoData = useRecoilValue(userHabitInfoState);
   const memberHabitInfoData = useRecoilValue(memberHabitInfoState);
 
   let HabitInfoValue: HabitInfo[] = [];
+  let CommendColorCode: string | undefined = "";
+  let CommendImgUrl: string | undefined = "";
   if (name === "main") {
     HabitInfoValue = userHabitInfoData;
   } else if (name === "friend") {
     HabitInfoValue = memberHabitInfoData;
+  } else if (name === "commend") {
+    CommendColorCode = commendData.find((item) => item.name === title)?.color;
+    switch (title) {
+      case "Identify your triggers":
+        CommendImgUrl = IdentityYourTriggers;
+        break;
+      case "Practice mindfulness":
+        CommendImgUrl = PracticeMindfullness;
+        break;
+      case "Use reminders":
+        CommendImgUrl = UseReminders;
+        break;
+      case "Self-care":
+        CommendImgUrl = SelfCare;
+        break;
+      case "Productivity":
+        CommendImgUrl = Productivity;
+        break;
+      case "Happiness":
+        CommendImgUrl = Happiness;
+        break;
+      case "At work":
+        CommendImgUrl = AtWork;
+        break;
+    }
   }
   const { habitData } = useHabitData(HabitInfoValue, habitId);
   const { bgColorCode } = useHabitColor(habitData);
@@ -41,13 +82,15 @@ const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
   };
 
   const handleBoxClick = () => {
-    setHabitIdData(habitId ? habitId : 0);
-    navigate("/habit/detail");
+    if (name !== "commend") {
+      setHabitIdData(habitId ? habitId : 0);
+      navigate("/habit/detail");
+    }
   };
 
   return (
     <>
-      <TagList isMobile={isMobile}>
+      <TagList name={name}>
         {habitData
           ? habitData.habitTags?.map((tag, index) => (
               <span key={index} className="tag">
@@ -59,13 +102,12 @@ const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
       <HabitBoxStyle
         onClick={handleBoxClick}
         isMobile={isMobile}
+        profileUrl={CommendImgUrl !== "" ? CommendImgUrl : ""}
         bgColor={
-          bgColorCode
-            ? bgColorCode
-            : "linear-gradient(to right, #868f96 0%, #596164 100%)"
+          bgColorCode ? bgColorCode : CommendColorCode ? CommendColorCode : ""
         }
         fontColor={habitData ? habitData.fontColor : "BLACK"}
-        bgPercent={habitData ? habitData.habitDetail.progress : 0}
+        bgPercent={habitData ? habitData.habitDetail.progress : 100}
       >
         {name === "main" && (
           <div className="editButton">
@@ -80,11 +122,12 @@ const HabitBox: React.FC<HabitBoxProps> = ({ name, habitId }) => {
         {(name === "commend" || name === "search") && (
           <>
             <div className="profileBox" />
-            <p className="userName">이름</p>
+            <p className="userName">{title ? title : ""}</p>
           </>
         )}
+
         <div className="habitName">
-          {habitData ? habitData.habitName : "null"}
+          {habitData ? habitData.habitName : habitName ? habitName : ""}
         </div>
       </HabitBoxStyle>
       {moreModalOpen && (
@@ -106,6 +149,7 @@ const HabitBoxStyle = styled.div<{
   bgColor: string;
   fontColor: string;
   bgPercent: number;
+  profileUrl: string;
 }>`
   cursor: pointer;
   position: relative;
@@ -127,22 +171,24 @@ const HabitBoxStyle = styled.div<{
   .profileBox {
     position: absolute;
     border-radius: 50%;
-    background-color: #d9d9d9;
-    width: 80px;
-    height: 80px;
-    bottom: 65px;
-    left: 20px;
+    background-image: url(${(props) => props.profileUrl});
+    background-size: cover;
+    background-position: center;
+    width: 65px;
+    height: 65px;
+    bottom: ${(props) => (props.isMobile ? "70px" : "85px")};
+    left: ${(props) => (props.isMobile ? "10px" : "20px")};
   }
   .userName {
     position: absolute;
-    bottom: 90px;
-    left: 105px;
+    bottom: ${(props) => (props.isMobile ? "80px" : "90px")};
+    left: ${(props) => (props.isMobile ? "80px" : "95px")};
     font-size: 18px;
     font-weight: bold;
   }
   .habitName {
     text-align: center;
-    font-size: 20px;
+    font-size: ${(props) => (props.isMobile ? "15px" : "20px")};
     font-weight: bold;
   }
 
@@ -153,11 +199,12 @@ const HabitBoxStyle = styled.div<{
   }
 `;
 
-const TagList = styled.p<{ isMobile: boolean }>`
+const TagList = styled.p<{ name: string }>`
   width: 100%;
   text-align: right;
   margin: 0;
-  margin-top: 30px;
+  margin: ${(props) =>
+    props.name === "commend" || props.name === "search" ? "60px" : "30px"};
   font-size: 16px;
   margin-bottom: 10px;
 

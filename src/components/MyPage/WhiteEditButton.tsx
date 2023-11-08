@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { ButtonProps } from "../../util/types";
 
-const EditButton: React.FC<ButtonProps> = ({ name, onClick }) => {
+const WhiteEditButton: React.FC<ButtonProps> = ({ name, onClick }) => {
   return <ButtonStyle onClick={onClick}>{name}</ButtonStyle>;
 };
 const ButtonStyle = styled.button`
@@ -10,10 +10,10 @@ const ButtonStyle = styled.button`
   padding-left: 10px;
   padding-right: 10px;
   font-size: 16px;
-  color: white;
-  background-color: #363636;
+  color: #363636;
+  border: 1px solid #363636;
+  background-color: white;
   border-radius: 8px;
-  border: none;
   cursor: pointer;
 `;
-export default EditButton;
+export default WhiteEditButton;

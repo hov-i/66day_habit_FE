@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { friendInfoState, memberIdState } from "../../util/habitState";
 import { ProfileProps } from "../../util/types";
 import Modal from "../common/Modal";
+import PersonAddEdit from "./PersonAddEdit";
 
 const PersonList = ({ userName, profileImage }: ProfileProps) => {
   const [friendInfoData, setFriendInfoData] = useRecoilState(friendInfoState);
@@ -17,6 +18,7 @@ const PersonList = ({ userName, profileImage }: ProfileProps) => {
 
   const closePersonAddModal = () => {
     setPersonAddModal(false);
+    window.location.reload();
   };
   useEffect(() => {
     const getfriendInfo = async () => {
@@ -64,7 +66,7 @@ const PersonList = ({ userName, profileImage }: ProfileProps) => {
         ))}
 
         <div className="personAdd">
-          <PersonAdd />
+          <PersonAdd onClick={openPersonAddModal} />
         </div>
       </List>
       {personAddModal && (
@@ -72,8 +74,10 @@ const PersonList = ({ userName, profileImage }: ProfileProps) => {
           open={personAddModal}
           close={closePersonAddModal}
           name="사용자추가"
-          height="800px"
-        ></Modal>
+          height="300px"
+        >
+          <PersonAddEdit />
+        </Modal>
       )}
     </>
   );

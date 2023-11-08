@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { FriendInfo, HabitInfo } from "./types";
+import { CommendHabitInfo, FriendInfo, HabitInfo } from "./types";
 import { recoilPersist } from "recoil-persist";
 const { persistAtom } = recoilPersist();
 
@@ -11,6 +11,12 @@ export const userHabitInfoState = atom<HabitInfo[]>({
 
 export const memberHabitInfoState = atom<HabitInfo[]>({
   key: "memberHabitInfoDataState",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const commendHabitInfoState = atom<CommendHabitInfo[]>({
+  key: "commendHabitInfoDataState",
   default: [],
   effects_UNSTABLE: [persistAtom],
 });

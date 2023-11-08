@@ -72,7 +72,7 @@ export interface TagEditBoxProps {
   name?: string;
   title: string;
   value?: { id: number; tag: string }[];
-  placeholder: string;
+  placeholder?: string;
   setTagValue: (value: string[]) => void;
 }
 
@@ -139,6 +139,8 @@ export interface FriendInfo {
 export interface HabitBoxProps {
   name: "main" | "commend" | "friend" | "search";
   habitId?: number;
+  title?: string;
+  habitName?: string;
 }
 
 export interface HabitMoreProps {
@@ -164,4 +166,29 @@ export interface HabitCalendarBoxProps {
 export interface StickerData {
   stickerImage: JSX.Element | null;
   stickerText: number | null;
+}
+
+export interface SearchInfo {
+  backgroundImage: string;
+  friendHabitList: [];
+  friendId: number;
+  introduction: string;
+  isFriend: number;
+  profileImage: string;
+  username: string;
+}
+
+export interface QuoteData {
+  wiseSaying: string;
+  greatPerson: string;
+}
+
+export interface HabitData {
+  habitSubject: string;
+  habitName: string;
+}
+
+export interface CommendHabitInfo {
+  habitSubject: string;
+  habitName: string;
 }

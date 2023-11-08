@@ -300,6 +300,33 @@ const AxiosAPI = {
       throw error;
     }
   },
+
+  // 친구 검색
+  friendSearch: async (search: string) => {
+    try {
+      return await axiosInstance.get(`/friend/search?search=${search}`);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 명언 랜덤 조회
+  randomQuote: async () => {
+    try {
+      return await axiosInstance.get("/recommend/random/quote");
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 습관 랜덤 조회
+  randomHabit: async () => {
+    try {
+      return await axiosInstance.get("/recommend/random/habit");
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default AxiosAPI;
