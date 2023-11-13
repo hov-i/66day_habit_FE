@@ -57,7 +57,7 @@ const CalendarBox: React.FC<HabitCalendarBoxProps> = ({ day }) => {
 
   return (
     <>
-      <CalendarStyle day={day} $isMobile={isMobile}>
+      <CalendarStyle $day={day} $isMobile={isMobile}>
         <div className="dayBox">{day}</div>
         <div className="stickerBox" onClick={openRecordModal}>
           {sticker !== null && (
@@ -79,7 +79,7 @@ const CalendarBox: React.FC<HabitCalendarBoxProps> = ({ day }) => {
   );
 };
 
-const CalendarStyle = styled.div<{ day: number; $isMobile: boolean }>`
+const CalendarStyle = styled.div<{ $day: number; $isMobile: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,12 +90,18 @@ const CalendarStyle = styled.div<{ day: number; $isMobile: boolean }>`
   .dayBox {
     height: 30px;
     color: ${(props) =>
-      props.day === 3 || props.day === 7 || props.day === 14 || props.day === 21
+      props.$day === 3 ||
+      props.$day === 7 ||
+      props.$day === 14 ||
+      props.$day === 21
         ? "#000000"
         : "#a8a8a8"};
     width: 100%;
     font-weight: ${(props) =>
-      props.day === 3 || props.day === 7 || props.day === 14 || props.day === 21
+      props.$day === 3 ||
+      props.$day === 7 ||
+      props.$day === 14 ||
+      props.$day === 21
         ? "bolder"
         : "normal"};
     border: 1px solid #363636;

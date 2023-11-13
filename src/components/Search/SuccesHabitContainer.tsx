@@ -37,7 +37,7 @@ const SuccesHabitContainer = () => {
           return isLastElement ? (
             <>
               <HabitBox
-                name="new"
+                name="done"
                 key={index}
                 habitId={data.habitId}
                 ref={lastHabitElementRef}

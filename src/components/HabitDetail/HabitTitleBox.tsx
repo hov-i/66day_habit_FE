@@ -35,11 +35,11 @@ const HabitTitleBox = () => {
     <>
       <TitleContainer
         $isMobile={isMobile}
-        progress={habitData?.progress ? habitData?.progress : 0}
+        $progress={habitData?.progress ? habitData?.progress : 0}
       >
         <BackgroundBox
-          backgroundUrl={bgColorCode ? bgColorCode : ""}
-          fontColor={habitData?.fontColor ? habitData?.fontColor : "BLACK"}
+          $backgroundUrl={bgColorCode ? bgColorCode : ""}
+          $fontColor={habitData?.fontColor ? habitData?.fontColor : "BLACK"}
         >
           <div className="backButton">
             <Back onClick={() => navigate(-1)} />
@@ -61,7 +61,7 @@ const HabitTitleBox = () => {
   );
 };
 
-const TitleContainer = styled.div<{ $isMobile: boolean; progress: number }>`
+const TitleContainer = styled.div<{ $isMobile: boolean; $progress: number }>`
   width: ${(props) => (props.$isMobile ? "100%" : "768px")};
 
   .progress {
@@ -79,7 +79,7 @@ const TitleContainer = styled.div<{ $isMobile: boolean; progress: number }>`
     margin-top: 10px;
   }
   .persentBar {
-    width: ${(props) => (props.progress ? `${props.progress}%` : "0%")};
+    width: ${(props) => (props.$progress ? `${props.$progress}%` : "0%")};
     background-color: #363636;
     height: 35px;
     border-radius: 6px;
@@ -100,25 +100,25 @@ const TitleContainer = styled.div<{ $isMobile: boolean; progress: number }>`
 `;
 
 const BackgroundBox = styled.div<{
-  backgroundUrl: string;
-  fontColor: string;
+  $backgroundUrl: string;
+  $fontColor: string;
 }>`
   width: 100%;
   height: 170px;
-  background-image: ${(props) => props.backgroundUrl};
+  background-image: ${(props) => props.$backgroundUrl};
   background-size: cover;
   background-position: center;
 
   .backButton {
     padding: 30px;
     > svg {
-      fill: ${(props) => (props.fontColor === "BLACK" ? "#363636" : "white")};
+      fill: ${(props) => (props.$fontColor === "BLACK" ? "#363636" : "white")};
     }
   }
 
   .habitName {
     width: 85%;
-    color: ${(props) => (props.fontColor === "BLACK" ? "#363636" : "white")};
+    color: ${(props) => (props.$fontColor === "BLACK" ? "#363636" : "white")};
     margin: 0 auto;
     margin-top: 20px;
     font-size: 32px;

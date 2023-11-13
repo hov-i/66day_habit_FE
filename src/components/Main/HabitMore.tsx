@@ -92,7 +92,7 @@ const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
 
   return (
     <>
-      <MoreBox progress={persentValue} isSame={isSame}>
+      <MoreBox $progress={persentValue} $isSame={isSame}>
         <div className="title">
           {habitDetailData ? (
             <>
@@ -161,7 +161,7 @@ function getSticker(
   return { stickerImage, stickerText };
 }
 
-const MoreBox = styled.div<{ progress: number; isSame: boolean }>`
+const MoreBox = styled.div<{ $progress: number; $isSame: boolean }>`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -189,7 +189,7 @@ const MoreBox = styled.div<{ progress: number; isSame: boolean }>`
     margin-top: 30px;
   }
   .graphBar {
-    width: ${(props) => (props.progress ? `${props.progress}%` : "0%")};
+    width: ${(props) => (props.$progress ? `${props.$progress}%` : "0%")};
     background-color: #363636;
     height: 10px;
     border-radius: 5px;
@@ -212,14 +212,14 @@ const MoreBox = styled.div<{ progress: number; isSame: boolean }>`
     flex-direction: column;
   }
   .mainSticker {
-    font-weight: ${(props) => (props.isSame ? "nomal" : "bolder")};
+    font-weight: ${(props) => (props.$isSame ? "nomal" : "bolder")};
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     font-size: 20px;
     .img {
-      max-width: ${(props) => (props.isSame ? "40%" : "55%")};
+      max-width: ${(props) => (props.$isSame ? "40%" : "55%")};
       height: auto;
     }
   }

@@ -129,24 +129,24 @@ const HabitRecordContainer: React.FC<HabitCalendarBoxProps> = ({
         <RecordContainer>
           <RecordBox
             onClick={() => handleRecordClick(100)}
-            alt={100}
-            selectRecord={selectRecord}
+            $alt={100}
+            $selectRecord={selectRecord}
           >
             <img src={Perfect} alt="100" className="img" />
             <div>100%</div>
           </RecordBox>
           <RecordBox
             onClick={() => handleRecordClick(50)}
-            alt={50}
-            selectRecord={selectRecord}
+            $alt={50}
+            $selectRecord={selectRecord}
           >
             <img src={Good} alt="50" className="img" />
             <div>50%</div>
           </RecordBox>
           <RecordBox
             onClick={() => handleRecordClick(20)}
-            alt={20}
-            selectRecord={selectRecord}
+            $alt={20}
+            $selectRecord={selectRecord}
           >
             <img src={Soso} alt="20" className="img" />
             <div>20%</div>
@@ -191,14 +191,14 @@ const RecordContainer = styled.div`
   margin-top: 10px;
   font-size: 16px;
 `;
-const RecordBox = styled.div<{ alt: number; selectRecord: number }>`
+const RecordBox = styled.div<{ $alt: number; $selectRecord: number }>`
   width: 50%;
   height: 25vh;
   margin: 10px;
   display: flex;
   justify-content: center;
   background-color: ${(props) =>
-    props.alt === props.selectRecord ? "#E8E8E8" : "white"};
+    props.$alt === props.$selectRecord ? "#E8E8E8" : "white"};
   border-radius: 20px;
   align-items: center;
   flex-direction: column;

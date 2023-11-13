@@ -26,7 +26,9 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-//AccessToken 갱신
+let isRefreshing = false;
+
+// AccessToken 갱신
 axiosInstance.interceptors.response.use(
   async (response) => {
     // 여기에서 response를 처리할 수 있으며, 필요한 경우 작업을 수행할 수 있습니다.
@@ -35,27 +37,42 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     const TokenAPI = axios.create({
-      baseURL: DOMAIN, // 기본 url 주소 설정
+      baseURL: DOMAIN, // 기본 URL 주소 설정
       withCredentials: true, // 쿠키를 받고 전송하기 위한 설정
     });
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (!isRefreshing) {
+      isRefreshing = true;
+
       try {
         const refreshResponse = await TokenAPI.post(`${VERSION}/auth/refresh`);
         const newAccessToken = refreshResponse.data.data.accessToken;
+
         if (newAccessToken) {
           // 토큰 갱신에 성공하면, 새로운 accessToken을 localStorage에 저장
           localStorage.setItem("accessToken", newAccessToken);
           console.log("토큰 업데이트 성공");
-        }
 
-        return axiosInstance(originalRequest);
-      } catch (refreshError) {
+          // 갱신 완료 후 isRefreshing을 false로 설정
+          isRefreshing = false;
+
+          // 원래 요청 재시도
+          return axiosInstance(originalRequest);
+        }
+      } catch (refreshError: any) {
         console.log("refreshtoken 토큰 실패:", refreshError);
-        window.location.href = "/";
+
+        // 에러가 403이 아니면 리다이렉트
+        if (refreshError.response?.status === 403) {
+          window.location.href = "/";
+        }
+      } finally {
+        // 갱신이 실패하더라도 중복 요청 방지 플래그를 false로 설정
+        isRefreshing = false;
       }
     }
 
+    // 여기서 Promise.reject를 호출해야 합니다.
     return Promise.reject(error);
   }
 );
