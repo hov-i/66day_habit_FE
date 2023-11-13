@@ -31,7 +31,7 @@ const CommendPage = () => {
     <>
       <Box>
         <Container>
-          <CommendContainer isMobile={isMobile}>
+          <CommendContainer $isMobile={isMobile}>
             <div className="title">
               <p>
                 {" "}
@@ -58,10 +58,10 @@ const CommendPage = () => {
   );
 };
 
-const CommendContainer = styled.div<{ isMobile: boolean }>`
+const CommendContainer = styled.div<{ $isMobile: boolean }>`
   .title {
     width: 80%;
-    font-size: ${(props) => (props.isMobile ? "25px" : "40px")};
+    font-size: ${(props) => (props.$isMobile ? "25px" : "40px")};
     font-family: "Noto Sans Bold";
     margin: 0 auto;
     padding-top: 30px;

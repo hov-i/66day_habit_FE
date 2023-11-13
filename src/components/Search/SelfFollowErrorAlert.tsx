@@ -3,7 +3,7 @@ import styled from "styled-components";
 import EditButton from "../MyPage/EditButton";
 import { ErrorProps } from "../../util/types";
 
-const PwdErrorAlert = ({ onClose, errorCode }: ErrorProps) => {
+const SelfFollowErrorAlert = ({ onClose }: ErrorProps) => {
   const handleClose = () => {
     onClose();
   };
@@ -11,11 +11,7 @@ const PwdErrorAlert = ({ onClose, errorCode }: ErrorProps) => {
   return (
     <>
       <AlertContainer>
-        <div className="name">
-          {errorCode === "빈칸 입력"
-            ? "비밀번호를 확인해주세요."
-            : "현재 비밀번호가 일치하지 않습니다."}
-        </div>
+        <div className="name">자신은 팔로우 할 수 없습니다.</div>
         <div className="button">
           <EditButton name="확인" onClick={handleClose} />
         </div>
@@ -41,10 +37,11 @@ const AlertContainer = styled.div`
   .button {
     width: 100%;
     margin: 0;
-    display: flex;
     margin-top: 50px;
+    display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 30px;
   }
   .cancel {
     padding: 8px;
@@ -59,4 +56,4 @@ const AlertContainer = styled.div`
     cursor: pointer;
   }
 `;
-export default PwdErrorAlert;
+export default SelfFollowErrorAlert;

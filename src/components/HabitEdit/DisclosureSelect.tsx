@@ -22,7 +22,7 @@ const DisclosureSelect: React.FC<DisclosureSelectProps> = ({
   };
 
   return (
-    <EditContainer isMobile={isMobile}>
+    <EditContainer $isMobile={isMobile}>
       <div className="name">공개 범위</div>
       <div className="custom-select">
         <select
@@ -42,9 +42,9 @@ const DisclosureSelect: React.FC<DisclosureSelectProps> = ({
   );
 };
 
-const EditContainer = styled.div<{ isMobile: boolean }>`
+const EditContainer = styled.div<{ $isMobile: boolean }>`
   font-size: 16px;
-  width: ${(props) => (props.isMobile ? "75%" : "80%")};
+  width: ${(props) => (props.$isMobile ? "75%" : "80%")};
   padding-bottom: 30px;
   .name {
     margin-left: 3px;

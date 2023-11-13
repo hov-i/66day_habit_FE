@@ -10,7 +10,7 @@ const HabitAddButton = () => {
   return (
     <>
       <HabitButtonStyle
-        isMobile={isMobile}
+        $isMobile={isMobile}
         onClick={() => navigate("/habit/add")}
       >
         <Add />
@@ -19,9 +19,9 @@ const HabitAddButton = () => {
   );
 };
 
-const HabitButtonStyle = styled.button<{ isMobile: boolean }>`
+const HabitButtonStyle = styled.button<{ $isMobile: boolean }>`
   width: 100%;
-  height: ${(props) => (props.isMobile ? "95px" : "105px")};
+  height: ${(props) => (props.$isMobile ? "95px" : "105px")};
   background-color: #363636;
   margin-top: 40px;
   border-radius: 23px;

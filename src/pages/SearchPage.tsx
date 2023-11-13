@@ -64,7 +64,7 @@ const SearchPage = () => {
   return (
     <Box>
       <Container>
-        <SearchContainer isMobile={isMobile}>
+        <SearchContainer $isMobile={isMobile}>
           <div className="searchBar">
             <input
               className="input"
@@ -130,9 +130,9 @@ const SearchPage = () => {
   );
 };
 
-const SearchContainer = styled.div<{ isMobile: boolean }>`
+const SearchContainer = styled.div<{ $isMobile: boolean }>`
   z-index: 99;
-  width: ${(props) => (props.isMobile ? "100%" : "768px;")};
+  width: ${(props) => (props.$isMobile ? "100%" : "768px;")};
   position: fixed;
   background-color: white;
   .searchBar {

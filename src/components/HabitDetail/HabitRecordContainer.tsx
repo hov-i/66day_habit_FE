@@ -5,20 +5,17 @@ import Perfect from "../../resources/100.png";
 import Good from "../../resources/50.png";
 import Soso from "../../resources/20.png";
 import { useRecoilValue } from "recoil";
-import { habitIdState, userHabitInfoState } from "../../util/habitState";
-import useHabitData from "../../util/habitInfoHook";
+import { habitIdState } from "../../util/habitState";
 import AxiosAPI from "../../api/AxiosAPI";
 import Alert from "../common/Alert";
 import RecordErrorAlert from "./RecordErrorAlert";
 
-const HabitRecordContainer: React.FC<HabitCalendarBoxProps> = ({ day }) => {
-  const habitInfoData = useRecoilValue(userHabitInfoState);
+const HabitRecordContainer: React.FC<HabitCalendarBoxProps> = ({
+  day,
+  achievementRate,
+}) => {
   const habitIdData = useRecoilValue(habitIdState);
   const [recordErrorAlert, setRecordErrorAlert] = useState<boolean>(false);
-  const { habitData } = useHabitData(habitInfoData, habitIdData);
-  const achievementRate = habitData?.habitRecord.find(
-    (record) => record.dayNumber === day
-  )?.achievementRate;
 
   const [selectRecord, setSelectRecord] = useState<number>(
     achievementRate ? achievementRate : 0

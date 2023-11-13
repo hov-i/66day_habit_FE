@@ -35,7 +35,7 @@ const BackGroundColorEdit: React.FC<BackGroundColorEditProps> = ({
     }
   };
   return (
-    <EditContainer isMobile={isMobile}>
+    <EditContainer $isMobile={isMobile}>
       <div className="name">배경 색</div>
       <ScrollBox>
         {backgroundColor.map((data, index) => (
@@ -53,9 +53,9 @@ const BackGroundColorEdit: React.FC<BackGroundColorEditProps> = ({
   );
 };
 
-const EditContainer = styled.div<{ isMobile: boolean }>`
+const EditContainer = styled.div<{ $isMobile: boolean }>`
   font-size: 16px;
-  width: ${(props) => (props.isMobile ? "75%" : "80%")};
+  width: ${(props) => (props.$isMobile ? "75%" : "80%")};
   padding-bottom: 20px;
   .name {
     margin-left: 3px;

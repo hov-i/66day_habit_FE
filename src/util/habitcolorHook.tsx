@@ -1,14 +1,6 @@
 import { useMemo } from "react";
 import backgroundColor from "../style/backgroundColor";
-
-type HabitInfo = {
-  habitName: string;
-  backgroundColor: string;
-  fontColor: string;
-  habitTags: string[];
-  habitId: number;
-  habitVisibility: string;
-};
+import { HabitInfo } from "./types";
 
 function useHabitColor(habitData?: HabitInfo) {
   const selectedColor = useMemo(() => {

@@ -27,7 +27,7 @@ const TextBox: React.FC<TextBoxProps> = ({ name, setInputValue }) => {
   };
 
   return (
-    <TextBoxStyle isMobile={isMobile}>
+    <TextBoxStyle $isMobile={isMobile}>
       {getItemSvg(name)}
       <input
         className="input"
@@ -39,8 +39,8 @@ const TextBox: React.FC<TextBoxProps> = ({ name, setInputValue }) => {
   );
 };
 
-const TextBoxStyle = styled.div<{ isMobile: boolean }>`
-  width: ${({ isMobile }) => (isMobile ? "70%" : "400px")};
+const TextBoxStyle = styled.div<{ $isMobile: boolean }>`
+  width: ${(props) => (props.$isMobile ? "70%" : "400px")};
   border-radius: 10px;
   background-color: #e8e8e8;
   border: 0;

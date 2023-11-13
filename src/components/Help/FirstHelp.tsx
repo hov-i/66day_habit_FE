@@ -1,13 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import FirstHelp from "../../resources/66dayIcon.png";
-import useViewport from "../../util/viewportHook";
 
 const ThirdHelp = () => {
-  const { isMobile } = useViewport();
-
   return (
-    <HelpStyle isMobile={isMobile}>
+    <HelpStyle>
       <div className="mainTitle">
         당신과 함께하는
         <br />
@@ -40,7 +37,7 @@ const ThirdHelp = () => {
   );
 };
 
-const HelpStyle = styled.div<{ isMobile: boolean }>`
+const HelpStyle = styled.div`
   height: 100vh;
   .imgBox {
     width: 100%;

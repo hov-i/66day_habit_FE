@@ -48,7 +48,9 @@ const DeleteEdit = () => {
           placeholder="가입된 비밀번호를 입력해주세요"
           setInputValue={handlePwdInputChange}
         />
-        <EditButton name="회원 탈퇴" onClick={handleUserDeleteClick} />
+        <div className="button">
+          <EditButton name="회원 탈퇴" onClick={handleUserDeleteClick} />
+        </div>
       </EmailContainer>
       {errorAlert && (
         <Alert open={errorAlert} close={closeErrorAlert} name="비밀번호 에러">
@@ -71,6 +73,9 @@ const EmailContainer = styled.div`
     color: #8f8f8f;
     margin: 0;
     margin-top: 7px;
+  }
+  .button {
+    margin-top: 50px;
   }
 `;
 export default DeleteEdit;

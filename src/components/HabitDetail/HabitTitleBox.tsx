@@ -34,10 +34,8 @@ const HabitTitleBox = () => {
   return (
     <>
       <TitleContainer
-        isMobile={isMobile}
-        progress={
-          habitData?.habitDetail.progress ? habitData?.habitDetail.progress : 0
-        }
+        $isMobile={isMobile}
+        progress={habitData?.progress ? habitData?.progress : 0}
       >
         <BackgroundBox
           backgroundUrl={bgColorCode ? bgColorCode : ""}
@@ -63,8 +61,8 @@ const HabitTitleBox = () => {
   );
 };
 
-const TitleContainer = styled.div<{ isMobile: boolean; progress: number }>`
-  width: ${({ isMobile }) => (isMobile ? "100%" : "768px")};
+const TitleContainer = styled.div<{ $isMobile: boolean; progress: number }>`
+  width: ${(props) => (props.$isMobile ? "100%" : "768px")};
 
   .progress {
     font-size: 16px;

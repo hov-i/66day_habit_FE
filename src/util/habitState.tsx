@@ -53,3 +53,5 @@ export const memberIdState = atom<number>({
   default: 0,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const habitRecordState = atom;

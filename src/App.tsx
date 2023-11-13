@@ -13,6 +13,7 @@ import "./style/GlobalFont.css";
 import HabitAddPage from "./pages/HabitAddPage";
 import { RecoilRoot } from "recoil";
 import HabitDetailPage from "./pages/HabitDetailPage";
+import UserMainPage from "./pages/UserMainPage";
 function App() {
   return (
     <>
@@ -30,6 +31,7 @@ function App() {
           <Route path="/habit/add" element={<HabitAddPage name="add" />} />
           <Route path="/habit/edit" element={<HabitAddPage name="edit" />} />
           <Route path="/habit/detail" element={<HabitDetailPage />} />
+          <Route path="/user/profile" element={<UserMainPage />} />
         </Routes>
       </RecoilRoot>
     </>

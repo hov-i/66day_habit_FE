@@ -77,7 +77,7 @@ const TagEditBox: React.FC<TagEditBoxProps> = ({
 
   return (
     <>
-      <EditContainer isMobile={isMobile}>
+      <EditContainer $isMobile={isMobile}>
         <div className="name">{title}</div>
         <div className="inputBox">
           <input
@@ -119,9 +119,9 @@ const TagEditBox: React.FC<TagEditBoxProps> = ({
   );
 };
 
-const EditContainer = styled.div<{ isMobile: boolean }>`
+const EditContainer = styled.div<{ $isMobile: boolean }>`
   font-size: 16px;
-  width: ${(props) => (props.isMobile ? "75%" : "80%")};
+  width: ${(props) => (props.$isMobile ? "75%" : "80%")};
   padding-bottom: 30px;
   .inputBox {
     display: flex;

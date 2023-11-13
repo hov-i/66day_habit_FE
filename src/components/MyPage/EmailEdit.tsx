@@ -46,7 +46,9 @@ const EmailEdit = () => {
           placeholder="변경할 이메일을 입력해주세요"
           setInputValue={handleEmailInputChange}
         />
-        <EditButton name="이메일 수정" onClick={handleEmailChangeClick} />
+        <div className="button">
+          <EditButton name="이메일 수정" onClick={handleEmailChangeClick} />
+        </div>
       </EmailContainer>
       {errorAlert && (
         <Alert open={errorAlert} close={closeErrorAlert} name="이메일 에러">
@@ -69,6 +71,9 @@ const EmailContainer = styled.div`
     color: #8f8f8f;
     margin: 0;
     margin-top: 7px;
+  }
+  .button {
+    margin-top: 50px;
   }
 `;
 export default EmailEdit;

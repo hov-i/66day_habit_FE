@@ -23,7 +23,7 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <ModalStyle isMobile={isMobile} height={height}>
+    <ModalStyle $isMobile={isMobile} height={height}>
       <div
         className={open ? "openModal modal" : "modal"}
         onClick={handleOverlayClick}
@@ -42,7 +42,7 @@ const Modal: React.FC<ModalProps> = ({
 };
 
 export default Modal;
-const ModalStyle = styled.div<{ isMobile: boolean; height: string }>`
+const ModalStyle = styled.div<{ $isMobile: boolean; height: string }>`
   .modal {
     display: none;
     position: fixed;
@@ -59,7 +59,7 @@ const ModalStyle = styled.div<{ isMobile: boolean; height: string }>`
   }
 
   .modal > section {
-    width: ${(props) => (props.isMobile ? "100%" : "768px")};
+    width: ${(props) => (props.$isMobile ? "100%" : "768px")};
     height: ${(props) => (props.height ? props.height : "500px")};
     background-color: white;
     flex-direction: column;

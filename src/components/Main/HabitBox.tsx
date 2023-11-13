@@ -14,8 +14,10 @@ import UseReminders from "../../resources/use_remainders.png";
 import Happiness from "../../resources/happiness.png";
 
 import {
+  doneHabitInfoState,
   habitIdState,
   memberHabitInfoState,
+  memberIdState,
   newHabitInfoState,
   userHabitInfoState,
 } from "../../util/habitState";
@@ -34,6 +36,8 @@ const HabitBox = React.forwardRef<HTMLDivElement, HabitBoxProps>(
     const userHabitInfoData = useRecoilValue(userHabitInfoState);
     const memberHabitInfoData = useRecoilValue(memberHabitInfoState);
     const newHabitInfoData = useRecoilValue(newHabitInfoState);
+    const doneHabitInfoData = useRecoilValue(doneHabitInfoState);
+    const setSelectId = useSetRecoilState(memberIdState);
 
     let HabitInfoValue: HabitInfo[] = [];
     let CommendColorCode: string | undefined = "";
@@ -44,6 +48,8 @@ const HabitBox = React.forwardRef<HTMLDivElement, HabitBoxProps>(
       HabitInfoValue = memberHabitInfoData;
     } else if (name === "new") {
       HabitInfoValue = newHabitInfoData;
+    } else if (name === "done") {
+      HabitInfoValue = doneHabitInfoData;
     } else if (name === "commend") {
       CommendColorCode = commendData.find((item) => item.name === title)?.color;
       switch (title) {
@@ -86,15 +92,30 @@ const HabitBox = React.forwardRef<HTMLDivElement, HabitBoxProps>(
 
     const handleBoxClick = () => {
       if (name !== "commend") {
+        if (name === "main") {
+          setSelectId(0);
+        } else {
+          setSelectId(habitData?.memberId ? habitData.memberId : 0);
+        }
+
         setHabitIdData(habitId ? habitId : 0);
         navigate("/habit/detail");
       }
     };
 
+    const handleProfileClick = (e: any) => {
+      if (name === "new" || name === "done") {
+        setSelectId(habitData?.memberId ? habitData.memberId : 0);
+        navigate("/user/profile");
+      }
+    };
+
     useEffect(() => {
-      if (name === "new") {
+      if ((name === "new" || name === "done") && habitData) {
         const getFriendUserInfo = async () => {
           try {
+            console.log(habitData);
+            console.log("useEffect데이터");
             const response = await AxiosAPI.friendUserInfo(
               habitData?.memberId ? habitData.memberId : 0
             );
@@ -102,6 +123,7 @@ const HabitBox = React.forwardRef<HTMLDivElement, HabitBoxProps>(
               console.log(response.data.data);
               setUserProfileUrl(response.data.data.profileImage);
               setUserName(response.data.data.username);
+              setSelectId(habitData?.memberId ? habitData.memberId : 0);
             }
           } catch (e) {
             console.log(e);
@@ -113,31 +135,37 @@ const HabitBox = React.forwardRef<HTMLDivElement, HabitBoxProps>(
 
     return (
       <>
-        <TagList name={name}>
-          {habitData
-            ? habitData.habitTags?.map((tag, index) => (
+        <TagList $name={name}>
+          {habitData ? (
+            habitData.habitTags?.length > 0 ? (
+              habitData.habitTags.map((tag, index) => (
                 <span key={index} className="tag">
                   #{tag}
                 </span>
               ))
-            : null}
+            ) : (
+              <span>&nbsp;</span>
+            )
+          ) : (
+            <span>&nbsp;</span>
+          )}
         </TagList>
         <HabitBoxStyle
           ref={ref}
           onClick={handleBoxClick}
-          isMobile={isMobile}
-          profileUrl={
+          $isMobile={isMobile}
+          $profileUrl={
             CommendImgUrl !== ""
               ? CommendImgUrl
               : userProfileUrl !== ""
               ? userProfileUrl
               : ""
           }
-          bgColor={
+          $bgColor={
             bgColorCode ? bgColorCode : CommendColorCode ? CommendColorCode : ""
           }
-          fontColor={habitData ? habitData.fontColor : "BLACK"}
-          bgPercent={habitData ? habitData.habitDetail.progress : 100}
+          $fontColor={habitData ? habitData.fontColor : "BLACK"}
+          $bgPercent={habitData ? habitData.progress : 100}
         >
           {name === "main" && (
             <div className="editButton">
@@ -149,12 +177,22 @@ const HabitBox = React.forwardRef<HTMLDivElement, HabitBoxProps>(
               />
             </div>
           )}
-          {(name === "commend" || name === "search" || name === "new") && (
+          {(name === "commend" ||
+            name === "search" ||
+            name === "new" ||
+            name === "done") && (
             <>
-              <div className="profileBox" />
+              <div
+                className="profileBox"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleProfileClick(e);
+                }}
+              />
               <p className="userName">
                 {name === "commend" && (title !== "" ? title : "")}{" "}
-                {name === "new" && (userName !== "" ? userName : "")}
+                {(name === "new" || name === "done") &&
+                  (userName !== "" ? userName : "")}
               </p>
             </>
           )}
@@ -179,23 +217,23 @@ const HabitBox = React.forwardRef<HTMLDivElement, HabitBoxProps>(
 );
 
 const HabitBoxStyle = styled.div<{
-  isMobile: boolean;
-  bgColor: string;
-  fontColor: string;
-  bgPercent: number;
-  profileUrl: string;
+  $isMobile: boolean;
+  $bgColor: string;
+  $fontColor: string;
+  $bgPercent: number;
+  $profileUrl: string;
 }>`
   cursor: pointer;
   position: relative;
-  color: ${(props) => (props.fontColor === "BLACK" ? "#363636" : "white")};
+  color: ${(props) => (props.$fontColor === "BLACK" ? "#363636" : "white")};
   width: 100%;
-  height: ${(props) => (props.isMobile ? "95px" : "105px")};
+  height: ${(props) => (props.$isMobile ? "95px" : "105px")};
   border-radius: 23px;
   background-color: #e8e8e8;
-  background-image: ${(props) => (props.bgColor ? props.bgColor : "none")};
+  background-image: ${(props) => (props.$bgColor ? props.$bgColor : "none")};
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   background-size: ${(props) =>
-    props.bgPercent ? `${props.bgPercent}%` : "0%"};
+    props.$bgPercent ? `${props.$bgPercent}%` : "0%"};
   background-position: left;
   background-repeat: no-repeat;
   display: flex;
@@ -205,24 +243,25 @@ const HabitBoxStyle = styled.div<{
   .profileBox {
     position: absolute;
     border-radius: 50%;
-    background-image: url(${(props) => props.profileUrl});
+    background-image: url(${(props) => props.$profileUrl});
     background-size: cover;
     background-position: center;
     width: 65px;
     height: 65px;
-    bottom: ${(props) => (props.isMobile ? "70px" : "85px")};
-    left: ${(props) => (props.isMobile ? "10px" : "20px")};
+    bottom: ${(props) => (props.$isMobile ? "70px" : "85px")};
+    left: ${(props) => (props.$isMobile ? "10px" : "20px")};
   }
   .userName {
     position: absolute;
-    bottom: ${(props) => (props.isMobile ? "80px" : "90px")};
-    left: ${(props) => (props.isMobile ? "80px" : "95px")};
+    bottom: ${(props) => (props.$isMobile ? "80px" : "90px")};
+    left: ${(props) => (props.$isMobile ? "80px" : "95px")};
     font-size: 18px;
     font-weight: bold;
+    color: #363636;
   }
   .habitName {
     text-align: center;
-    font-size: ${(props) => (props.isMobile ? "15px" : "20px")};
+    font-size: ${(props) => (props.$isMobile ? "15px" : "20px")};
     font-weight: bold;
   }
 
@@ -233,12 +272,12 @@ const HabitBoxStyle = styled.div<{
   }
 `;
 
-const TagList = styled.p<{ name: string }>`
+const TagList = styled.p<{ $name: string }>`
   width: 95%;
   text-align: right;
   margin: 0;
   margin: ${(props) =>
-    props.name === "commend" || props.name === "search" ? "60px" : "30px"};
+    props.$name === "commend" || props.$name === "search" ? "60px" : "30px"};
   font-size: 16px;
   margin-bottom: 10px;
 

@@ -112,23 +112,28 @@ export type HabitRecordInfo = {
 
 export type HabitInfo = {
   memberId?: number;
+  habitId: number;
   habitName: string;
   backgroundColor: string;
   fontColor: string;
-  habitTags: string[];
-
-  habitId: number;
+  progress: number;
   habitVisibility: string;
-  habitDetail: {
-    progress: number;
-    achievementRates: {
-      thirty?: number;
-      fifty?: number;
-      hundred?: number;
-    };
-    todayChecked: boolean;
+  habitTags: string[];
+};
+
+export type HabitDetail = {
+  progress: number;
+  achievementRates: {
+    thirty?: number;
+    fifty?: number;
+    hundred?: number;
   };
-  habitRecord: HabitRecordInfo[];
+  todayChecked: boolean;
+};
+
+export type HabitRecordData = {
+  dayNumber: number;
+  achievementRate: number;
 };
 
 export interface FriendInfo {
@@ -162,6 +167,7 @@ export interface HabitAddProps {
 
 export interface HabitCalendarBoxProps {
   day: number;
+  achievementRate?: number;
 }
 
 export interface StickerData {

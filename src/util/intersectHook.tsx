@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { AxiosError } from "axios";
 import AxiosAPI from "../api/AxiosAPI";
 import { useSetRecoilState } from "recoil";
-import { newHabitInfoState } from "./habitState";
+import { doneHabitInfoState, newHabitInfoState } from "./habitState";
 
 interface AxiosResult {
   loading: boolean;
@@ -15,6 +15,7 @@ function useIntersect(page: number, name: string, query?: string): AxiosResult {
   const [error, setError] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(false);
   const setNewHabitInfoData = useSetRecoilState(newHabitInfoState);
+  const setDoneHabitInfoData = useSetRecoilState(doneHabitInfoState);
 
   const sendQuery = useCallback(async () => {
     setLoading(true);
@@ -41,8 +42,29 @@ function useIntersect(page: number, name: string, query?: string): AxiosResult {
         }
       };
       getNewHabit();
+    } else if (name === "done") {
+      const getDoneHabit = async () => {
+        try {
+          const response = await AxiosAPI.doneHabit(page);
+          if (response.status === 200) {
+            if (page === 0) {
+              setDoneHabitInfoData(response.data.data.habitList);
+            } else {
+              setDoneHabitInfoData((prevList) =>
+                prevList.concat(response.data.data.habitList)
+              );
+            }
+            setLoading(false);
+            setHasMore(response.data.data.habitList.length > 0);
+            console.log(response.data.data.habitList);
+          }
+        } catch (error) {
+          setError(error instanceof AxiosError ? true : false);
+        }
+      };
+      getDoneHabit();
     }
-  }, [page, name, setNewHabitInfoData]);
+  }, [page, name, setNewHabitInfoData, setDoneHabitInfoData]);
 
   useEffect(() => {
     sendQuery();

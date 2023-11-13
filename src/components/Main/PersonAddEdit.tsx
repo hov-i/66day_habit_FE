@@ -87,7 +87,7 @@ const PersonAddEdit = () => {
 
   return (
     <>
-      <EditContainer isMobile={isMobile}>
+      <EditContainer $isMobile={isMobile}>
         <div className="inputBox">
           <input
             type="text"
@@ -100,7 +100,7 @@ const PersonAddEdit = () => {
         </div>
         <div className="info">
           <div className="profile">
-            <ProfileImg profileUrl={searchData?.profileImage} />
+            <ProfileImg $profileUrl={searchData?.profileImage} />
             <div>
               <div className="username">{searchData?.username}</div>
               <div>{searchData?.introduction}</div>
@@ -130,9 +130,9 @@ const PersonAddEdit = () => {
   );
 };
 
-const EditContainer = styled.div<{ isMobile: boolean }>`
+const EditContainer = styled.div<{ $isMobile: boolean }>`
   font-size: 16px;
-  width: ${(props) => (props.isMobile ? "75%" : "80%")};
+  width: ${(props) => (props.$isMobile ? "75%" : "80%")};
   padding-bottom: 30px;
   margin: 0 auto;
   margin-top: 20px;
@@ -194,14 +194,14 @@ const EditContainer = styled.div<{ isMobile: boolean }>`
     justify-content: center;
   }
 `;
-const ProfileImg = styled.div<{ profileUrl: string }>`
+const ProfileImg = styled.div<{ $profileUrl: string }>`
   width: 50px;
   height: 50px;
   margin: 0;
   margin-right: 10px;
   margin-left: 0;
   border-radius: 50%;
-  background-image: url(${(props) => props.profileUrl});
+  background-image: url(${(props) => props.$profileUrl});
   background-size: cover;
   background-position: center;
 `;

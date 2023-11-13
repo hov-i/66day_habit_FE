@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { HabitCalendarBoxProps, HabitInfo } from "../../util/types";
+import { HabitCalendarBoxProps, HabitRecordData } from "../../util/types";
 import useViewport from "../../util/viewportHook";
 import Modal from "../common/Modal";
 import HabitRecordContainer from "./HabitRecordContainer";
@@ -8,35 +8,34 @@ import Perfect from "../../resources/100.png";
 import Good from "../../resources/50.png";
 import Soso from "../../resources/20.png";
 import { useRecoilValue } from "recoil";
-import useHabitData from "../../util/habitInfoHook";
-import {
-  habitIdState,
-  memberHabitInfoState,
-  memberIdState,
-  userHabitInfoState,
-} from "../../util/habitState";
+import { habitIdState, memberIdState } from "../../util/habitState";
+import AxiosAPI from "../../api/AxiosAPI";
 
 const CalendarBox: React.FC<HabitCalendarBoxProps> = ({ day }) => {
   const { isMobile } = useViewport();
-  const userHabitInfoData = useRecoilValue(userHabitInfoState);
   const habitIdData = useRecoilValue(habitIdState);
   const selectId = useRecoilValue(memberIdState);
-  const memberHabitInfoData = useRecoilValue(memberHabitInfoState);
+  const [habitRecordData, setHabitRecordData] = useState<HabitRecordData[]>([]);
 
-  let HabitInfoValue: HabitInfo[] = [];
-  if (selectId === 0) {
-    HabitInfoValue = userHabitInfoData;
-  } else if (selectId !== 0) {
-    HabitInfoValue = memberHabitInfoData;
-  }
-  const { habitData } = useHabitData(HabitInfoValue, habitIdData);
   const [recordModalOpen, setRecordModalOpen] = useState<boolean>(false);
 
-  const achievementRate = habitData?.habitRecord.find(
+  const achievementRate = habitRecordData?.find(
     (record) => record.dayNumber === day
   )?.achievementRate;
 
   let sticker = null;
+
+  useEffect(() => {
+    const getHabitRecord = async () => {
+      try {
+        const response = await AxiosAPI.habitRecord(habitIdData);
+        if (response.status === 200) setHabitRecordData(response.data.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getHabitRecord();
+  }, [habitIdData]);
 
   if (achievementRate === 100) {
     sticker = Perfect;
@@ -58,7 +57,7 @@ const CalendarBox: React.FC<HabitCalendarBoxProps> = ({ day }) => {
 
   return (
     <>
-      <CalendarStyle day={day} isMobile={isMobile}>
+      <CalendarStyle day={day} $isMobile={isMobile}>
         <div className="dayBox">{day}</div>
         <div className="stickerBox" onClick={openRecordModal}>
           {sticker !== null && (
@@ -73,14 +72,14 @@ const CalendarBox: React.FC<HabitCalendarBoxProps> = ({ day }) => {
           name="습관 기록"
           height="400px"
         >
-          <HabitRecordContainer day={day} />
+          <HabitRecordContainer day={day} achievementRate={achievementRate} />
         </Modal>
       )}
     </>
   );
 };
 
-const CalendarStyle = styled.div<{ day: number; isMobile: boolean }>`
+const CalendarStyle = styled.div<{ day: number; $isMobile: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,7 +106,7 @@ const CalendarStyle = styled.div<{ day: number; isMobile: boolean }>`
   }
 
   .stickerBox {
-    height: ${({ isMobile }) => (isMobile ? "70px" : "100px")};
+    height: ${(props) => (props.$isMobile ? "70px" : "100px")};
     width: 100%;
     border: 1px solid #363636;
     margin-top: 5px;

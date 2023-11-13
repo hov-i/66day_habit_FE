@@ -18,7 +18,7 @@ const TextEditBox: React.FC<TextEditBoxProps> = ({
   };
 
   return (
-    <EditContainer isMobile={isMobile}>
+    <EditContainer $isMobile={isMobile}>
       <div className="name">{title}</div>
       <input
         type="text"
@@ -31,9 +31,9 @@ const TextEditBox: React.FC<TextEditBoxProps> = ({
   );
 };
 
-const EditContainer = styled.div<{ isMobile: boolean }>`
+const EditContainer = styled.div<{ $isMobile: boolean }>`
   font-size: 16px;
-  width: ${(props) => (props.isMobile ? "75%" : "80%")};
+  width: ${(props) => (props.$isMobile ? "75%" : "80%")};
   padding-bottom: 30px;
   .name {
     margin-left: 3px;

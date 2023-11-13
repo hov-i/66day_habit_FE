@@ -1,11 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import useViewport from "../../util/viewportHook";
 import { AlertProps } from "../../util/types";
 
 const Alert: React.FC<AlertProps> = ({ open, close, name, children }) => {
-  const { isMobile } = useViewport();
-
   const closeAlert = () => {
     close(name);
   };
@@ -17,7 +14,7 @@ const Alert: React.FC<AlertProps> = ({ open, close, name, children }) => {
   };
 
   return (
-    <ModalStyle isMobile={isMobile}>
+    <ModalStyle>
       <div
         className={open ? "openAlert alert" : "alert"}
         onClick={handleOverlayClick}
@@ -29,7 +26,7 @@ const Alert: React.FC<AlertProps> = ({ open, close, name, children }) => {
 };
 
 export default Alert;
-const ModalStyle = styled.div<{ isMobile: boolean }>`
+const ModalStyle = styled.div`
   .alert {
     display: none;
     position: fixed;

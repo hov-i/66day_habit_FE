@@ -12,6 +12,8 @@ import { memberIdState } from "../../util/habitState";
 import { useRecoilValue } from "recoil";
 import EditButton from "../MyPage/EditButton";
 import WhiteEditButton from "../MyPage/WhiteEditButton";
+import Alert from "../common/Alert";
+import SelfFollowErrorAlert from "../Search/SelfFollowErrorAlert";
 
 const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   const { isMobile } = useViewport();
@@ -24,6 +26,7 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   const [profileUrl, setProfileUrl] = useState<string>("");
   const [backGroundeUrl, setBackGroundUrl] = useState<string>("");
   const [isFriend, setIsFriend] = useState<boolean>(true);
+  const [FollowErrorAlert, setFollowErrorAlert] = useState<boolean>(false);
   const selectId = useRecoilValue(memberIdState);
   const handleProfileFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -43,29 +46,39 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
     }
   };
 
-  const handleChangeClick = () => {
-    const patchUserInfoChange = async () => {
-      try {
-        const userNameValue = userName || "";
-        const introductionValue = Introduction || "";
-        const profileFileValue = profileFile;
-        const backGroundFileValue = backGroundFile;
+  const openFollowErrorAlert = () => {
+    setFollowErrorAlert(true);
+  };
 
-        const response = await AxiosAPI.userInfoChange(
-          userNameValue,
-          introductionValue,
-          profileFileValue,
-          backGroundFileValue
-        );
-        if (response && response.status === 200) {
-          console.log("회원정보 수정 성공");
-          navigate(-1);
+  const closeFollowErrorAlert = () => {
+    setFollowErrorAlert(false);
+  };
+
+  const handleChangeClick = () => {
+    if (name === "edit") {
+      const patchUserInfoChange = async () => {
+        try {
+          const userNameValue = userName || "";
+          const introductionValue = Introduction || "";
+          const profileFileValue = profileFile;
+          const backGroundFileValue = backGroundFile;
+
+          const response = await AxiosAPI.userInfoChange(
+            userNameValue,
+            introductionValue,
+            profileFileValue,
+            backGroundFileValue
+          );
+          if (response && response.status === 200) {
+            console.log("회원정보 수정 성공");
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    patchUserInfoChange();
+      };
+      patchUserInfoChange();
+    }
+    navigate(-1);
   };
 
   const handleFollowClick = () => {
@@ -78,6 +91,7 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
         }
       } catch (error) {
         console.log(error);
+        openFollowErrorAlert();
       }
     };
     postFollow();
@@ -107,12 +121,15 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
       }
     };
     getMyInfo();
-    if (name === "friend") {
+    if (name === "friend" || name === "search") {
       const getFriendUserInfo = async () => {
         try {
           const response = await AxiosAPI.friendUserInfo(selectId);
           if (response.status === 200) setMemberInfoData(response.data.data);
           console.log(response.data.data.friendHabitList);
+          const isFriendValue =
+            response.data.data.isFriend === 1 ? true : false;
+          setIsFriend(isFriendValue);
         } catch (e) {
           console.log(e);
         }
@@ -124,14 +141,14 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   let backgroundUrl = "";
   if (name === "edit" || name === "main" || name === "mypage") {
     backgroundUrl = backGroundeUrl || InfoData?.backgroundImage || "";
-  } else if (name === "friend") {
+  } else if (name === "friend" || name === "search") {
     backgroundUrl = memberInfoData?.backgroundImage || "";
   }
 
   return (
     <>
-      <ProfileContainer isMobile={isMobile}>
-        <BackgroundBox backgroundUrl={backgroundUrl}>
+      <ProfileContainer $isMobile={isMobile}>
+        <BackgroundBox $backgroundUrl={backgroundUrl}>
           {name === "search" && (
             <div className="backButton">
               <Back onClick={() => navigate(-1)} />
@@ -164,11 +181,11 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
         <ProfileBox>
           {(name === "edit" || name === "main" || name === "mypage") && (
             <ProfileImg
-              profileUrl={profileUrl || InfoData?.profileImage || ""}
+              $profileUrl={profileUrl || InfoData?.profileImage || ""}
             />
           )}
-          {name === "friend" && (
-            <ProfileImg profileUrl={memberInfoData?.profileImage || ""} />
+          {(name === "friend" || name === "search") && (
+            <ProfileImg $profileUrl={memberInfoData?.profileImage || ""} />
           )}
 
           {name === "edit" && (
@@ -198,7 +215,7 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
                 </div>
               </>
             )}
-            {name === "friend" && memberInfoData && (
+            {(name === "friend" || name === "search") && memberInfoData && (
               <>
                 <div>
                   <div className="name">{memberInfoData.username}</div>
@@ -220,21 +237,16 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
                 <Setting />
               </div>
             )}
-            {name === "friend" && !isFriend && (
+            {(name === "friend" || name === "search") && !isFriend && (
               <div className="setting">
                 <EditButton name="팔로우" onClick={handleFollowClick} />
               </div>
             )}
-            {name === "friend" &&
-              memberInfoData?.isFriend === 1 &&
-              isFriend && (
-                <div className="setting">
-                  <WhiteEditButton
-                    name="팔로잉"
-                    onClick={handleUnFollowClick}
-                  />
-                </div>
-              )}
+            {(name === "friend" || name === "search") && isFriend && (
+              <div className="setting">
+                <WhiteEditButton name="팔로잉" onClick={handleUnFollowClick} />
+              </div>
+            )}
           </div>
           {(name === "main" || name === "friend") && (
             <PersonList
@@ -244,13 +256,22 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
           )}
         </ProfileBox>
       </ProfileContainer>
+      {FollowErrorAlert && (
+        <Alert
+          open={FollowErrorAlert}
+          close={closeFollowErrorAlert}
+          name="로그아웃"
+        >
+          <SelfFollowErrorAlert onClose={closeFollowErrorAlert} />
+        </Alert>
+      )}
     </>
   );
 };
 
-const ProfileContainer = styled.div<{ isMobile: boolean }>`
+const ProfileContainer = styled.div<{ $isMobile: boolean }>`
   position: relative;
-  width: ${({ isMobile }) => (isMobile ? "100%" : "768px")};
+  width: ${(props) => (props.$isMobile ? "100%" : "768px")};
   height: 300px;
 
   .file {
@@ -258,10 +279,10 @@ const ProfileContainer = styled.div<{ isMobile: boolean }>`
   }
 `;
 
-const BackgroundBox = styled.div<{ backgroundUrl: string }>`
+const BackgroundBox = styled.div<{ $backgroundUrl: string }>`
   width: 100%;
   height: 170px;
-  background-image: url(${(props) => props.backgroundUrl});
+  background-image: url(${(props) => props.$backgroundUrl});
   background-size: cover;
   background-position: center;
 
@@ -311,7 +332,7 @@ const ProfileBox = styled.div`
   }
 `;
 
-const ProfileImg = styled.div<{ profileUrl: string }>`
+const ProfileImg = styled.div<{ $profileUrl: string }>`
   width: 120px;
   height: 120px;
   border-radius: 50%;
@@ -319,7 +340,7 @@ const ProfileImg = styled.div<{ profileUrl: string }>`
   top: 50%;
   margin-top: -30px;
   margin-left: 30px;
-  background-image: url(${(props) => props.profileUrl});
+  background-image: url(${(props) => props.$profileUrl});
   background-size: cover;
   background-position: center;
 `;

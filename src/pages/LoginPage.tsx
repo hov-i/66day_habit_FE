@@ -57,7 +57,7 @@ const LoginPage = () => {
     <>
       <Box>
         <BackGroundBox>
-          <LoginContainer isMobile={isMobile}>
+          <LoginContainer $isMobile={isMobile}>
             <button className="helpButton" onClick={handleHelpClick}>
               <Help />
             </button>
@@ -100,7 +100,7 @@ const LoginPage = () => {
   );
 };
 
-const LoginContainer = styled.div<{ isMobile: boolean }>`
+const LoginContainer = styled.div<{ $isMobile: boolean }>`
   height: 100vh;
   margin: 0 auto;
   width: 100%;
@@ -113,8 +113,8 @@ const LoginContainer = styled.div<{ isMobile: boolean }>`
     margin-left: 0px;
     font-size: 16px;
     padding-right: 30px;
-    margin-bottom: ${({ isMobile }) => (isMobile ? "20px" : "4%")};
-    width: ${({ isMobile }) => (isMobile ? "80%" : "465px")};
+    margin-bottom: ${(props) => (props.$isMobile ? "20px" : "4%")};
+    width: ${(props) => (props.$isMobile ? "80%" : "465px")};
 
     a {
       text-decoration: none;
@@ -127,7 +127,7 @@ const LoginContainer = styled.div<{ isMobile: boolean }>`
     }
   }
   .loginButton {
-    width: ${({ isMobile }) => (isMobile ? "70%" : "400px")};
+    width: ${(props) => (props.$isMobile ? "70%" : "400px")};
     border-radius: 10px;
     background-color: #363636;
     color: white;

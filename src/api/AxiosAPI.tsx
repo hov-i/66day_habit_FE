@@ -68,6 +68,15 @@ const AxiosAPI = {
     }
   },
 
+  // 이메일 조회
+  email: async () => {
+    try {
+      return await axiosInstance.get("/member/email");
+    } catch (error) {
+      throw error;
+    }
+  },
+
   // 메인 내 정보 보기
   mainUserInfo: async () => {
     try {
@@ -147,6 +156,14 @@ const AxiosAPI = {
     }
   },
 
+  // 로그아웃
+  logout: async () => {
+    try {
+      return await axiosInstance.post("/auth/signOut");
+    } catch (error) {
+      throw error;
+    }
+  },
   // 회원 탈퇴
   userDelete: async (checkPassword: string) => {
     try {
@@ -211,6 +228,24 @@ const AxiosAPI = {
     console.log(HabitInfo);
     try {
       return await axiosInstance.patch(`/habit/${habitId}`, HabitInfo);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 습관 더보기
+  habitMore: async (habitId: number) => {
+    try {
+      return await axiosInstance.get(`/habit/detail?habitId=${habitId}`);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 습관 기록 조회
+  habitRecord: async (habitId: number) => {
+    try {
+      return await axiosInstance.get(`/habit/record/${habitId}`);
     } catch (error) {
       throw error;
     }

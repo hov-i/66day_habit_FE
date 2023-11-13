@@ -1,13 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import ThirdImg from "../../resources/calendar.png";
-import useViewport from "../../util/viewportHook";
 
 const ThirdHelp = () => {
-  const { isMobile } = useViewport();
-
   return (
-    <HelpStyle isMobile={isMobile}>
+    <HelpStyle>
       <div className="mainTitle">
         3, 7, 14일차에
         <br />
@@ -36,7 +33,7 @@ const ThirdHelp = () => {
   );
 };
 
-const HelpStyle = styled.div<{ isMobile: boolean }>`
+const HelpStyle = styled.div`
   height: 100vh;
   .imgBox {
     width: 100%;
@@ -45,9 +42,8 @@ const HelpStyle = styled.div<{ isMobile: boolean }>`
     display: flex;
   }
   .img {
-    /* 이미지 크기 조절 */
-    max-width: 45%; /* 최대 너비를 100%로 설정하여 반응형으로 만듭니다. */
-    height: auto; /* 높이를 자동으로 조절하여 가로 세로 비율 유지 */
+    max-width: 45%;
+    height: auto;
   }
   .mainTitle {
     font-size: 4vh;

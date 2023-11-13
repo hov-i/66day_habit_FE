@@ -44,10 +44,10 @@ const PersonList = ({ userName, profileImage }: ProfileProps) => {
     <>
       <List>
         <Person
-          profileUrl={profileImage ? profileImage : ""}
+          $profileUrl={profileImage ? profileImage : ""}
           onClick={handleOnclickUser}
-          memberId={0}
-          selectId={selectId}
+          $memberId={0}
+          $selectId={selectId}
         >
           <div className="personImg" />
           <p className="personName">{userName}</p>
@@ -55,9 +55,9 @@ const PersonList = ({ userName, profileImage }: ProfileProps) => {
         {friendInfoData?.map((data, index) => (
           <Person
             key={index}
-            memberId={data?.memberId || 0}
-            selectId={selectId}
-            profileUrl={data?.profileImage || ""}
+            $memberId={data?.memberId || 0}
+            $selectId={selectId}
+            $profileUrl={data?.profileImage || ""}
             onClick={() => handleOnclickFreind(data.memberId)}
           >
             <div className="personImg" />
@@ -103,9 +103,9 @@ const List = styled.div`
 `;
 
 const Person = styled.div<{
-  profileUrl: string;
-  memberId: number;
-  selectId: number;
+  $profileUrl: string;
+  $memberId: number;
+  $selectId: number;
 }>`
   justify-content: center;
   display: flex;
@@ -117,7 +117,7 @@ const Person = styled.div<{
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    background-image: url(${(props) => props.profileUrl});
+    background-image: url(${(props) => props.$profileUrl});
 
     background-size: cover;
     background-position: center;
@@ -125,10 +125,10 @@ const Person = styled.div<{
   .personName {
     font-size: 16px;
     color: ${(props) =>
-      props.memberId === props.selectId ? "black" : "#747474"};
+      props.$memberId === props.$selectId ? "black" : "#747474"};
     margin: 0;
     font-weight: ${(props) =>
-      props.memberId === props.selectId ? "bolder" : "nomal"};
+      props.$memberId === props.$selectId ? "bolder" : "nomal"};
   }
 `;
 export default PersonList;

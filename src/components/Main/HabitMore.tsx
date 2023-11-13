@@ -9,24 +9,46 @@ import Good from "../../resources/50.png";
 import Soso from "../../resources/20.png";
 import AxiosAPI from "../../api/AxiosAPI";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { habitIdState, userHabitInfoState } from "../../util/habitState";
-import useHabitData from "../../util/habitInfoHook";
-import { HabitMoreProps, StickerData } from "../../util/types";
+import { useSetRecoilState } from "recoil";
+import { habitIdState } from "../../util/habitState";
+import { HabitDetail, HabitMoreProps, StickerData } from "../../util/types";
 
 const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
   const navigate = useNavigate();
   const [isSame, setIsSame] = useState<boolean>(false);
-  const habitInfoData = useRecoilValue(userHabitInfoState);
-  const { habitData } = useHabitData(habitInfoData, habitId);
   const setHabitIdData = useSetRecoilState(habitIdState);
-  const persentValue = habitData?.habitDetail.progress || 0;
-  const achievementRates = habitData?.habitDetail.achievementRates || {};
+  const [habitDetailData, setHabitDetailData] = useState<HabitDetail>({
+    progress: 0,
+    achievementRates: {
+      thirty: 0,
+      fifty: 0,
+      hundred: 0,
+    },
+    todayChecked: false,
+  });
+  const persentValue = habitDetailData?.progress || 0;
+  const achievementRates = habitDetailData?.achievementRates || {};
   const entries = Object.entries(achievementRates);
   entries.sort((a, b) => b[1] - a[1]);
   const mainSticker = getSticker(achievementRates, entries[0][0]);
   const secondSticker = getSticker(achievementRates, entries[1][0]);
   const lastSticker = getSticker(achievementRates, entries[2][0]);
+
+  useEffect(() => {
+    if (habitId) {
+      const getHabitMore = async () => {
+        try {
+          const response = await AxiosAPI.habitMore(habitId);
+          if (response.status === 200) {
+            setHabitDetailData(response.data.data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getHabitMore();
+    }
+  });
 
   const handleDeleteClick = () => {
     console.log("삭제 클릭");
@@ -72,10 +94,10 @@ const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
     <>
       <MoreBox progress={persentValue} isSame={isSame}>
         <div className="title">
-          {habitData ? (
+          {habitDetailData ? (
             <>
-              {habitData.habitName}
-              {habitData.habitDetail.todayChecked ? <Check /> : <NoneCheck />}
+              습관이름
+              {habitDetailData.todayChecked ? <Check /> : <NoneCheck />}
             </>
           ) : (
             "null"

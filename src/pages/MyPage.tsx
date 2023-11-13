@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Container from "../components/common/Container";
 import Profile from "../components/Main/Profile";
@@ -13,13 +13,28 @@ import PasswordEdit from "../components/MyPage/PasswordEdit";
 import Alert from "../components/common/Alert";
 import LogOutAlert from "../components/MyPage/LogOutAlert";
 import DeleteEdit from "../components/MyPage/DeleteEdit";
+import AxiosAPI from "../api/AxiosAPI";
 const MyPage = () => {
   const { isMobile } = useViewport();
   const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
   const [pwdModalOpen, setPwdModalOpen] = useState<boolean>(false);
   const [logOutAlert, setLogOutAlert] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
 
+  useEffect(() => {
+    const getEmail = async () => {
+      try {
+        const response = await AxiosAPI.email();
+        if (response.status === 200) {
+          setEmail(response.data.data.email);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getEmail();
+  });
   const openEmailModal = () => {
     setEmailModalOpen(true);
   };
@@ -58,10 +73,10 @@ const MyPage = () => {
         <Container>
           <Profile name="mypage" />
           <ContentContainer name="edit">
-            <MyPageContainer isMobile={isMobile}>
+            <MyPageContainer $isMobile={isMobile}>
               <div>
                 이메일
-                <p className="email">dbsghdql55555@gmail.com</p>
+                <p className="email">{email}</p>
               </div>
               <div className="editButton" onClick={openEmailModal}>
                 이메일 변경
@@ -104,7 +119,7 @@ const MyPage = () => {
       )}
       {logOutAlert && (
         <Alert open={logOutAlert} close={closelogOutAlert} name="로그아웃">
-          <LogOutAlert />
+          <LogOutAlert onClose={closelogOutAlert} />
         </Alert>
       )}
       {deleteModalOpen && (
@@ -121,8 +136,8 @@ const MyPage = () => {
   );
 };
 
-const MyPageContainer = styled.div<{ isMobile: boolean }>`
-  width: ${(props) => (props.isMobile ? "75%" : "80%")};
+const MyPageContainer = styled.div<{ $isMobile: boolean }>`
+  width: ${(props) => (props.$isMobile ? "75%" : "80%")};
   font-size: 16px;
   .email {
     color: #8f8f8f;

@@ -22,14 +22,14 @@ const LifeQuotes = ({ name }: ProfileProps) => {
     getRandomQuotes();
   }, [name]);
   return (
-    <LifeQuotesBox name={name ? name : ""} isMobile={isMobile}>
+    <LifeQuotesBox $isMobile={isMobile}>
       <div className="wiseSaying">{quotes?.wiseSaying}</div>
       <div className="greatPerson">-{quotes?.greatPerson}-</div>
     </LifeQuotesBox>
   );
 };
-const LifeQuotesBox = styled.div<{ isMobile: boolean; name: string }>`
-  height: ${(props) => (props.isMobile ? "75px" : "80px")};
+const LifeQuotesBox = styled.div<{ $isMobile: boolean }>`
+  height: ${(props) => (props.$isMobile ? "75px" : "80px")};
   background-color: #e8e8e8;
   border-radius: 10px;
   display: flex;

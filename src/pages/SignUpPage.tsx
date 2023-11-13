@@ -155,7 +155,7 @@ const SignPage = () => {
 
   return (
     <Box>
-      <SignUpContainer isMobile={isMobile} step={step} ref={bottom}>
+      <SignUpContainer $isMobile={isMobile} $step={step} ref={bottom}>
         <div className="backButton">
           <Back onClick={() => navigate("/")} />
         </div>
@@ -340,7 +340,7 @@ const SignPage = () => {
   );
 };
 
-const SignUpContainer = styled.div<{ isMobile: boolean; step: number }>`
+const SignUpContainer = styled.div<{ $isMobile: boolean; $step: number }>`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -355,7 +355,7 @@ const SignUpContainer = styled.div<{ isMobile: boolean; step: number }>`
     display: flex;
     align-items: right;
     justify-content: right;
-    width: ${({ isMobile }) => (isMobile ? "100%" : "768px")};
+    width: ${(props) => (props.$isMobile ? "100%" : "768px")};
   }
   .container {
     padding: 30px;

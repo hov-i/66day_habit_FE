@@ -36,6 +36,7 @@ const AlertContainer = styled.div`
   .button {
     width: 100%;
     margin: 0;
+    margin-top: 50px;
     display: flex;
     align-items: center;
     justify-content: center;

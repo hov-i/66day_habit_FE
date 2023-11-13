@@ -27,12 +27,12 @@ const HelpPage = () => {
     <>
       <Box>
         <HiddenBox>
-          <SliderContainer currentSlide={currentSlide} isMobile={isMobile}>
+          <SliderContainer $currentSlide={currentSlide} $isMobile={isMobile}>
             {slides.map((slide, index) => (
               <Slide key={index}>{slide}</Slide>
             ))}
           </SliderContainer>
-          <NextClick isMobile={isMobile}>
+          <NextClick $isMobile={isMobile}>
             <NextButton disabled={false} onClick={NextSlide} />
           </NextClick>
         </HiddenBox>
@@ -47,13 +47,16 @@ const HiddenBox = styled.div`
   overflow: hidden;
 `;
 
-const SliderContainer = styled.div<{ currentSlide: number; isMobile: boolean }>`
+const SliderContainer = styled.div<{
+  $currentSlide: number;
+  $isMobile: boolean;
+}>`
   position: relative;
   width: 100%;
   display: flex;
   transform: translateX(
-    ${({ currentSlide, isMobile }) =>
-      `-${currentSlide * (isMobile ? 100 : 768)}${isMobile ? "%" : "px"}`}
+    ${({ $currentSlide, $isMobile }) =>
+      `-${$currentSlide * ($isMobile ? 100 : 768)}${$isMobile ? "%" : "px"}`}
   );
   transition: transform 0.5s ease-in-out;
 `;
@@ -62,7 +65,7 @@ const Slide = styled.div`
   flex: 0 0 100%;
 `;
 
-const NextClick = styled.div<{ isMobile: boolean }>`
+const NextClick = styled.div<{ $isMobile: boolean }>`
   position: fixed;
   bottom: 0;
   padding: 80px;
@@ -71,7 +74,7 @@ const NextClick = styled.div<{ isMobile: boolean }>`
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  width: ${({ isMobile }) => (isMobile ? "100%" : "768px")};
+  width: ${(props) => (props.$isMobile ? "100%" : "768px")};
 `;
 
 export default HelpPage;
