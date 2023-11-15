@@ -47,9 +47,7 @@ const UserMainPage = () => {
     <Box>
       <MainContainer>
         <Container>
-          {isUser && <Profile name="main" />}
-          {!isUser && <Profile name="search" />}
-
+          <Profile name="search" />
           <Navbar />
           <>
             <ContentContainer name="edit">

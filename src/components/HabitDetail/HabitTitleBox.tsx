@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as Back } from "../../resources/Icons/back.svg";
 import { useNavigate } from "react-router-dom";
@@ -6,27 +6,43 @@ import useViewport from "../../util/viewportHook";
 import { useRecoilValue } from "recoil";
 import {
   habitIdState,
-  memberHabitInfoState,
   memberIdState,
   userHabitInfoState,
 } from "../../util/habitState";
 import useHabitData from "../../util/habitInfoHook";
 import useHabitColor from "../../util/habitcolorHook";
 import { HabitInfo } from "../../util/types";
+import AxiosAPI from "../../api/AxiosAPI";
 
 const HabitTitleBox = () => {
   const { isMobile } = useViewport();
   const userHabitInfoData = useRecoilValue(userHabitInfoState);
   const habitIdData = useRecoilValue(habitIdState);
   const selectId = useRecoilValue(memberIdState);
-  const memberHabitInfoData = useRecoilValue(memberHabitInfoState);
+  const [HabitTitleInfo, setHabitTitleInfo] = useState<HabitInfo[]>([]);
 
   let HabitInfoValue: HabitInfo[] = [];
   if (selectId === 0) {
     HabitInfoValue = userHabitInfoData;
   } else if (selectId !== 0) {
-    HabitInfoValue = memberHabitInfoData;
+    HabitInfoValue = HabitTitleInfo;
   }
+
+  useEffect(() => {
+    if (selectId !== 0) {
+      const getfriendInfo = async () => {
+        try {
+          const response = await AxiosAPI.friendUserInfo(selectId);
+          if (response.status === 200)
+            setHabitTitleInfo(response.data.data.friendHabitList);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+      getfriendInfo();
+    }
+  }, [selectId]);
+
   const { habitData } = useHabitData(HabitInfoValue, habitIdData);
   const { bgColorCode } = useHabitColor(habitData);
 

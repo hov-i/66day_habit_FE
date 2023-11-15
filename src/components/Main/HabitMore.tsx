@@ -18,6 +18,7 @@ const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
   const [isSame, setIsSame] = useState<boolean>(false);
   const setHabitIdData = useSetRecoilState(habitIdState);
   const [habitDetailData, setHabitDetailData] = useState<HabitDetail>({
+    habitName: "",
     progress: 0,
     achievementRates: {
       thirty: 0,
@@ -94,11 +95,9 @@ const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
     <>
       <MoreBox $progress={persentValue} $isSame={isSame}>
         <div className="title">
+          {habitDetailData ? habitDetailData.habitName : ""}
           {habitDetailData ? (
-            <>
-              습관이름
-              {habitDetailData.todayChecked ? <Check /> : <NoneCheck />}
-            </>
+            <>{habitDetailData.todayChecked ? <Check /> : <NoneCheck />}</>
           ) : (
             "null"
           )}

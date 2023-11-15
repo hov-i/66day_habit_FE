@@ -36,15 +36,16 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    const TokenAPI = axios.create({
-      baseURL: DOMAIN, // 기본 URL 주소 설정
-      withCredentials: true, // 쿠키를 받고 전송하기 위한 설정
-    });
 
-    if (!isRefreshing) {
+    if (error.response?.status === 401 && !isRefreshing) {
       isRefreshing = true;
 
       try {
+        const TokenAPI = axios.create({
+          baseURL: DOMAIN,
+          withCredentials: true,
+        });
+
         const refreshResponse = await TokenAPI.post(`${VERSION}/auth/refresh`);
         const newAccessToken = refreshResponse.data.data.accessToken;
 

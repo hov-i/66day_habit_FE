@@ -114,16 +114,12 @@ const HabitBox = React.forwardRef<HTMLDivElement, HabitBoxProps>(
       if ((name === "new" || name === "done") && habitData) {
         const getFriendUserInfo = async () => {
           try {
-            console.log(habitData);
-            console.log("useEffect데이터");
             const response = await AxiosAPI.friendUserInfo(
               habitData?.memberId ? habitData.memberId : 0
             );
             if (response.status === 200) {
-              console.log(response.data.data);
               setUserProfileUrl(response.data.data.profileImage);
               setUserName(response.data.data.username);
-              setSelectId(habitData?.memberId ? habitData.memberId : 0);
             }
           } catch (e) {
             console.log(e);

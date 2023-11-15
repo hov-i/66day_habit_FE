@@ -122,6 +122,7 @@ export type HabitInfo = {
 };
 
 export type HabitDetail = {
+  habitName: string;
   progress: number;
   achievementRates: {
     thirty?: number;

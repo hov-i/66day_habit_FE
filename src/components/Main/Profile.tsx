@@ -71,14 +71,14 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
           );
           if (response && response.status === 200) {
             console.log("회원정보 수정 성공");
+            navigate(-1);
           }
         } catch (error) {
           console.log(error);
         }
       };
       patchUserInfoChange();
-    }
-    navigate(-1);
+    } else navigate(-1);
   };
 
   const handleFollowClick = () => {
@@ -122,19 +122,21 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
     };
     getMyInfo();
     if (name === "friend" || name === "search") {
-      const getFriendUserInfo = async () => {
-        try {
-          const response = await AxiosAPI.friendUserInfo(selectId);
-          if (response.status === 200) setMemberInfoData(response.data.data);
-          console.log(response.data.data.friendHabitList);
-          const isFriendValue =
-            response.data.data.isFriend === 1 ? true : false;
-          setIsFriend(isFriendValue);
-        } catch (e) {
-          console.log(e);
-        }
-      };
-      getFriendUserInfo();
+      if (selectId !== 0) {
+        const getFriendUserInfo = async () => {
+          try {
+            const response = await AxiosAPI.friendUserInfo(selectId);
+            if (response.status === 200) setMemberInfoData(response.data.data);
+            console.log(response.data.data.friendHabitList);
+            const isFriendValue =
+              response.data.data.isFriend === 1 ? true : false;
+            setIsFriend(isFriendValue);
+          } catch (e) {
+            console.log(e);
+          }
+        };
+        getFriendUserInfo();
+      }
     }
   }, [name, selectId, setMemberInfoData]);
 
@@ -237,16 +239,23 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
                 <Setting />
               </div>
             )}
-            {(name === "friend" || name === "search") && !isFriend && (
-              <div className="setting">
-                <EditButton name="팔로우" onClick={handleFollowClick} />
-              </div>
-            )}
-            {(name === "friend" || name === "search") && isFriend && (
-              <div className="setting">
-                <WhiteEditButton name="팔로잉" onClick={handleUnFollowClick} />
-              </div>
-            )}
+            {(name === "friend" || name === "search") &&
+              !isFriend &&
+              selectId !== 0 && (
+                <div className="setting">
+                  <EditButton name="팔로우" onClick={handleFollowClick} />
+                </div>
+              )}
+            {(name === "friend" || name === "search") &&
+              isFriend &&
+              selectId !== 0 && (
+                <div className="setting">
+                  <WhiteEditButton
+                    name="팔로잉"
+                    onClick={handleUnFollowClick}
+                  />
+                </div>
+              )}
           </div>
           {(name === "main" || name === "friend") && (
             <PersonList

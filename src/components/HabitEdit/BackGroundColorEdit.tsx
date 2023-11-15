@@ -43,7 +43,7 @@ const BackGroundColorEdit: React.FC<BackGroundColorEditProps> = ({
             className="activeBox"
             key={index}
             onClick={() => handleIconClick(data.colorId)}
-            active={data.colorId === ColorId}
+            $active={data.colorId === ColorId}
           >
             <BackGroundColorBox id={data.colorId} />
           </ActiveBox>
@@ -61,11 +61,11 @@ const EditContainer = styled.div<{ $isMobile: boolean }>`
     margin-left: 3px;
   }
 `;
-const ActiveBox = styled.div<{ active: boolean }>`
+const ActiveBox = styled.div<{ $active: boolean }>`
   width: 100px;
   height: 130px;
   box-shadow: ${(props) =>
-    props.active
+    props.$active
       ? `  rgba(53, 50, 50, 0.16) 0px 1px 3px, #363636 0px 0px 0px 2px;`
       : ""};
   display: flex;
