@@ -2,7 +2,11 @@ import { useState, useEffect, useCallback } from "react";
 import { AxiosError } from "axios";
 import AxiosAPI from "../api/AxiosAPI";
 import { useSetRecoilState } from "recoil";
-import { doneHabitInfoState, newHabitInfoState } from "./habitState";
+import {
+  doneHabitInfoState,
+  newHabitInfoState,
+  searchHabitInfoState,
+} from "./habitState";
 
 interface AxiosResult {
   loading: boolean;
@@ -10,12 +14,17 @@ interface AxiosResult {
   hasMore: boolean;
 }
 
-function useIntersect(page: number, name: string, query?: string): AxiosResult {
+function useIntersect(
+  page: number,
+  name: string,
+  query?: { id: number; tag: string }[]
+): AxiosResult {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(false);
   const setNewHabitInfoData = useSetRecoilState(newHabitInfoState);
   const setDoneHabitInfoData = useSetRecoilState(doneHabitInfoState);
+  const setSearchHabitInfoData = useSetRecoilState(searchHabitInfoState);
 
   const sendQuery = useCallback(async () => {
     setLoading(true);
@@ -63,8 +72,41 @@ function useIntersect(page: number, name: string, query?: string): AxiosResult {
         }
       };
       getDoneHabit();
+    } else if (name === "search") {
+      let keyword = "";
+      for (const idx in query) {
+        const index = parseInt(idx, 10);
+        keyword = keyword.concat(`search${index + 1}=${query[index]?.tag}&`);
+      }
+      const getSearchHabit = async () => {
+        try {
+          const response = await AxiosAPI.searchHabit(page, keyword);
+          if (response.status === 200) {
+            if (page === 0) {
+              setSearchHabitInfoData(response.data.data.habitList);
+            } else {
+              setSearchHabitInfoData((prevList) =>
+                prevList.concat(response.data.data.habitList)
+              );
+            }
+            setLoading(false);
+            setHasMore(response.data.data.habitList.length > 0);
+            console.log(response.data.data.habitList);
+          }
+        } catch (error) {
+          setError(error instanceof AxiosError ? true : false);
+        }
+      };
+      getSearchHabit();
     }
-  }, [page, name, setNewHabitInfoData, setDoneHabitInfoData]);
+  }, [
+    page,
+    name,
+    setNewHabitInfoData,
+    setDoneHabitInfoData,
+    setSearchHabitInfoData,
+    query,
+  ]);
 
   useEffect(() => {
     sendQuery();

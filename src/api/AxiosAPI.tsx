@@ -380,6 +380,17 @@ const AxiosAPI = {
       throw error;
     }
   },
+
+  // 검색 습관 5개 조회
+  searchHabit: async (page: number, keyword: string) => {
+    try {
+      return await axiosInstance.get(
+        `/habit?page=${page}&limit=10&${keyword}sort=-createdAt`
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default AxiosAPI;

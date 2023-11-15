@@ -1,15 +1,19 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import HabitBox from "../Main/HabitBox";
 import useIntersect from "../../util/intersectHook";
 import { useRecoilValue } from "recoil";
-import { newHabitInfoState } from "../../util/habitState";
+import { searchHabitInfoState } from "../../util/habitState";
 
-const SearchHabitContainer = () => {
+const SearchHabitContainer = ({
+  tagList,
+}: {
+  tagList: { id: number; tag: string }[];
+}) => {
   const [pageNum, setPageNum] = useState<number>(0);
-  const { loading, error, hasMore } = useIntersect(pageNum, "new");
+  const { loading, error, hasMore } = useIntersect(pageNum, "search", tagList);
   const observer = useRef<IntersectionObserver | null>(null);
-  const newHabitInfoData = useRecoilValue(newHabitInfoState);
+  const searchHabitInfoData = useRecoilValue(searchHabitInfoState);
 
   const lastHabitElementRef = useCallback(
     (node: HTMLElement | null) => {
@@ -27,22 +31,25 @@ const SearchHabitContainer = () => {
     [loading, hasMore]
   );
 
+  useEffect(() => {
+    setPageNum(0);
+  }, [tagList]);
+
   return (
     <Container>
-      <div className="title">✨ 새로 생긴 습관들</div>
       <div className="habitContainer">
-        {newHabitInfoData.map((data, index) => {
+        {searchHabitInfoData.map((data, index) => {
           // 마지막 요소인 경우 IntersectionObserver를 적용합니다.
-          const isLastElement = newHabitInfoData.length === index + 1;
+          const isLastElement = searchHabitInfoData.length === index + 1;
           return isLastElement ? (
             <HabitBox
-              name="new"
+              name="search"
               key={index}
               habitId={data.habitId}
               ref={lastHabitElementRef}
             />
           ) : (
-            <HabitBox name="new" key={index} habitId={data.habitId} />
+            <HabitBox name="search" key={index} habitId={data.habitId} />
           );
         })}
         {/* 데이터 로딩 중인 경우 "Loading..."을 표시합니다. */}
@@ -60,7 +67,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid #c7c7c7;
+
   flex-direction: column;
 
   .title {
@@ -70,7 +77,7 @@ const Container = styled.div`
     width: 80%;
   }
   .habitContainer {
-    height: 300px;
+    height: 100vh;
     overflow: scroll;
     width: 80%;
   }

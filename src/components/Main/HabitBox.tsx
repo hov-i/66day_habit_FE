@@ -19,6 +19,7 @@ import {
   memberHabitInfoState,
   memberIdState,
   newHabitInfoState,
+  searchHabitInfoState,
   userHabitInfoState,
 } from "../../util/habitState";
 import useHabitData from "../../util/habitInfoHook";
@@ -37,6 +38,7 @@ const HabitBox = React.forwardRef<HTMLDivElement, HabitBoxProps>(
     const memberHabitInfoData = useRecoilValue(memberHabitInfoState);
     const newHabitInfoData = useRecoilValue(newHabitInfoState);
     const doneHabitInfoData = useRecoilValue(doneHabitInfoState);
+    const searchHabitInfoData = useRecoilValue(searchHabitInfoState);
     const setSelectId = useSetRecoilState(memberIdState);
 
     let HabitInfoValue: HabitInfo[] = [];
@@ -50,6 +52,8 @@ const HabitBox = React.forwardRef<HTMLDivElement, HabitBoxProps>(
       HabitInfoValue = newHabitInfoData;
     } else if (name === "done") {
       HabitInfoValue = doneHabitInfoData;
+    } else if (name === "search") {
+      HabitInfoValue = searchHabitInfoData;
     } else if (name === "commend") {
       CommendColorCode = commendData.find((item) => item.name === title)?.color;
       switch (title) {
@@ -104,14 +108,17 @@ const HabitBox = React.forwardRef<HTMLDivElement, HabitBoxProps>(
     };
 
     const handleProfileClick = (e: any) => {
-      if (name === "new" || name === "done") {
+      if (name === "new" || name === "done" || name === "search") {
         setSelectId(habitData?.memberId ? habitData.memberId : 0);
         navigate("/user/profile");
       }
     };
 
     useEffect(() => {
-      if ((name === "new" || name === "done") && habitData) {
+      if (
+        (name === "new" || name === "done" || name === "search") &&
+        habitData
+      ) {
         const getFriendUserInfo = async () => {
           try {
             const response = await AxiosAPI.friendUserInfo(
@@ -187,7 +194,7 @@ const HabitBox = React.forwardRef<HTMLDivElement, HabitBoxProps>(
               />
               <p className="userName">
                 {name === "commend" && (title !== "" ? title : "")}{" "}
-                {(name === "new" || name === "done") &&
+                {(name === "new" || name === "done" || name === "search") &&
                   (userName !== "" ? userName : "")}
               </p>
             </>
@@ -272,8 +279,7 @@ const TagList = styled.p<{ $name: string }>`
   width: 95%;
   text-align: right;
   margin: 0;
-  margin: ${(props) =>
-    props.$name === "commend" || props.$name === "search" ? "60px" : "30px"};
+  margin: ${(props) => (props.$name === "commend" ? "60px" : "30px")};
   font-size: 16px;
   margin-bottom: 10px;
 
