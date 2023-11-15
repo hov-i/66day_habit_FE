@@ -10,13 +10,19 @@ import Soso from "../../resources/20.png";
 import AxiosAPI from "../../api/AxiosAPI";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { habitIdState } from "../../util/habitState";
+import {
+  habitIdState,
+  habitMessage,
+  habitNameState,
+} from "../../util/habitState";
 import { HabitDetail, HabitMoreProps, StickerData } from "../../util/types";
 
 const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
   const navigate = useNavigate();
   const [isSame, setIsSame] = useState<boolean>(false);
   const setHabitIdData = useSetRecoilState(habitIdState);
+  const sethabitMessage = useSetRecoilState(habitMessage);
+  const sethabitNameSate = useSetRecoilState(habitNameState);
   const [habitDetailData, setHabitDetailData] = useState<HabitDetail>({
     habitName: "",
     progress: 0,
@@ -58,7 +64,9 @@ const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
         const response = await AxiosAPI.habitDelete(habitId || 0);
         if (response.status === 200) {
           console.log("습관 삭제 성공");
-          window.location.replace("/main");
+          sethabitMessage("delete");
+          sethabitNameSate(habitDetailData ? habitDetailData.habitName : "");
+          navigate("/main");
         }
       } catch (error: any) {
         console.error(error);

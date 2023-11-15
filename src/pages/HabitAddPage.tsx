@@ -16,16 +16,22 @@ import AxiosAPI from "../api/AxiosAPI";
 import Alert from "../components/common/Alert";
 import AddErrorAlert from "../components/HabitEdit/AddErrorAlert";
 import { HabitAddProps } from "../util/types";
-import { useRecoilValue } from "recoil";
-import { habitIdState, userHabitInfoState } from "../util/habitState";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  habitIdState,
+  userHabitInfoState,
+  habitMessage,
+  habitNameState,
+} from "../util/habitState";
 import useHabitData from "../util/habitInfoHook";
 
 const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
   const navigate = useNavigate();
   const habitIdData = useRecoilValue(habitIdState);
   const habitInfoData = useRecoilValue(userHabitInfoState);
+  const sethabitMessage = useSetRecoilState(habitMessage);
+  const sethabitNameSate = useSetRecoilState(habitNameState);
   const { habitData } = useHabitData(habitInfoData, habitIdData);
-
   const habitNameValue = habitData?.habitName || "";
   const bgColorValue = habitData?.backgroundColor || "";
   const fontColorValue = habitData?.fontColor || "";
@@ -34,6 +40,7 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
     id: index,
     tag,
   }));
+
   const disclosureValue = habitData?.habitVisibility || "";
 
   const [habitName, setHabitName] = useState<string>(
@@ -87,6 +94,8 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
           if (response && response.status === 200) {
             console.log("습관 생성 성공");
             navigate(-1);
+            sethabitMessage("create");
+            sethabitNameSate(habitName);
           }
         } catch (error) {
           console.error(error);
@@ -113,6 +122,8 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
           if (response && response.status === 200) {
             console.log("습관 수정 성공");
             navigate(-1);
+            sethabitMessage("patch");
+            sethabitNameSate(habitName);
           }
         } catch (error) {
           console.error(error);
@@ -173,6 +184,7 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
           <Navbar />
         </Container>
       </Box>
+
       {addErrorAlert && (
         <Alert open={addErrorAlert} close={closeAddErrorAlert} name="빈칸 오류">
           <AddErrorAlert onClose={closeAddErrorAlert} />

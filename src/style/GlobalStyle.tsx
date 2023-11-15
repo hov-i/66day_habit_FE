@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import "react-toastify/dist/ReactToastify.css";
 // 전역스타일링: 모든 곳에 쓰이는 style입니다.
 const GlobalStyle = createGlobalStyle`
 
@@ -9,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
   html {
     font-size: 62.5%; // 10px = 1rem;
     font-family: "Noto Sans KR";// 폰트 설정
+
   }  
 
   button{

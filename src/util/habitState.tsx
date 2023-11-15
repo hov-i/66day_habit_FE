@@ -54,4 +54,14 @@ export const memberIdState = atom<number>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const habitRecordState = atom;
+export const habitMessage = atom<string>({
+  key: "habitMessageDate",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const habitNameState = atom<string>({
+  key: "habitNameDateState",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
