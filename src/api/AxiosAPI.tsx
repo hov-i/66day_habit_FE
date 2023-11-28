@@ -95,6 +95,15 @@ const AxiosAPI = {
     }
   },
 
+  // 내 아이디 조회
+  userId: async () => {
+    try {
+      return await axiosInstance.get("/member/id");
+    } catch (error) {
+      throw error;
+    }
+  },
+
   // 내 정보 수정하기
   userInfoChange: async (
     username: string,
@@ -212,20 +221,36 @@ const AxiosAPI = {
   // 습관 수정
   habitChange: async (
     habitId: number,
-    backgroundColor: string,
-    fontColor: string,
-    habitName: string,
-    habitVisibility: string,
-    habitTag: string[]
+    backgroundColor: string | undefined,
+    fontColor: string | undefined,
+    habitName: string | undefined,
+    habitVisibility: string | undefined,
+    habitTag: string[] | undefined
   ) => {
-    const HabitInfo = {
-      backgroundColor,
-      fontColor,
-      habitName,
-      habitVisibility,
-      habitTag,
-    };
+    const HabitInfo: any = {};
+
+    if (backgroundColor !== undefined) {
+      HabitInfo.backgroundColor = backgroundColor;
+    }
+
+    if (fontColor !== undefined) {
+      HabitInfo.fontColor = fontColor;
+    }
+
+    if (habitName !== undefined) {
+      HabitInfo.habitName = habitName;
+    }
+
+    if (habitVisibility !== undefined) {
+      HabitInfo.habitVisibility = habitVisibility;
+    }
+
+    if (habitTag !== undefined) {
+      HabitInfo.habitTag = habitTag;
+    }
+
     console.log(HabitInfo);
+
     try {
       return await axiosInstance.patch(`/habit/${habitId}`, HabitInfo);
     } catch (error) {
@@ -387,6 +412,33 @@ const AxiosAPI = {
       return await axiosInstance.get(
         `/habit?page=${page}&limit=10&${keyword}sort=-createdAt`
       );
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 회원 채팅방 조회
+  chatRoom: async () => {
+    try {
+      return await axiosInstance.get("/chat/");
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 채팅 메세지
+  chatList: async (selectId: number) => {
+    try {
+      return await axiosInstance.get(`/chat/get/${selectId}`);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 채팅방 삭제
+  chatDelete: async (selectId: number) => {
+    try {
+      return await axiosInstance.delete(`/chat/${selectId}`);
     } catch (error) {
       throw error;
     }

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
 import { ProfileProps, QuoteData } from "../../util/types";
 import AxiosAPI from "../../api/AxiosAPI";
+import Forest from "../../resources/forest.jpg";
 
 const LifeQuotes = ({ name }: ProfileProps) => {
   const { isMobile } = useViewport();
@@ -30,7 +31,8 @@ const LifeQuotes = ({ name }: ProfileProps) => {
 };
 const LifeQuotesBox = styled.div<{ $isMobile: boolean }>`
   height: ${(props) => (props.$isMobile ? "75px" : "80px")};
-  background-color: #e8e8e8;
+  background-image: url(${Forest});
+  background-size: cover;
   border-radius: 10px;
   display: flex;
   padding: 10px;

@@ -11,6 +11,7 @@ import AxiosAPI from "../../api/AxiosAPI";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import {
+  alarmMessageState,
   habitIdState,
   habitMessage,
   habitNameState,
@@ -23,6 +24,7 @@ const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
   const setHabitIdData = useSetRecoilState(habitIdState);
   const sethabitMessage = useSetRecoilState(habitMessage);
   const sethabitNameSate = useSetRecoilState(habitNameState);
+  const setalarmMessageDataState = useSetRecoilState(alarmMessageState);
   const [habitDetailData, setHabitDetailData] = useState<HabitDetail>({
     habitName: "",
     progress: 0,
@@ -66,6 +68,12 @@ const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
           console.log("습관 삭제 성공");
           sethabitMessage("delete");
           sethabitNameSate(habitDetailData ? habitDetailData.habitName : "");
+          setalarmMessageDataState((prevAlarmMessageDataState) =>
+            prevAlarmMessageDataState.concat({
+              Name: `${habitDetailData ? habitDetailData.habitName : ""}`,
+              data: "delete",
+            })
+          );
           navigate("/main");
         }
       } catch (error: any) {

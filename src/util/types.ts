@@ -81,6 +81,19 @@ export interface ErrorProps {
   errorCode?: string;
 }
 
+export interface ChatRoomProps {
+  onClose: () => void;
+  Name: string;
+}
+
+export interface ChatRoomListProps {
+  userName: string;
+  userImg: string;
+  lastChat?: string;
+  roomId: number;
+  senderId: number;
+}
+
 export interface TextBoxProps {
   name: "이메일" | "비밀번호";
   setInputValue: (value: string) => void;
@@ -95,6 +108,10 @@ export interface BubbleBoxProps {
   children: ReactNode;
   name: "left" | "right";
   buttonRef?: React.MutableRefObject<HTMLDivElement | null>;
+  type?: string;
+  userName?: string;
+  userImg?: string;
+  ani?: boolean;
 }
 
 export type InfoData = {
@@ -200,3 +217,23 @@ export interface CommendHabitInfo {
   habitSubject: string;
   habitName: string;
 }
+
+export type AlarmData = {
+  Name: string;
+  data: string;
+};
+
+export type MessageData = {
+  type?: string;
+  senderId: string;
+  receiverId: string;
+  content: string;
+};
+
+export type ChatRoomData = {
+  chatRoomId: number;
+  senderId: number;
+  senderName: string;
+  senderProfileImage: string;
+  lastMessage: string;
+};

@@ -4,6 +4,7 @@ import useViewport from "../../util/viewportHook";
 import { ReactComponent as Setting } from "../../resources/Icons/settings.svg";
 import { ReactComponent as Back } from "../../resources/Icons/profileBack.svg";
 import { ReactComponent as PhotoAdd } from "../../resources/Icons/photoAdd.svg";
+import { ReactComponent as Bell } from "../../resources/Icons/bell.svg";
 import PersonList from "./PersonList";
 import { useNavigate } from "react-router-dom";
 import AxiosAPI from "../../api/AxiosAPI";
@@ -14,6 +15,8 @@ import EditButton from "../MyPage/EditButton";
 import WhiteEditButton from "../MyPage/WhiteEditButton";
 import Alert from "../common/Alert";
 import SelfFollowErrorAlert from "../Search/SelfFollowErrorAlert";
+import AlarmModal from "../common/AlarmModal";
+import AlarmBox from "./AlarmBox";
 
 const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   const { isMobile } = useViewport();
@@ -27,6 +30,7 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
   const [backGroundeUrl, setBackGroundUrl] = useState<string>("");
   const [isFriend, setIsFriend] = useState<boolean>(true);
   const [FollowErrorAlert, setFollowErrorAlert] = useState<boolean>(false);
+  const [alarmModal, setAlarmModal] = useState<boolean>(false);
   const selectId = useRecoilValue(memberIdState);
   const handleProfileFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -52,6 +56,14 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
 
   const closeFollowErrorAlert = () => {
     setFollowErrorAlert(false);
+  };
+
+  const openAlarmModal = () => {
+    setAlarmModal(true);
+  };
+
+  const closeAlarmModal = () => {
+    setAlarmModal(false);
   };
 
   const handleChangeClick = () => {
@@ -158,8 +170,23 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
           )}
           {name === "edit" && (
             <div className="backButton">
-              <Back onClick={handleChangeClick} />
+              <div className="back">
+                <Back onClick={handleChangeClick} />
+              </div>
             </div>
+          )}
+          {name === "main" && (
+            <>
+              <div className="backgroundButton">
+                <div className="bell">
+                  <Bell
+                    onClick={() => {
+                      openAlarmModal();
+                    }}
+                  />
+                </div>
+              </div>
+            </>
           )}
           {name === "edit" && (
             <>
@@ -274,6 +301,16 @@ const Profile = ({ name, userName, Introduction }: ProfileProps) => {
           <SelfFollowErrorAlert onClose={closeFollowErrorAlert} />
         </Alert>
       )}
+      {alarmModal && (
+        <AlarmModal
+          open={alarmModal}
+          close={closeAlarmModal}
+          height="0"
+          name="알람모달"
+        >
+          <AlarmBox />
+        </AlarmModal>
+      )}
     </>
   );
 };
@@ -294,6 +331,11 @@ const BackgroundBox = styled.div<{ $backgroundUrl: string }>`
   background-image: url(${(props) => props.$backgroundUrl});
   background-size: cover;
   background-position: center;
+
+  .bell {
+    padding: 10px;
+    padding-right: 0px;
+  }
 
   .backButton {
     padding: 30px;

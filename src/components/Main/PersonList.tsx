@@ -39,19 +39,23 @@ const PersonList = ({ userName, profileImage }: ProfileProps) => {
 
   const handleOnclickFreind = (e: number) => {
     setSelectId(e);
+    console.log(e);
   };
   return (
     <>
       <List>
-        <Person
-          $profileUrl={profileImage ? profileImage : ""}
-          onClick={handleOnclickUser}
-          $memberId={0}
-          $selectId={selectId}
-        >
-          <div className="personImg" />
-          <p className="personName">{userName}</p>
-        </Person>
+        {userName ? (
+          <Person
+            $profileUrl={profileImage ? profileImage : ""}
+            onClick={handleOnclickUser}
+            $memberId={0}
+            $selectId={selectId}
+          >
+            <div className="personImg" />
+            <p className="personName">{userName}</p>
+          </Person>
+        ) : null}
+
         {friendInfoData?.map((data, index) => (
           <Person
             key={index}

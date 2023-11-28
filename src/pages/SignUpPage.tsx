@@ -166,7 +166,7 @@ const SignPage = () => {
         <div className="container">
           {step >= 1 && (
             <>
-              <BubbleBox name="left">
+              <BubbleBox name="left" type="sign">
                 만나서 반가워요!
                 <br /> 당신의 이름은 무엇인가요?
               </BubbleBox>
@@ -179,7 +179,7 @@ const SignPage = () => {
               ) : (
                 <p className="inputCheck"> &nbsp;</p>
               )}
-              <BubbleBox name="right">
+              <BubbleBox name="right" type="sign">
                 당신의 이름은?
                 {step === 1 ? (
                   <input
@@ -197,7 +197,7 @@ const SignPage = () => {
 
           {step >= 2 && (
             <>
-              <BubbleBox name="left">
+              <BubbleBox name="left" type="sign">
                 정말 멋진 이름이네요!
                 <br /> 당신을 한마디로 소개한다면?
               </BubbleBox>
@@ -210,7 +210,7 @@ const SignPage = () => {
               ) : (
                 <p className="inputCheck"> &nbsp;</p>
               )}
-              <BubbleBox name="right">
+              <BubbleBox name="right" type="sign">
                 당신의 자기소개는?{" "}
                 {step === 2 ? (
                   <input
@@ -228,7 +228,7 @@ const SignPage = () => {
 
           {step >= 3 && (
             <>
-              <BubbleBox name="left">
+              <BubbleBox name="left" type="sign">
                 정말 멋져요!
                 <br />
                 우리.. 친해지고 싶은데
@@ -248,7 +248,7 @@ const SignPage = () => {
               ) : (
                 <p className="inputCheck"> &nbsp;</p>
               )}
-              <BubbleBox name="right">
+              <BubbleBox name="right" type="sign">
                 당신의 이메일은?{" "}
                 {step === 3 ? (
                   <input
@@ -266,7 +266,7 @@ const SignPage = () => {
 
           {step >= 4 && (
             <>
-              <BubbleBox name="left">
+              <BubbleBox name="left" type="sign">
                 고마워요!
                 <br />
                 더 찐한 사이가 되고 싶은데
@@ -282,7 +282,7 @@ const SignPage = () => {
               ) : (
                 <p className="inputCheck"> &nbsp;</p>
               )}
-              <BubbleBox name="right">
+              <BubbleBox name="right" type="sign">
                 당신의 비밀번호는?{" "}
                 {step === 4 ? (
                   <input
@@ -299,7 +299,7 @@ const SignPage = () => {
           )}
           {step >= 5 && (
             <>
-              <BubbleBox name="left">
+              <BubbleBox name="left" type="sign">
                 좀 더 확실하게 <br />
                 다시 한번만 더 알려주세요!
               </BubbleBox>
@@ -312,7 +312,7 @@ const SignPage = () => {
               ) : (
                 <p className="inputCheck"> &nbsp;</p>
               )}
-              <BubbleBox name="right">
+              <BubbleBox name="right" type="sign">
                 비밀번호 재입력{" "}
                 {step === 5 ? (
                   <input
@@ -328,7 +328,7 @@ const SignPage = () => {
             </>
           )}
           {step >= 6 && (
-            <BubbleBox name="left">
+            <BubbleBox name="left" type="sign">
               이제 준비가 다 되었어요!
               <br />
               멋진 습관을 만들러 가볼까요?

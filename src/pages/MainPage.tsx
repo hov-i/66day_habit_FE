@@ -18,9 +18,10 @@ import {
   friendInfoState,
   habitNameState,
   habitMessage,
+  userIdState,
 } from "../util/habitState";
 import { toast, ToastContainer } from "react-toastify";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import useViewport from "../util/viewportHook";
 
 const MainPage = () => {
@@ -31,6 +32,7 @@ const MainPage = () => {
     useRecoilState(memberHabitInfoState);
   const friendInfoData = useRecoilValue(friendInfoState);
   const [selectId, setSelectId] = useRecoilState(memberIdState);
+  const setUserId = useSetRecoilState(userIdState);
   const [habitMessageDate, sethabitMessageDate] = useRecoilState(habitMessage);
   const [habitNameDateState, sethabitNameDateState] =
     useRecoilState(habitNameState);
@@ -38,7 +40,7 @@ const MainPage = () => {
   const today = new Date();
   const formattedDate = `${today.getFullYear()}/ ${
     today.getMonth() + 1
-  }/ ${today.getDate()}`;
+  }/ ${today.getDate()}  ${today.getHours()}:${today.getMinutes()}`;
   const habitCreate = useCallback(() => {
     toast(
       <div className="messeageBox">
@@ -108,6 +110,21 @@ const MainPage = () => {
       }
     };
     getMyInfo();
+
+    const getUserId = async () => {
+      try {
+        const response = await AxiosAPI.userId();
+        if (response.status === 200) {
+          setUserId(response.data.data.memberId);
+          console.log(response.data.data.memberId);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    getUserId();
+
     if (selectId !== 0) {
       const getFriendUserInfo = async () => {
         try {
@@ -133,6 +150,7 @@ const MainPage = () => {
     sethabitMessageDate,
     habitDelete,
     habitPatch,
+    setUserId,
   ]);
   return (
     <Box>

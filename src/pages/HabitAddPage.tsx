@@ -22,6 +22,7 @@ import {
   userHabitInfoState,
   habitMessage,
   habitNameState,
+  alarmMessageState,
 } from "../util/habitState";
 import useHabitData from "../util/habitInfoHook";
 
@@ -31,6 +32,7 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
   const habitInfoData = useRecoilValue(userHabitInfoState);
   const sethabitMessage = useSetRecoilState(habitMessage);
   const sethabitNameSate = useSetRecoilState(habitNameState);
+  const setalarmMessageDataState = useSetRecoilState(alarmMessageState);
   const { habitData } = useHabitData(habitInfoData, habitIdData);
   const habitNameValue = habitData?.habitName || "";
   const bgColorValue = habitData?.backgroundColor || "";
@@ -96,6 +98,12 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
             navigate(-1);
             sethabitMessage("create");
             sethabitNameSate(habitName);
+            setalarmMessageDataState((prevAlarmMessageDataState) =>
+              prevAlarmMessageDataState.concat({
+                Name: `${habitName}`,
+                data: "create",
+              })
+            );
           }
         } catch (error) {
           console.error(error);
@@ -113,17 +121,23 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
         try {
           const response = await AxiosAPI.habitChange(
             habitIdData,
-            BgColor,
-            fontColor,
-            habitName,
-            disclosure,
-            tags
+            BgColor === bgColorValue ? undefined : BgColor,
+            fontColor === fontColorValue ? undefined : fontColor,
+            habitName === habitNameValue ? undefined : habitName,
+            disclosure === disclosureValue ? undefined : disclosure,
+            tags === tagsValue ? undefined : tags
           );
           if (response && response.status === 200) {
             console.log("습관 수정 성공");
             navigate(-1);
             sethabitMessage("patch");
             sethabitNameSate(habitName);
+            setalarmMessageDataState((prevAlarmMessageDataState) =>
+              prevAlarmMessageDataState.concat({
+                Name: `${habitName}`,
+                data: "patch",
+              })
+            );
           }
         } catch (error) {
           console.error(error);

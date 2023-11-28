@@ -4,6 +4,7 @@ import { ReactComponent as Home } from "../../resources/Icons/home.svg";
 import { ReactComponent as Like } from "../../resources/Icons/like.svg";
 import { ReactComponent as Person } from "../../resources/Icons/person.svg";
 import { ReactComponent as Search } from "../../resources/Icons/search.svg";
+import { ReactComponent as Chat } from "../../resources/Icons/chat.svg";
 import useViewport from "../../util/viewportHook";
 
 const Navbar = () => {
@@ -25,6 +26,10 @@ const Navbar = () => {
 
       <CustomLink to={"/commend"}>
         <Like />
+      </CustomLink>
+
+      <CustomLink to={"/chatting"}>
+        <Chat />
       </CustomLink>
 
       <CustomLink to={"/mypage"}>

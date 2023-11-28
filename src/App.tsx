@@ -14,6 +14,7 @@ import HabitAddPage from "./pages/HabitAddPage";
 import { RecoilRoot } from "recoil";
 import HabitDetailPage from "./pages/HabitDetailPage";
 import UserMainPage from "./pages/UserMainPage";
+import ChattingPage from "./pages/ChattingPage";
 function App() {
   return (
     <>
@@ -25,6 +26,7 @@ function App() {
           <Route path="/signup" element={<SignPage />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/edit" element={<ProfileEditPage />} />
+          <Route path="/chatting" element={<ChattingPage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/commend" element={<CommendPage />} />
           <Route path="/search" element={<SearchPage />} />
