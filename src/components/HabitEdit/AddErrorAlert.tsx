@@ -3,7 +3,7 @@ import styled from "styled-components";
 import EditButton from "../MyPage/EditButton";
 import { ErrorProps } from "../../util/types";
 
-const AddErrorAlert = ({ onClose }: ErrorProps) => {
+const AddErrorAlert = ({ onClose, errorCode }: ErrorProps) => {
   const handleClose = () => {
     onClose();
   };
@@ -11,7 +11,12 @@ const AddErrorAlert = ({ onClose }: ErrorProps) => {
   return (
     <>
       <AlertContainer>
-        <div className="name">입력값을 모두 채워주세요.</div>
+        {errorCode === "빈칸 입력" && (
+          <div className="name">입력값을 모두 채워주세요.</div>
+        )}
+        {errorCode === "같은 습관 이름" && (
+          <div className="name">같은 이름의 습관이 존재합니다.</div>
+        )}
         <div className="button">
           <EditButton name="확인" onClick={handleClose} />
         </div>

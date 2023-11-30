@@ -55,6 +55,7 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
   );
   const [tags, setTags] = useState<string[]>(name === "edit" ? tagsValue : []);
   const [addErrorAlert, setAddArrorAlert] = useState<boolean>(false);
+  const [samNameErrorAlert, setsamNameErrorAlert] = useState<boolean>(false);
   const [disclosure, setDisclosure] = useState<string>(
     name === "edit" ? disclosureValue : "PUBLIC"
   );
@@ -81,6 +82,14 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
   const closeAddErrorAlert = () => {
     setAddArrorAlert(false);
   };
+  const openSamNameErrorAlert = () => {
+    setsamNameErrorAlert(true);
+  };
+
+  const closeSamNameErrorAlert = () => {
+    setsamNameErrorAlert(false);
+  };
+
   const handleCreateClick = () => {
     if (habitName !== "" && BgColor !== "" && fontColor !== "") {
       const postHabitCreate = async () => {
@@ -112,6 +121,7 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
             navigate(-1);
           }
         } catch (error) {
+          openSamNameErrorAlert();
           console.error(error);
         }
       };
@@ -213,7 +223,19 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
 
       {addErrorAlert && (
         <Alert open={addErrorAlert} close={closeAddErrorAlert} name="빈칸 오류">
-          <AddErrorAlert onClose={closeAddErrorAlert} />
+          <AddErrorAlert onClose={closeAddErrorAlert} errorCode="빈칸 오류" />
+        </Alert>
+      )}
+      {samNameErrorAlert && (
+        <Alert
+          open={samNameErrorAlert}
+          close={closeSamNameErrorAlert}
+          name="같은 습관 이름"
+        >
+          <AddErrorAlert
+            onClose={closeSamNameErrorAlert}
+            errorCode="같은 습관 이름"
+          />
         </Alert>
       )}
     </>
