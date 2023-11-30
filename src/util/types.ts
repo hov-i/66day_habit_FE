@@ -237,3 +237,10 @@ export type ChatRoomData = {
   senderProfileImage: string;
   lastMessage: string;
 };
+
+export type ToastData = {
+  index: number;
+  messageType: string;
+  messageData?: string;
+  nameData: string;
+};

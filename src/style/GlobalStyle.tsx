@@ -42,6 +42,15 @@ const GlobalStyle = createGlobalStyle`
     margin: 0 auto;
 
   }
+    .messeageBox {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bolder;
+    > svg {
+      margin-right: 20px;
+    }
+  }
 
 `;
 

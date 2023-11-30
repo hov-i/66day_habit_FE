@@ -13,8 +13,7 @@ import { useSetRecoilState } from "recoil";
 import {
   alarmMessageState,
   habitIdState,
-  habitMessage,
-  habitNameState,
+  toastDataState,
 } from "../../util/habitState";
 import { HabitDetail, HabitMoreProps, StickerData } from "../../util/types";
 
@@ -22,9 +21,8 @@ const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
   const navigate = useNavigate();
   const [isSame, setIsSame] = useState<boolean>(false);
   const setHabitIdData = useSetRecoilState(habitIdState);
-  const sethabitMessage = useSetRecoilState(habitMessage);
-  const sethabitNameSate = useSetRecoilState(habitNameState);
   const setalarmMessageDataState = useSetRecoilState(alarmMessageState);
+  const setToastData = useSetRecoilState(toastDataState);
   const [habitDetailData, setHabitDetailData] = useState<HabitDetail>({
     habitName: "",
     progress: 0,
@@ -66,15 +64,21 @@ const HabitMore: React.FC<HabitMoreProps> = ({ habitId }) => {
         const response = await AxiosAPI.habitDelete(habitId || 0);
         if (response.status === 200) {
           console.log("습관 삭제 성공");
-          sethabitMessage("delete");
-          sethabitNameSate(habitDetailData ? habitDetailData.habitName : "");
           setalarmMessageDataState((prevAlarmMessageDataState) =>
             prevAlarmMessageDataState.concat({
               Name: `${habitDetailData ? habitDetailData.habitName : ""}`,
               data: "delete",
             })
           );
-          navigate("/main");
+          setToastData((prevToastData) =>
+            prevToastData.concat({
+              index: prevToastData.length + 1,
+              messageType: "delete",
+              nameData: `${habitDetailData ? habitDetailData.habitName : ""}`,
+              messageData: "habit",
+            })
+          );
+          window.location.reload();
         }
       } catch (error: any) {
         console.error(error);

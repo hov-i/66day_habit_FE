@@ -49,7 +49,7 @@ const AlarmBox = () => {
               <>
                 <div className="textBox">
                   <Chat />
-                  <span className="userName">{String(data.Name)}</span>
+                  <span className="userName"> {String(data.Name)}</span>
                   <span> {String(data.data)}</span>
                 </div>
                 <Close onClick={() => handleCloseClick(index)} />

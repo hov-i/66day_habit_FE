@@ -49,7 +49,7 @@ const ChattingPage = () => {
       };
       getFriendName();
     }
-  }, [setSelectId, selectId]);
+  }, [selectId, setSelectId]);
 
   return (
     <Box>

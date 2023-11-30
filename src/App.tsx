@@ -15,11 +15,14 @@ import { RecoilRoot } from "recoil";
 import HabitDetailPage from "./pages/HabitDetailPage";
 import UserMainPage from "./pages/UserMainPage";
 import ChattingPage from "./pages/ChattingPage";
+import ToastList from "./components/common/ToastList";
+
 function App() {
   return (
     <>
       <RecoilRoot>
         <GlobalStyle />
+        <ToastList />
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/help" element={<HelpPage />} />

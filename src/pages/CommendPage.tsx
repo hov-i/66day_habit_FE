@@ -38,7 +38,7 @@ const CommendPage = () => {
                 BetterUp 선정
                 <br /> '정신건강에 좋은 습관' 추천
               </p>
-              <Like />
+              {isMobile ? null : <Like />}
             </div>
             <div className="habitBox">
               {commendHabitInfoData?.map((data, index) => (

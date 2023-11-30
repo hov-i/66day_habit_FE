@@ -4,7 +4,7 @@ import AxiosAPI from "../api/AxiosAPI";
 import { useRecoilValue } from "recoil";
 import { memberIdState, userIdState } from "./habitState";
 
-function useChatList(roomId: number) {
+const useChatList = (roomId: number) => {
   const [chatListData, setChatListData] = useState<MessageData[]>([]);
   const [userName, setUserName] = useState<string>("");
   const [userImg, setUserImg] = useState<string>("");
@@ -29,6 +29,7 @@ function useChatList(roomId: number) {
               setUserImg(firstObject.receiverImg);
             }
             setChatListData(response.data.data.chatMessageList);
+          } else {
           }
         }
       } catch (e) {
@@ -39,6 +40,6 @@ function useChatList(roomId: number) {
   }, [roomId, userId, selectId]);
 
   return { chatListData, userName, userImg };
-}
+};
 
 export default useChatList;

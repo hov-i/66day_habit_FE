@@ -3,13 +3,7 @@ import styled from "styled-components";
 import useViewport from "../../util/viewportHook";
 import { ModalProps } from "../../util/types";
 
-const AlarmModal: React.FC<ModalProps> = ({
-  open,
-  close,
-  name,
-  height,
-  children,
-}) => {
+const DayModal: React.FC<ModalProps> = ({ open, close, name, children }) => {
   const { isMobile } = useViewport();
 
   const closeModal = () => {
@@ -23,7 +17,7 @@ const AlarmModal: React.FC<ModalProps> = ({
   };
 
   return (
-    <ModalStyle $isMobile={isMobile} height={height}>
+    <ModalStyle $isMobile={isMobile}>
       <div
         className={open ? "openModal modal" : "modal"}
         onClick={handleOverlayClick}
@@ -31,7 +25,9 @@ const AlarmModal: React.FC<ModalProps> = ({
         {open ? (
           <section>
             <div className="topButton">
-              <button className="close" onClick={closeModal}></button>
+              <button className="close" onClick={closeModal}>
+                &times;
+              </button>
             </div>
             {children}
           </section>
@@ -41,8 +37,8 @@ const AlarmModal: React.FC<ModalProps> = ({
   );
 };
 
-export default AlarmModal;
-const ModalStyle = styled.div<{ $isMobile: boolean; height: string }>`
+export default DayModal;
+const ModalStyle = styled.div<{ $isMobile: boolean }>`
   .modal {
     display: none;
     position: fixed;
@@ -52,18 +48,21 @@ const ModalStyle = styled.div<{ $isMobile: boolean; height: string }>`
     left: 0;
     z-index: 999;
     display: flex;
-    justify-content: flex-end;
-    align-items: right;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     background-color: rgba(0, 0, 0, 0.6);
   }
 
   .modal > section {
-    width: ${(props) => (props.$isMobile ? "80%" : "400px")};
-    height: 100%;
+    width: ${(props) => (props.$isMobile ? "80%" : "500px")};
+    height: ${(props) => (props.$isMobile ? "90%" : "700px;")};
     background-color: white;
     flex-direction: column;
-    animation: modal-show1 0.3s;
     overflow: scroll;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .topButton {
@@ -71,29 +70,23 @@ const ModalStyle = styled.div<{ $isMobile: boolean; height: string }>`
     flex-direction: row-reverse;
   }
 
+  .modal > section .topButton button {
+    width: 50px;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: center;
+    color: black;
+    margin: 10px;
+    left: 950px;
+    top: 30px;
+    position: absolute;
+    background-color: transparent;
+    z-index: 1;
+  }
+
   .modal.openModal {
     display: flex;
     align-items: center;
-    animation: modal-bg-show1 0.3s;
-  }
-
-  @keyframes modal-show1 {
-    from {
-      opacity: 1;
-      margin-right: -100%;
-    }
-    to {
-      opacity: 1;
-      margin-top: 0;
-    }
-  }
-
-  @keyframes modal-bg-show1 {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+    justify-content: center;
   }
 `;

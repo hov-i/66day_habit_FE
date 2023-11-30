@@ -1,5 +1,11 @@
 import { atom } from "recoil";
-import { AlarmData, CommendHabitInfo, FriendInfo, HabitInfo } from "./types";
+import {
+  AlarmData,
+  CommendHabitInfo,
+  FriendInfo,
+  HabitInfo,
+  ToastData,
+} from "./types";
 import { recoilPersist } from "recoil-persist";
 const { persistAtom } = recoilPersist();
 
@@ -66,31 +72,14 @@ export const roomIdState = atom<number>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const habitMessage = atom<string>({
-  key: "habitMessageDate",
-  default: "",
-  effects_UNSTABLE: [persistAtom],
-});
-
-export const habitNameState = atom<string>({
-  key: "habitNameDateState",
-  default: "",
-  effects_UNSTABLE: [persistAtom],
-});
-
-export const chatNameState = atom<string>({
-  key: "chatNameDateState",
-  default: "",
-  effects_UNSTABLE: [persistAtom],
-});
-export const chaMessageState = atom<string>({
-  key: "chatMessageDateState",
-  default: "",
-  effects_UNSTABLE: [persistAtom],
-});
-
 export const alarmMessageState = atom<AlarmData[]>({
   key: "alarmMessageDataState",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const toastDataState = atom<ToastData[]>({
+  key: "toastData",
   default: [],
   effects_UNSTABLE: [persistAtom],
 });

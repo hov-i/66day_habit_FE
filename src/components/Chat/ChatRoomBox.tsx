@@ -7,6 +7,7 @@ import {
   alarmMessageState,
   memberIdState,
   roomIdState,
+  toastDataState,
   userIdState,
 } from "../../util/habitState";
 import * as StompJs from "@stomp/stompjs";
@@ -14,11 +15,12 @@ import { ChatRoomProps, MessageData } from "../../util/types";
 import useChatList from "../../util/chatListHook";
 import useViewport from "../../util/viewportHook";
 import BubbleBox from "../SignUp/BubbleBox";
+import AxiosAPI from "../../api/AxiosAPI";
 
 const ChatRoomBox = ({ onClose, Name }: ChatRoomProps) => {
   const accessToken = JSON.stringify(
     window.localStorage.getItem("accessToken")
-  ); // 현재 로
+  );
   let [client, changeClient] = useState<StompJs.Client | null>(null);
   const [selectId, setselectId] = useRecoilState(memberIdState);
   const roomId = useRecoilValue(roomIdState);
@@ -27,6 +29,7 @@ const ChatRoomBox = ({ onClose, Name }: ChatRoomProps) => {
   const userId = useRecoilValue(userIdState);
   const [InputMessage, setInputMessage] = useState<string>("");
   const setalarmMessageDataState = useSetRecoilState(alarmMessageState);
+  const setToastData = useSetRecoilState(toastDataState);
   const { isMobile } = useViewport();
 
   const bottom = useRef<HTMLDivElement | null>(null);
@@ -120,12 +123,32 @@ const ChatRoomBox = ({ onClose, Name }: ChatRoomProps) => {
             const content = JSON.parse(message.body).content;
             const senderId = JSON.parse(message.body).senderId;
             console.log(content);
-            setalarmMessageDataState((prevAlarmMessageDataState) =>
-              prevAlarmMessageDataState.concat({
-                Name: String(senderId),
-                data: String(content),
-              })
-            );
+            const getFriendUserInfo = async () => {
+              try {
+                const response = await AxiosAPI.friendUserInfo(
+                  Number(senderId)
+                );
+                if (response.status === 200) {
+                  setalarmMessageDataState((prevAlarmMessageDataState) =>
+                    prevAlarmMessageDataState.concat({
+                      Name: response.data.data.username,
+                      data: String(content),
+                    })
+                  );
+                  setToastData((prevToastData) =>
+                    prevToastData.concat({
+                      index: prevToastData.length + 1,
+                      messageType: "chat",
+                      nameData: response.data.data.username,
+                      messageData: String(content),
+                    })
+                  );
+                }
+              } catch (e) {
+                console.log(e);
+              }
+            };
+            getFriendUserInfo();
           } catch (error) {
             console.error("Error parsing message body:", error);
           }

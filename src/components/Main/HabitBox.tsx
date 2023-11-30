@@ -264,7 +264,7 @@ const HabitBoxStyle = styled.div<{
   }
   .habitName {
     text-align: center;
-    font-size: ${(props) => (props.$isMobile ? "15px" : "20px")};
+    font-size: 18px;
     font-weight: bold;
   }
 

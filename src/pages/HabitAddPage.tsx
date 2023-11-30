@@ -14,15 +14,15 @@ import DisclosureSelect from "../components/HabitEdit/DisclosureSelect";
 import { useNavigate } from "react-router-dom";
 import AxiosAPI from "../api/AxiosAPI";
 import Alert from "../components/common/Alert";
+
 import AddErrorAlert from "../components/HabitEdit/AddErrorAlert";
 import { HabitAddProps } from "../util/types";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   habitIdState,
   userHabitInfoState,
-  habitMessage,
-  habitNameState,
   alarmMessageState,
+  toastDataState,
 } from "../util/habitState";
 import useHabitData from "../util/habitInfoHook";
 
@@ -30,9 +30,8 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
   const navigate = useNavigate();
   const habitIdData = useRecoilValue(habitIdState);
   const habitInfoData = useRecoilValue(userHabitInfoState);
-  const sethabitMessage = useSetRecoilState(habitMessage);
-  const sethabitNameSate = useSetRecoilState(habitNameState);
   const setalarmMessageDataState = useSetRecoilState(alarmMessageState);
+  const setToastData = useSetRecoilState(toastDataState);
   const { habitData } = useHabitData(habitInfoData, habitIdData);
   const habitNameValue = habitData?.habitName || "";
   const bgColorValue = habitData?.backgroundColor || "";
@@ -95,15 +94,22 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
           );
           if (response && response.status === 200) {
             console.log("습관 생성 성공");
-            navigate(-1);
-            sethabitMessage("create");
-            sethabitNameSate(habitName);
             setalarmMessageDataState((prevAlarmMessageDataState) =>
               prevAlarmMessageDataState.concat({
                 Name: `${habitName}`,
                 data: "create",
               })
             );
+            setToastData((prevToastData) => [
+              ...prevToastData,
+              {
+                index: prevToastData.length + 1,
+                messageType: "create",
+                nameData: `${habitName}`,
+                messageData: "habit",
+              },
+            ]);
+            navigate(-1);
           }
         } catch (error) {
           console.error(error);
@@ -129,15 +135,21 @@ const HabitAddPage: React.FC<HabitAddProps> = ({ name }) => {
           );
           if (response && response.status === 200) {
             console.log("습관 수정 성공");
-            navigate(-1);
-            sethabitMessage("patch");
-            sethabitNameSate(habitName);
             setalarmMessageDataState((prevAlarmMessageDataState) =>
               prevAlarmMessageDataState.concat({
                 Name: `${habitName}`,
                 data: "patch",
               })
             );
+            setToastData((prevToastData) =>
+              prevToastData.concat({
+                index: prevToastData.length + 1,
+                messageType: "patch",
+                nameData: `${habitName}`,
+                messageData: "habit",
+              })
+            );
+            navigate(-1);
           }
         } catch (error) {
           console.error(error);
