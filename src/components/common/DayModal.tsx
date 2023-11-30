@@ -68,6 +68,7 @@ const ModalStyle = styled.div<{ $isMobile: boolean }>`
   .topButton {
     display: flex;
     flex-direction: row-reverse;
+    width: 100%;
   }
 
   .modal > section .topButton button {
@@ -77,9 +78,8 @@ const ModalStyle = styled.div<{ $isMobile: boolean }>`
     text-align: center;
     color: black;
     margin: 10px;
-    left: 950px;
+    position: fixed;
     top: 30px;
-    position: absolute;
     background-color: transparent;
     z-index: 1;
   }

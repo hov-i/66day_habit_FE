@@ -16,24 +16,6 @@ const ToastList = () => {
   }/ ${today.getDate()}  ${today.getHours()}:${today.getMinutes()}`;
   const [toastData, setToastData] = useRecoilState(toastDataState);
 
-  // useEffect(() => {
-  //   toastData.map((data, index) => {
-  //     if (data.messageType === "create") {
-  //       habitCreate(index);
-  //     } else if (data.messageType === "delete") {
-  //       habitDelete(index);
-  //     } else if (data.messageType === "patch") {
-  //       habitPatch(index);
-  //     } else if (data.messageType === "chat") {
-  //       chatMessage(index);
-  //     }
-  //     const newToastData = [...toastData];
-  //     newToastData.splice(index, 1);
-  //     setToastData(newToastData);
-  //     return null;
-  //   });
-  // }, []);
-
   const habitCreate = useCallback(
     (index: number) => {
       toast(

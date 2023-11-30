@@ -3,9 +3,11 @@ import styled from "styled-components";
 import Day3 from "../../resources/3day.png";
 import Day7 from "../../resources/7day.png";
 import Day14 from "../../resources/14day.png";
+import useFirework from "../../util/useFirework";
 
 const DayEventBox = ({ day }: { day: number }) => {
   let dayImage;
+  useFirework();
 
   if (day === 3) {
     dayImage = <img className="img" src={Day3} alt="Day 3" />;
