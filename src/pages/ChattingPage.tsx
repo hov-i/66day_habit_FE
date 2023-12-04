@@ -19,6 +19,7 @@ const ChattingPage = () => {
   const [userName, setUserName] = useState<string>("");
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
   const [chatRoomOpen, setChatRoomOpen] = useState<boolean>(false);
+  const [chatClick, setChatClick] = useState<boolean>(false);
   const { isMobile } = useViewport();
 
   const closeChatRoomModal = () => {
@@ -38,7 +39,10 @@ const ChattingPage = () => {
     getChatRoom();
 
     if (selectId !== 0) {
-      setChatRoomOpen(true);
+      if (chatClick) {
+        setChatRoomOpen(true);
+      }
+
       const getFriendName = async () => {
         try {
           const response = await AxiosAPI.friendUserInfo(selectId);
@@ -49,15 +53,13 @@ const ChattingPage = () => {
       };
       getFriendName();
     }
-  }, [selectId, setSelectId]);
+  }, [selectId, setSelectId, chatClick]);
 
   return (
     <Box>
-      {selectId === 0 && (
-        <ChattingRoom $isMobile={isMobile}>
-          <PersonList />
-        </ChattingRoom>
-      )}
+      <ChattingRoom $isMobile={isMobile} onClick={() => setChatClick(true)}>
+        <PersonList />
+      </ChattingRoom>
 
       {isDataLoaded ? (
         <ChattingConatiner $isMobile={isMobile}>
@@ -70,14 +72,16 @@ const ChattingPage = () => {
                 </>
               ) : (
                 chatRoomData.map((data) => (
-                  <ChatRoomList
-                    key={data.chatRoomId}
-                    userImg={data.senderProfileImage}
-                    userName={data.senderName}
-                    roomId={data.chatRoomId}
-                    senderId={data.senderId}
-                    lastChat={data.lastMessage}
-                  />
+                  <div onClick={() => setChatClick(true)}>
+                    <ChatRoomList
+                      key={data.chatRoomId}
+                      userImg={data.senderProfileImage}
+                      userName={data.senderName}
+                      roomId={data.chatRoomId}
+                      senderId={data.senderId}
+                      lastChat={data.lastMessage}
+                    />
+                  </div>
                 ))
               )}
             </>

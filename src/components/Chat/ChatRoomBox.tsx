@@ -6,7 +6,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   alarmMessageState,
   memberIdState,
-  roomIdState,
   toastDataState,
   userIdState,
 } from "../../util/habitState";
@@ -23,8 +22,7 @@ const ChatRoomBox = ({ onClose, Name }: ChatRoomProps) => {
   );
   let [client, changeClient] = useState<StompJs.Client | null>(null);
   const [selectId, setselectId] = useRecoilState(memberIdState);
-  const roomId = useRecoilValue(roomIdState);
-  const { chatListData, userName, userImg } = useChatList(roomId);
+  const { chatListData, userName, userImg } = useChatList(selectId);
   const [chatList, setChatList] = useState<MessageData[]>([]);
   const userId = useRecoilValue(userIdState);
   const [InputMessage, setInputMessage] = useState<string>("");
