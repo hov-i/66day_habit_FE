@@ -1,7 +1,7 @@
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
 
-const DOMAIN = "https://localhost:8080";
+const DOMAIN = "https://66daysstride.store";
 const VERSION = "v1";
 
 const AuthAPI = axios.create({

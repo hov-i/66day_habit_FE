@@ -2,7 +2,7 @@
   "name": "66day_habit_fe",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://localhost:8080",
+  "proxy": "https://66daysstride.store",
   "dependencies": {
     "@stomp/stompjs": "^7.0.0",
     "@testing-library/jest-dom": "^5.17.0",
