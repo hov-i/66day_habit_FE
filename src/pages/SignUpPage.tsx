@@ -7,6 +7,7 @@ import BubbleBox from "../components/SignUp/BubbleBox";
 import NextButton from "../components/common/NextButton";
 import useViewport from "../util/viewportHook";
 import AxiosAPI from "../api/AxiosAPI";
+import WhiteEditButton from "../components/MyPage/WhiteEditButton";
 
 const SignPage = () => {
   const { isMobile } = useViewport();
@@ -19,6 +20,7 @@ const SignPage = () => {
   const [inputPwd, setInputPwd] = useState<string>("");
   const [inputConPwd, setInputConPwd] = useState<string>("");
   const [inputAboutMe, setInputAboutMe] = useState<string>("");
+  const [inputCode, setInputCode] = useState<string>("");
 
   // 유효성 검사
   const [isName, setIsName] = useState<boolean>(false);
@@ -26,15 +28,15 @@ const SignPage = () => {
   const [isEmail, setIsEmail] = useState<boolean>(false);
   const [isPwd, setIsPwd] = useState<boolean>(false);
   const [isConPwd, setIsConPwd] = useState<boolean>(false);
+  const [isCode, setIsCode] = useState<boolean>(true);
 
   const [emailCheck, setEmailCheck] = useState<boolean>(false);
+  const [codeCheck, setCodeCheck] = useState<boolean>(true);
 
   useEffect(() => {
     if (step === 1 && inputName && isName) {
       setActive(true);
     } else if (step === 2 && inputAboutMe && isAboutMe) {
-      setActive(true);
-    } else if (step === 4 && inputPwd && isPwd) {
       setActive(true);
     } else if (step === 3 && inputEmail && isEmail) {
       const postEmail = async () => {
@@ -44,6 +46,14 @@ const SignPage = () => {
             console.log("이메일 체크 완료");
             setEmailCheck(true);
             setActive(true);
+            try {
+              const rsp = await AxiosAPI.sendMail(inputEmail);
+              if (rsp.status === 200) {
+                console.log("이메일 발송 완료");
+              }
+            } catch (error) {
+              console.log("이메일 발송 실패");
+            }
           }
         } catch (error) {
           console.log("이메일 체크 실패");
@@ -52,9 +62,29 @@ const SignPage = () => {
         }
       };
       postEmail();
-    } else if (step === 5 && inputConPwd && isConPwd) {
+    } else if (step === 4 && inputCode && isCode) {
       setActive(true);
-    } else if (step === 6) {
+    } else if (step === 5 && inputCode) {
+      const putCode = async () => {
+        try {
+          const response = await AxiosAPI.mailCode(inputEmail, inputCode);
+          if (response.status === 200) {
+            console.log("인증 코드 성공");
+            setStep(step + 1);
+            setCodeCheck(true);
+          }
+        } catch (error) {
+          console.log("인증 코드 실패");
+          setCodeCheck(false);
+          setStep(step - 1);
+        }
+      };
+      putCode();
+    } else if (step === 6 && inputPwd && isPwd) {
+      setActive(true);
+    } else if (step === 7 && inputConPwd && isConPwd) {
+      setActive(true);
+    } else if (step === 8) {
       console.log(
         { inputEmail },
         { inputName },
@@ -77,6 +107,7 @@ const SignPage = () => {
           }
         } catch (error) {
           console.log("회원가입 실패");
+          setActive(false);
         }
       };
       postSignUp();
@@ -96,6 +127,8 @@ const SignPage = () => {
     isConPwd,
     step,
     navigate,
+    inputCode,
+    isCode,
   ]);
 
   useEffect(() => {
@@ -128,6 +161,14 @@ const SignPage = () => {
     setIsConPwd(conPwdCurrent === inputPwd);
     setActive(conPwdCurrent === inputPwd);
   };
+
+  const onChangeCode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const conCodeCurrent = e.target.value;
+    setInputCode(conCodeCurrent);
+    setIsCode(conCodeCurrent.length >= 6);
+    setActive(false);
+  };
+
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nameRegex = /^[가-힣a-zA-Z\s]{1,}$/;
     const NameCurrent = e.target.value;
@@ -153,6 +194,19 @@ const SignPage = () => {
     bottom.current?.parentElement?.scrollTo(0, 10000);
   };
 
+  const handleCodeClick = () => {
+    const postMail = async () => {
+      try {
+        const rsp = await AxiosAPI.sendMail(inputEmail);
+        if (rsp.status === 200) {
+          console.log("이메일 발송 완료");
+        }
+      } catch (error) {
+        console.log("이메일 발송 실패");
+      }
+    };
+    postMail();
+  };
   return (
     <Box>
       <SignUpContainer $isMobile={isMobile} $step={step} ref={bottom}>
@@ -263,8 +317,47 @@ const SignPage = () => {
               </BubbleBox>
             </>
           )}
-
           {step >= 4 && (
+            <>
+              <BubbleBox name="left" type="sign">
+                이메일로 인증 메일을 보냈어요!
+                <br />
+                <br />
+                메일함으로 가서 인증코드를 확인 후<br />
+                인증코드를 입력해주세요!
+                <br />
+                <br />
+                <WhiteEditButton
+                  name="인증메일 재전송"
+                  onClick={handleCodeClick}
+                />
+              </BubbleBox>
+              {inputCode ? (
+                isCode ? (
+                  codeCheck ? (
+                    <p className="inputCheck">&nbsp;</p>
+                  ) : (
+                    <p className="inputCheck">인증 코드가 다릅니다.</p>
+                  )
+                ) : (
+                  <p className="inputCheck">코드 6자리를 입력해주세요.</p>
+                )
+              ) : (
+                <p className="inputCheck"> &nbsp;</p>
+              )}
+              <BubbleBox name="right" type="sign">
+                인증코드 입력
+                <input
+                  className="input"
+                  type="text"
+                  value={inputCode}
+                  onChange={onChangeCode}
+                />
+              </BubbleBox>
+            </>
+          )}
+
+          {step >= 6 && (
             <>
               <BubbleBox name="left" type="sign">
                 고마워요!
@@ -284,7 +377,7 @@ const SignPage = () => {
               )}
               <BubbleBox name="right" type="sign">
                 당신의 비밀번호는?{" "}
-                {step === 4 ? (
+                {step === 6 ? (
                   <input
                     className="input"
                     type="password"
@@ -297,7 +390,7 @@ const SignPage = () => {
               </BubbleBox>
             </>
           )}
-          {step >= 5 && (
+          {step >= 7 && (
             <>
               <BubbleBox name="left" type="sign">
                 좀 더 확실하게 <br />
@@ -314,7 +407,7 @@ const SignPage = () => {
               )}
               <BubbleBox name="right" type="sign">
                 비밀번호 재입력{" "}
-                {step === 5 ? (
+                {step === 7 ? (
                   <input
                     className="input"
                     type="password"
@@ -327,11 +420,11 @@ const SignPage = () => {
               </BubbleBox>
             </>
           )}
-          {step >= 6 && (
+
+          {step >= 8 && (
             <BubbleBox name="left" type="sign">
-              이제 준비가 다 되었어요!
-              <br />
-              멋진 습관을 만들러 가볼까요?
+              준비가 다 되었어요! <br />
+              지금 바로 멋진 습관을 만들러 가볼까요?
             </BubbleBox>
           )}
         </div>

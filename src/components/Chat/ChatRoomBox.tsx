@@ -96,7 +96,7 @@ const ChatRoomBox = ({ onClose, Name }: ChatRoomProps) => {
     const cleanAccessToken = accessToken.replace(/"/g, "");
     try {
       const clientdata = new StompJs.Client({
-        brokerURL: "wss://localhost:8080/ws",
+        brokerURL: "wss://66daysstride.store/ws",
         connectHeaders: {
           Authorization: `Bearer ${cleanAccessToken}`,
         },

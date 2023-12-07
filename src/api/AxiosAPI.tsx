@@ -2,6 +2,7 @@ import axios from "axios";
 import axiosInstance from "./axiosInstance";
 
 const DOMAIN = "https://66daysstride.store";
+// const DOMAIN = "https://localhost:8080";
 const VERSION = "v1";
 
 const AuthAPI = axios.create({
@@ -72,6 +73,31 @@ const AxiosAPI = {
   email: async () => {
     try {
       return await axiosInstance.get("/member/email");
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 메일 발송
+  sendMail: async (email: string) => {
+    const EmailCheck = email;
+    try {
+      return await axiosInstance.post(
+        `/email/certification?email=${EmailCheck}`
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 인증 코드 검증
+  mailCode: async (email: string, code: string) => {
+    const EmailCheck = email;
+    const CodeCheck = code;
+    try {
+      return await axiosInstance.put(
+        `/email/certification?certCode=${CodeCheck}&email=${EmailCheck}`
+      );
     } catch (error) {
       throw error;
     }

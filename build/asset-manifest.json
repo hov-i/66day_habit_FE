@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.0c268c62.css",
-    "main.js": "/static/js/main.724d46cc.js",
+    "main.js": "/static/js/main.1208fad4.js",
     "static/js/787.461c3820.chunk.js": "/static/js/787.461c3820.chunk.js",
     "static/media/at_work.png": "/static/media/at_work.1bbccbc6c9d30b15851d.png",
     "static/media/practice_mindfullness.png": "/static/media/practice_mindfullness.d2b71375848264e1175a.png",
@@ -57,11 +57,11 @@
     "static/media/home.svg": "/static/media/home.04c2120ab7767ba0fd55a57295c3f296.svg",
     "static/media/backChat.svg": "/static/media/backChat.6369b9f8543f1ea96242d8d2b2895791.svg",
     "main.0c268c62.css.map": "/static/css/main.0c268c62.css.map",
-    "main.724d46cc.js.map": "/static/js/main.724d46cc.js.map",
+    "main.1208fad4.js.map": "/static/js/main.1208fad4.js.map",
     "787.461c3820.chunk.js.map": "/static/js/787.461c3820.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0c268c62.css",
-    "static/js/main.724d46cc.js"
+    "static/js/main.1208fad4.js"
   ]
 }

@@ -1,5 +1,6 @@
 import axios from "axios";
 const DOMAIN = "https://66daysstride.store";
+// const DOMAIN = "https://localhost:8080";
 const VERSION = "v1";
 
 // Axios 인스턴스 생성

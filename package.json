@@ -36,7 +36,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cross-env HTTPS=true SSL_CRT_FILE=./mkcert/cert.pem SSL_KEY_FILE=./mkcert/key.pem react-scripts start",
+    "start": "cross-env HTTPS=true SSL_CRT_FILE=/etc/letsencrypt/live/66daysstride.site/cert.pem SSL_KEY_FILE=/etc/letsencrypt/live/66daysstride.site/privkey.pem react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
