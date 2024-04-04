@@ -1,46 +1,74 @@
-# Getting Started with Create React App
+![image](https://github.com/hov-i/66day_habit_FE/assets/72931375/6848d7a6-34a1-4694-b0dd-5e7121fc12aa)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+[습관을 바꾸는 21과 66의 법칙 [공부가 되는 공부법]](http://www.edujin.co.kr/news/articleView.html?idxno=38190)
 
-In the project directory, you can run:
+## 📝 기획 배경
 
-### `npm start`
+- 사람이 습관을 만드는 데에는 66일이란 시간이 걸린다고 함.
+- 이점을 이용해 습관을 만들어주는 앱을 구상했음
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 📝 기획 목적
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- 66일의 습관 달력 앱을 만들어 앱 이용자에게 습관을 만들어줌
+- 습관은 7개를 넘지 않는 것이 좋으므로 습관리스트를 7개로 제한함
+- 3일, 7일, 14일이 습관을 지키는 것에 고비가 오므로 해당 날짜마다 명언 알림을 띄워줌
+- 뇌가 습관이 되는 21일 축하메세지를 띄워줌
 
-### `npm test`
+(웹앱으로 알림을 보내는건 불가능, 이메일로 보내주는건 어떨까?, 아니면 앱을 들어갔을때 맨처음에 명언 화면이 뜰수 있게끔?)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 유저가 정한 시간에 맞춰 습관을 시작하라는 알림이 뜸(이메일?)
+- 어떤 습관을 만들어야할지 모르는 유저를 위해 좋은 습관 리스트를 볼 수 있는 페이지 구상
 
-### `npm run build`
+(사용자가 자기 습관을 공유할수있도록?)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📝 기대 효과
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 습관에 대한 구체적인 계획을 세우고 목표치를 정해 지킬 수 있어 습관을 만들기에 더 용이함
+- 팝업 알림 서비스를 통해 습관을 까먹지 않고 정해진 시간마다 지킬 수 있음
+- 습관의 고비가 오는 3일, 7일, 14일 마다 유저를 복돋아주는 명언을 보내 의지를 단단하게 함
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 📝 메인 기능
 
-### `npm run eject`
+- 66일 습관 달력+습관리스트 구현
+- 사용자가 정해진 시간마다 습관 알림 발송
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 📝 개발 규칙
+- • ✨ (feat) : 새로운 기능
+• 🐛 (fix) : 버그 수정 
+•📝 (docs) : 문서 추가, 수정, 삭제
+•🎨 (style) : 스타일 (코드 형식, 세미콜론 추가: 비즈니스 로직에 변경 없음)
+• ♻️ (refactor) : 리팩토링
+• ✅ (test) : 테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없음
+• 🔨 (chore) : 기타 변경사항 (빌드 스크립트 수정 등)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📝 변수명
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- 카멜 표기법
+- is_{변수이름}? 은 명확하게 작성
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 📝 리액트 폴더링
 
-## Learn More
+components : 페이지 별로 폴더링해서 컴포넌트를 나누는것이 좋음, 공용컴포넌트(common)또한 components에 넣는것이 좋음
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+pages : 폴더링 따로 없이 하나의 페이지 단위로 넣는것이 좋을 거같음, 끝에는 파일명은 Page로 끝나게
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+styles : 스타일지정하는 파일들은 styles에 넣는것이 좋음, 글로벌스타일 정하는 코드도 마찬가지
+
+참고로 글로벌스타일컴포넌트에 스타일컴포넌트 부분만 있어도 괜찮음, 구현부가 있어야하는 코드는 페이지에서 사용하는 컴포넌트
+
+하지만 페이지에서 사용하는 컴포넌트들은 구현부가 있어야함
+
+hooks : 기존에 theme와 미디어쿼리 커스텀 훅이 같이 있다는 것이 좀 이상함, theme의 themeProvider은 컴포넌트 폴더에, theme는 스타일 폴더에, 미디어쿼리 커스텀훅은 hooks폴더에 있는 것이 이상적
+
+코드 작성 방식
+
+스타일 컴포넌트 코드는 아래쪽, 구현부는 위쪽에 두는것이 좋음 나중에 코드를 수정할때 css코드보단 구현부를 많이 보게 됨
+
+### 📝 URL 규칙
+
+- URI의 마지막에는 ‘/’를 포함하지 않습니다.
+- 언더바(_)는 사용하지 않습니다. 대신 하이픈(-)을 이용합니다.
+- URL에는 행위(동사)가 아닌 결과(명사)를 포함합니다
+- URI는 소문자로 작성해야 합니다
+- 파일의 확장자는 URI에 포함하지 않습니다.
